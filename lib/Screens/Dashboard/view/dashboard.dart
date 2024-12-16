@@ -49,7 +49,7 @@ class DashBoard extends StatelessWidget {
         bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.096,
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xFFF9F9DF),
             border: Border(
               left: BorderSide(color: Color(0xFFE3E3E3)),
