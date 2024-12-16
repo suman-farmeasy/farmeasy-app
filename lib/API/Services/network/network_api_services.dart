@@ -24,7 +24,7 @@ class NetworkApiServices extends BaseApiServices {
       // if(kDebugMode){
       print(
           "-------------------------------Raw Response-----------------------------------");
-      print(response);
+      print(response.body);
       print(
           "----------------******------------------------------*****------------------");
 

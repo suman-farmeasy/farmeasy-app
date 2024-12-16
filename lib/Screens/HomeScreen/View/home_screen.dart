@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: EdgeInsets.symmetric(vertical: 0),
                                   child: Text(
                                     'Hi, ${snapshot.data}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF483C32),
                                       fontSize: 16,
                                       fontFamily: 'Poppins',

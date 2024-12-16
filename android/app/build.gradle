@@ -62,7 +62,7 @@ android {
                        storePassword="farmeasy"
                        keyPassword="farmeasy"
                        keyAlias="farmeasy"
-                       storeFile=file("/Users/sahil/Documents/flutter projects/farmeasyapp/farmeasy.jks")
+                       storeFile=file("../../farmeasy.jks")
                    }
          }
     buildTypes {

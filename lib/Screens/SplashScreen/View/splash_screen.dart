@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             );
                           },
                           onEnd: () {
-                            splashController.getVersionCodeAndName();
+                            splashController.isLogin();
                             //  print("================================================================${splashController.isLogin()}");
                           },
                         ),
