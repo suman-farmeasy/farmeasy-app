@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:farm_easy/ApiUrls/api_urls.dart';
-import 'package:farm_easy/Constants/custom_snackbar.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/utils/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/check_land_details_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandUpdateResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/ViewModel/land_info_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:farm_easy/Services/network/base_api_services.dart';
-import 'package:farm_easy/Services/network/error_handler.dart';
+import 'package:farm_easy/API/Services/network/base_api_services.dart';
+import 'package:farm_easy/API/Services/network/error_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';

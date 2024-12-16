@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:farm_easy/Screens/MyProfile/Controller/review_controller.dart';
 import 'package:farm_easy/Screens/UserProfile/Model/ReviewResponseMdoel.dart';
 import 'package:farm_easy/Screens/UserProfile/ViewModel/user_profile_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

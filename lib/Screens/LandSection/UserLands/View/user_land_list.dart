@@ -1,11 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:farm_easy/Screens/LandSection/UserLands/Controller/user_land_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';

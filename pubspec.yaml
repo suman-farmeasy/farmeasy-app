@@ -74,6 +74,10 @@ dependencies:
   pub_semver: ^2.1.4
   flutter_cache_manager: ^3.4.1
 
+# Suman
+
+  device_preview: ^1.2.0
+
 
 
 

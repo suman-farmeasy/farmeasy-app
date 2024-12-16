@@ -1,8 +1,8 @@
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Threads/Model/LikeUnilkeResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/Model/ThreadsListResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/ParticularThread/Model/thread_response_model.dart';
-import 'package:farm_easy/Services/network/network_api_services.dart';
+import 'package:farm_easy/API/Services/network/network_api_services.dart';
 
 class ThreadsListViewModel {
   final _api = NetworkApiServices();

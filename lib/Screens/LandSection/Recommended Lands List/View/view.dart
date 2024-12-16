@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/HomeScreen/Controller/recomended_land_controller.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:flutter/material.dart';

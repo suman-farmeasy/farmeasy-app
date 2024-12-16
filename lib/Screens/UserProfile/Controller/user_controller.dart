@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/UserProfile/Model/UserDetailsResponseModel.dart';
 import 'package:farm_easy/Screens/UserProfile/ViewModel/user_profile_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class UserProfileController extends GetxController {

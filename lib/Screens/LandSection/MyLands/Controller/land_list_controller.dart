@@ -1,8 +1,8 @@
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/LandListResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';

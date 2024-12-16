@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:farm_easy/Constants/custom_snackbar.dart';
+import 'package:farm_easy/utils/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/Model/EmailOtpResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/ViewModel/email_view_model.dart';
 import 'package:farm_easy/Screens/Auth/Role%20Selection/View/role_selection.dart';
@@ -8,8 +8,8 @@ import 'package:farm_easy/Screens/Auth/UserResgister/View/user_registration.dart
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/SplashScreen/Model/IsUserExist.dart';
 import 'package:farm_easy/Screens/SplashScreen/ViewModel/is_user_exist_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

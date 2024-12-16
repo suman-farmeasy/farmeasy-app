@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/MarketPrices/Controller/market_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

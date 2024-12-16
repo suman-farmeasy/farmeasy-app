@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/LandSection/EditLand/Controller/edit_land_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/crop_suggestion_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/listother_crop.dart';
@@ -14,7 +14,7 @@ import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/image_
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/list_landType_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/update_landDetails_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/waterrespource_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

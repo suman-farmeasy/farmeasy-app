@@ -1,12 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/partner_services_list.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/select_corp.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/user_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +17,7 @@ import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../ApiUrls/api_urls.dart';
+import '../../../../API/ApiUrls/api_urls.dart';
 
 class UserRegistration extends StatefulWidget {
   UserRegistration({super.key, required this.userType});

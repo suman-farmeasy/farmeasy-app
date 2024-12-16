@@ -1,8 +1,8 @@
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/CropResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/LandPurposeResponse.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/ViewModel/land_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

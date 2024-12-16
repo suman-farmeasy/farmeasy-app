@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/AllEnquiries/Controller/all_enquiries_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/chat_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/Model/SendMessageResponseModel.dart';
 import 'package:farm_easy/Screens/ChatSection/ViewModel/chat_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';

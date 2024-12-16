@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/HomeScreen/Model/recomended_lands.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class RecommendedLandController extends GetxController {

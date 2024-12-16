@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/custom_snackbar.dart';
+import 'package:farm_easy/utils/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Feedback/ViewModel/viewmodel.dart';
 import 'package:farm_easy/Screens/UserProfile/Model/ReviewResponseMdoel.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

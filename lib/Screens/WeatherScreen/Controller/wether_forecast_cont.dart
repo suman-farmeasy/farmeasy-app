@@ -1,12 +1,11 @@
 import 'package:farm_easy/Screens/Dashboard/controller/current_location_controller.dart';
 import 'package:farm_easy/Screens/WeatherScreen/Model/WeatherForecastResponseModel.dart';
 import 'package:farm_easy/Screens/WeatherScreen/ViewModel/weather_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class WeatherForecastController extends GetxController {
-
   final _api = WeatherForecastViewModel();
   final weatherForecast = WeatherForecastResponseModel().obs;
   final loading = true.obs;
@@ -16,18 +15,13 @@ class WeatherForecastController extends GetxController {
   final rxRequestStatus = Status.LOADING.obs;
   final currentLocation = Get.put(CurrentLocation());
 
-  void setRxRequestStatus(Status _value) =>
-      rxRequestStatus.value = _value;
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
 
   void setRxRequestData(WeatherForecastResponseModel _value) =>
       weatherForecast.value = _value;
 
   void weatherForecastData(double lat, double long) {
-    _api.weatherForecast(
-      lat,
-        long,
-        weatherKey.value)
-        .then((value) {
+    _api.weatherForecast(lat, long, weatherKey.value).then((value) {
       loading.value = false;
       setRxRequestData(value);
     }).onError((error, stackTrace) {
@@ -46,7 +40,7 @@ class WeatherForecastController extends GetxController {
       weatherForecast.value.listWeather!.forEach((weather) {
         int unixTimestamp = weather.dt ?? 0;
         DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+            DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
         String day = DateFormat('EEEE').format(dateTime);
         String date = DateFormat('d MMM').format(dateTime);
 
@@ -59,6 +53,4 @@ class WeatherForecastController extends GetxController {
 
     return dayAndDateList;
   }
-
-
 }

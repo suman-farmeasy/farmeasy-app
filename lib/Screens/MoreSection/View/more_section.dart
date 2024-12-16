@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/View/all_enquiries.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/ChatGpt/View/chat_gpt_start_Screen.dart';
@@ -12,13 +12,13 @@ import 'package:farm_easy/Screens/MoreSection/Controller/controller.dart';
 import 'package:farm_easy/Screens/MyProfile/View/my_profile.dart';
 import 'package:farm_easy/Screens/ProductAndServices/View/product_view.dart';
 import 'package:farm_easy/Screens/SOP/view.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../Constants/dimensions_constatnts.dart';
+import '../../../utils/Constants/dimensions_constatnts.dart';
 
 class MoreSection extends StatefulWidget {
   const MoreSection({super.key});

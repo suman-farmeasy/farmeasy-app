@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Controller/add_product_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/EditProduct/Controller/edit_productController.dart';
 import 'package:flutter/material.dart';

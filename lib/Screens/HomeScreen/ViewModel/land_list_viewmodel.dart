@@ -1,4 +1,4 @@
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/FCMTokenResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/FarmerListResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/LandListResponseModel.dart';
@@ -8,7 +8,7 @@ import 'package:farm_easy/Screens/HomeScreen/Model/crop_fertilizer_data_model.da
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_search.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/recomended_lands.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/recommended_landowners.dart';
-import 'package:farm_easy/Services/network/network_api_services.dart';
+import 'package:farm_easy/API/Services/network/network_api_services.dart';
 
 class LandListViewModel {
   final _apiServices = NetworkApiServices();

@@ -3,8 +3,8 @@ import 'package:farm_easy/Screens/ProductAndServices/Controller/delete_product_c
 import 'package:farm_easy/Screens/ProductAndServices/EditProduct/View/edit_product.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Model/product_services_model.dart';
 import 'package:farm_easy/Screens/ProductAndServices/ViewModel/product_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

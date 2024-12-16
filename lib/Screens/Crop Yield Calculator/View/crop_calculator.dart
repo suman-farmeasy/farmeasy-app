@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/Screens/HomeScreen/Controller/crop_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

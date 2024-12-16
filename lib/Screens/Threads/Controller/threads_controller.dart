@@ -1,9 +1,9 @@
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Threads/Controller/delete_thread_controller.dart';
 import 'package:farm_easy/Screens/Threads/Model/ThreadsListResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/ViewModel/threads_list_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

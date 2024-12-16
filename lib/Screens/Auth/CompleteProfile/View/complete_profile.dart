@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/education_list_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/land_owner_controller.dart';
@@ -11,7 +11,7 @@ import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/update_profile
 import 'package:farm_easy/Screens/Auth/CompleteProfile/View/education_list.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/user_controller.dart';
 import 'package:farm_easy/Screens/Partners/Controller/partner_services_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

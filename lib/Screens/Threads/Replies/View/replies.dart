@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Threads/Controller/reply_controller.dart';
 import 'package:farm_easy/Screens/Threads/ParticularThread/Controller/particular_thread_controller.dart';
 import 'package:farm_easy/Screens/Threads/Replies/Controller/controller.dart';

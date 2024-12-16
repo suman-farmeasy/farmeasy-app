@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/SplashScreen/View/splash_screen.dart';
 import 'package:farm_easy/Screens/notification_controller.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'firebase_options.dart';
+import 'utils/firebase_options.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {
@@ -58,7 +59,15 @@ void main() async {
       //  Get.to(() => MessagePage(), arguments: message);
     });
   }
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      tools: const [
+        ...DevicePreview.defaultTools,
+      ],
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

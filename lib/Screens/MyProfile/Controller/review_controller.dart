@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/MyProfile/Model/ListReviewResponseModel.dart';
 import 'package:farm_easy/Screens/MyProfile/ViewModel/review_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class ReviewListController extends GetxController {

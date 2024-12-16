@@ -1,4 +1,4 @@
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

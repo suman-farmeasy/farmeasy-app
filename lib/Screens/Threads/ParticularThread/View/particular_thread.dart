@@ -1,4 +1,4 @@
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Threads/Controller/like_unlike_controller.dart';
 import 'package:farm_easy/Screens/Threads/ParticularThread/Controller/particular_thread_controller.dart';
 import 'package:flutter/material.dart';

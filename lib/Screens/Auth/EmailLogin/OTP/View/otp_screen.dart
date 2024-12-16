@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/Controller/email_controller.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/controller/controller.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/View/email_login.dart';

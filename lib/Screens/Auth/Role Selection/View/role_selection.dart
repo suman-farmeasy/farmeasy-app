@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/Auth/Role%20Selection/Controller/controller.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/View/user_registration.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,8 +47,8 @@ class _RoleSelectionState extends State<RoleSelection> {
                 fontWeight: FontWeight.w800,
               )),
           Container(
-            height: Get.height* 0.6,
-           padding: EdgeInsets.symmetric(horizontal: 10),
+            height: Get.height * 0.6,
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: ListView.builder(
                 itemCount: controller.title.length,
                 itemBuilder: (context, index) {
@@ -59,11 +59,17 @@ class _RoleSelectionState extends State<RoleSelection> {
                     },
                     child: Container(
                         margin: EdgeInsets.only(bottom: 20),
-                        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 8),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                         height: Get.height * 0.16,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFFE3E3E3,),width: 2,),
+                          border: Border.all(
+                            color: Color(
+                              0xFFE3E3E3,
+                            ),
+                            width: 2,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
@@ -72,22 +78,19 @@ class _RoleSelectionState extends State<RoleSelection> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              margin:EdgeInsets.only(top: 8,left: 0),
-
+                              margin: EdgeInsets.only(top: 8, left: 0),
                               child: SvgPicture.asset(
                                 controller.img[index],
-                                height: Get.width*0.26,
-
-
+                                height: Get.width * 0.26,
                               ),
                             ),
                             Container(
-                              width: Get.width*0.55,
-
-                              margin: EdgeInsets.only(left: 0,top: 10),
+                              width: Get.width * 0.55,
+                              margin: EdgeInsets.only(left: 0, top: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
                                     child: Text(
@@ -115,8 +118,11 @@ class _RoleSelectionState extends State<RoleSelection> {
                                 ],
                               ),
                             ),
-                            Center(child: Icon(Icons.arrow_forward_ios_rounded, size: 16,))
-
+                            Center(
+                                child: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                            ))
                           ],
                         ))),
                   );

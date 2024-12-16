@@ -1,6 +1,6 @@
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ListTagsResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/ViewModel/createthreads_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 

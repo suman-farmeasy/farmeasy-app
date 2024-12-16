@@ -1,13 +1,13 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:farm_easy/Screens/Threads/Controller/like_unlike_controller.dart';
 import 'package:farm_easy/Screens/Threads/Controller/list_new_tags.dart';
 import 'package:farm_easy/Screens/Threads/Controller/threads_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/View/create_threads.dart';
 import 'package:farm_easy/Screens/Threads/Replies/View/replies.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

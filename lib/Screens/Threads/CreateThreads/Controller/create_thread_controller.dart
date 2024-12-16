@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/custom_snackbar.dart';
+import 'package:farm_easy/utils/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Threads/Controller/threads_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/list_tags_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/thread_image_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ThreadCreatedResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/ViewModel/createthreads_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

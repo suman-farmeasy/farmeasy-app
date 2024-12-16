@@ -1,12 +1,12 @@
 import 'package:farm_easy/Screens/Partners/Model/nearby_partner_view_mdoel.dart';
 import 'package:farm_easy/Screens/Partners/Model/services_model.dart';
 import 'package:farm_easy/Screens/Partners/ViewModel/view_model.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../../../Services/network/status.dart';
+import '../../../API/Services/network/status.dart';
 
 class PartnerServicesController extends GetxController {
   @override

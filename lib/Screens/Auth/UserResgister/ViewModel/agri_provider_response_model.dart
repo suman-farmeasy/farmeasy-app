@@ -1,8 +1,8 @@
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/AgriProviderResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/service_area_response_model.dart';
 import 'package:farm_easy/Screens/Partners/Model/services_model.dart';
-import 'package:farm_easy/Services/network/network_api_services.dart';
+import 'package:farm_easy/API/Services/network/network_api_services.dart';
 
 class AgriProviderViewModel {
   final _agriService = NetworkApiServices();

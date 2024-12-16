@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/partner_services_list.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/select_corp.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/AgriProviderResponseModel.dart';
@@ -11,8 +11,8 @@ import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/agri_provider_res
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/create_user_view_model.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/farmer_experties_view_model.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

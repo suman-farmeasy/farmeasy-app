@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:farm_easy/Constants/custom_snackbar.dart';
+import 'package:farm_easy/utils/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/Model/PhoneOtpResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/ViewModel/phone_otp_view_model.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/View/user_registration.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/SplashScreen/Model/IsUserExist.dart';
 import 'package:farm_easy/Screens/SplashScreen/ViewModel/is_user_exist_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';

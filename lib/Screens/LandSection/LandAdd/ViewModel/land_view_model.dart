@@ -1,9 +1,9 @@
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/AddLandResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/CropResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/LandPurposeResponse.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/list_others_crop_response_model.dart';
-import 'package:farm_easy/Services/network/network_api_services.dart';
+import 'package:farm_easy/API/Services/network/network_api_services.dart';
 
 class PurposeViewModel {
   final _purpose = NetworkApiServices();

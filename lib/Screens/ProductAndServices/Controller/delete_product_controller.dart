@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/ProductAndServices/Model/delete_product_response_model.dart';
 import 'package:farm_easy/Screens/ProductAndServices/ViewModel/product_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class DeleteProductController extends GetxController {

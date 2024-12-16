@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/View/pdf_viwer.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/Controller/recommended_land_deails_controller.dart';

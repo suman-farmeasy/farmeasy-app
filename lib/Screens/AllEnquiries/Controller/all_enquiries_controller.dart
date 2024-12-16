@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/AllEnquiries/Model/AllEnquiriesResponseModel.dart';
 import 'package:farm_easy/Screens/AllEnquiries/ViewModel/all_enquireis_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class AllEnquiriesController extends GetxController {

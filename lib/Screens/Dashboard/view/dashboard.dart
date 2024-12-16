@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/AllEnquiries/View/all_enquiries.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Directory/View/directory_screen.dart';
@@ -8,7 +8,7 @@ import 'package:farm_easy/Screens/LandSection/MyLands/View/my_land.dart';
 import 'package:farm_easy/Screens/MoreSection/View/more_section.dart';
 import 'package:farm_easy/Screens/Partners/View/partner_services.dart';
 import 'package:farm_easy/Screens/Threads/View/threads.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

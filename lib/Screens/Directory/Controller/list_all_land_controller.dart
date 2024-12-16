@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/Directory/Model/AllLandResponseModel.dart';
 import 'package:farm_easy/Screens/Directory/ViewModel/directory_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
