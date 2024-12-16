@@ -1,3 +1,4 @@
+import 'package:farm_easy/Screens/SplashScreen/View/splash_screen.dart';
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/View/all_enquiries.dart';
@@ -17,8 +18,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../utils/Constants/dimensions_constatnts.dart';
+import '../../../utils/localization/localization_controller.dart';
+import '../../../widget/choose_language_widget.dart';
 
 class MoreSection extends StatefulWidget {
   const MoreSection({super.key});
@@ -30,6 +34,32 @@ class MoreSection extends StatefulWidget {
 class _MoreSectionState extends State<MoreSection> {
   final controller = Get.put(MoreController());
   final getProfile = Get.put(GetProfileController());
+  final localeController = Get.put(LocaleController());
+  var db = Hive.box('appData');
+  String? selectedLanguage;
+
+  void _showLanguageDialog(BuildContext context) async {
+    selectedLanguage = await showDialog(
+      context: context,
+      builder: (context) {
+        return const LanguageSelectionDialog();
+      },
+    );
+
+    if (selectedLanguage != null) {
+      setState(() {
+        db.put('selectedLanguage', selectedLanguage);
+        localeController.changeLocale(selectedLanguage == 'Hindi'
+            ? 'hi'
+            : selectedLanguage == 'English'
+                ? 'en'
+                : selectedLanguage == 'Punjabi'
+                    ? 'pa'
+                    : 'en');
+        Get.to(SplashScreen());
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +78,7 @@ class _MoreSectionState extends State<MoreSection> {
           children: [
             Obx(() => Center(
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
                     height: MediaQuery.of(context).size.height * 0.13,
                     width: MediaQuery.of(context).size.height * 0.13,
                     decoration: BoxDecoration(
@@ -99,7 +129,7 @@ class _MoreSectionState extends State<MoreSection> {
                     child: Text(
                       snapshot.data.toString(),
                       style: GoogleFonts.poppins(
-                        color: Color(0xFF111719),
+                        color: const Color(0xFF111719),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
@@ -114,18 +144,18 @@ class _MoreSectionState extends State<MoreSection> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData && snapshot.data == "Farmer") {
                     return Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [AppColor.BOX_SHADOW],
-                            color: Color(0xFFFFFFF7)),
+                            color: const Color(0xFFFFFFF7)),
                         child: ListTile(
                           leading: Container(
                             width: MediaQuery.of(context).size.width * 0.27,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -162,7 +192,7 @@ class _MoreSectionState extends State<MoreSection> {
                           subtitle: Text(
                             'This score is automatically calculated based on the information provided by you',
                             style: GoogleFonts.poppins(
-                              color: Color(0xFF62666E),
+                              color: const Color(0xFF62666E),
                               fontSize: 9,
                               fontWeight: FontWeight.w400,
                             ),
@@ -172,13 +202,13 @@ class _MoreSectionState extends State<MoreSection> {
                     return Container(); // Return an empty container if user role is not "Land Owner"
                   }
                 } else {
-                  return CircularProgressIndicator(); // Return a loading indicator while fetching user role
+                  return const CircularProgressIndicator(); // Return a loading indicator while fetching user role
                 }
               },
             ),
             InkWell(
               onTap: () {
-                Get.to(() => MyProfileScreen());
+                Get.to(() => const MyProfileScreen());
               },
               child: ListTilesWidget(
                 img: "assets/more/user.svg",
@@ -192,11 +222,11 @@ class _MoreSectionState extends State<MoreSection> {
                   if (snapshot.hasData && snapshot.data == "Land Owner") {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => MyLands());
+                        Get.to(() => const MyLands());
                       },
                       child: ListTilesWidget(
                         img: "assets/img/land.svg",
-                        color: Color(0xFF484848),
+                        color: const Color(0xFF484848),
                         title: "My Lands",
                       ),
                     );
@@ -204,11 +234,11 @@ class _MoreSectionState extends State<MoreSection> {
                       snapshot.data == "Agri Service Provider") {
                     return InkWell(
                       onTap: () {
-                        Get.to(() => ProductView());
+                        Get.to(() => const ProductView());
                       },
                       child: ListTilesWidget(
                         img: "assets/img/categoryP.svg",
-                        color: Color(0xFF484848),
+                        color: const Color(0xFF484848),
                         title: "Products/Services",
                       ),
                     );
@@ -216,9 +246,19 @@ class _MoreSectionState extends State<MoreSection> {
                     return Container();
                   }
                 } else {
-                  return CircularProgressIndicator(); // Return a loading indicator while fetching user role
+                  return const CircularProgressIndicator(); // Return a loading indicator while fetching user role
                 }
               },
+            ),
+            InkWell(
+              onTap: () {
+                _showLanguageDialog(context);
+              },
+              child: ListTilesWidget(
+                img: "assets/logos/app_translate.svg",
+                title:
+                    "App Language : ${db.get('selectedLanguage') ?? 'English'}",
+              ),
             ),
             InkWell(
               onTap: () {
@@ -237,7 +277,7 @@ class _MoreSectionState extends State<MoreSection> {
             // ),
             InkWell(
               onTap: () {
-                Get.to(() => CropYieldCalculator());
+                Get.to(() => const CropYieldCalculator());
               },
               child: ListTilesWidget(
                 img: "assets/more/calculator.svg",
@@ -246,7 +286,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => Fertilizercalculatorview());
+                Get.to(() => const Fertilizercalculatorview());
               },
               child: ListTilesWidget(
                 img: "assets/more/calculator.svg",
@@ -255,7 +295,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => ChatGptStartScreen());
+                Get.to(() => const ChatGptStartScreen());
               },
               child: ListTilesWidget(
                 img: "assets/more/Vector.svg",
@@ -264,7 +304,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => MarketPrices());
+                Get.to(() => const MarketPrices());
               },
               child: ListTilesWidget(
                 img: "assets/more/price.svg",
@@ -281,7 +321,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => FeedBackScreen());
+                Get.to(() => const FeedBackScreen());
               },
               child: ListTilesWidget(
                 img: "assets/img/feedback.svg",
@@ -290,7 +330,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => SOP());
+                Get.to(() => const SOP());
               },
               child: ListTilesWidget(
                 img: "assets/more/sop.svg",
@@ -347,7 +387,7 @@ class _MoreSectionState extends State<MoreSection> {
               child: ListTilesWidget(
                 img: "assets/more/deactivate.svg",
                 title: "Delete your account",
-                color: Color(0xFF484848),
+                color: const Color(0xFF484848),
               ),
             ),
             InkWell(
@@ -384,22 +424,22 @@ class _ListTilesWidgetState extends State<ListTilesWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(vertical: 5),
+          margin: const EdgeInsets.symmetric(vertical: 5),
           child: ListTile(
             leading: SvgPicture.asset(
-              "${widget.img}",
+              widget.img,
               width: 25,
               color: widget.color,
             ),
             title: Text(
-              '${widget.title}',
+              widget.title,
               style: GoogleFonts.poppins(
-                color: Color(0xFF484848),
+                color: const Color(0xFF484848),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
               size: 20,

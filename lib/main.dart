@@ -8,10 +8,13 @@ import 'package:farm_easy/Screens/notification_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'utils/firebase_options.dart';
+import 'utils/localization/apptranslations.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {
@@ -19,8 +22,11 @@ Future _firebaseBackgroundMessage(RemoteMessage message) async {
   }
 }
 
+late Box box;
 void main() async {
+  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
+  box = await Hive.openBox('appData');
   final getProfile = Get.put(GetProfileController());
   getProfile.getProfile();
   await Firebase.initializeApp(
@@ -70,8 +76,33 @@ void main() async {
       );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var selectedLang;
+  var db = Hive.box('appData');
+
+  @override
+  void initState() {
+    super.initState();
+    translateLang();
+  }
+
+  void translateLang() {
+    selectedLang = db.get('lang') ?? 'en';
+    db.get('selectedLanguage') == 'Hindi'
+        ? selectedLang = 'hi'
+        : db.get('selectedLanguage') == 'English'
+            ? selectedLang = 'en'
+            : db.get('selectedLanguage') == 'Punjabi'
+                ? selectedLang = 'pa'
+                : selectedLang = 'en';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,14 +113,24 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
             debugShowCheckedModeBanner: false,
+            translations: AppTranslations(),
+            locale: Locale(selectedLang ?? 'en'),
+            fallbackLocale: const Locale('en'),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('hi'),
+              Locale('pa'),
+            ],
             title: 'FARMEASY',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: AppColor.DARK_GREEN),
               useMaterial3: true,
             ),
-            supportedLocales: const [
-              Locale('en', ''),
-            ],
             builder: (context, widget) {
               return MediaQuery(
                 data: MediaQuery.of(context).copyWith(

@@ -34,15 +34,18 @@ import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
 import 'package:farm_easy/Screens/WeatherScreen/Controller/current_weather_controller.dart';
 import 'package:farm_easy/Screens/notification_controller.dart';
 import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/utils/localization/translated_text_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../utils/localization/localization_controller.dart';
 import '../Widgets/add_land_widget.dart';
 import '../Widgets/add_product_widget.dart';
 import '../Widgets/farmer_body_widget.dart';
@@ -60,6 +63,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final localeController = Get.put(LocaleController());
   final homecontroller = Get.put(HomeController());
   final dashboardController = Get.put(DashboardController());
   final profilePercentageController = Get.put(ProfilePercentageController());
@@ -76,15 +80,31 @@ class _HomeScreenState extends State<HomeScreen> {
   final enqcontroller = Get.put(AllEnquiriesController());
   final getProfileController = Get.put(GetProfileController());
   final controller = Get.put(ProductViewController());
+
+  var db = Hive.box('appData');
+  var selectedLang;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    transLateApp();
     PushNotifications.init();
     PushNotifications.localNotiInit();
     getProfileController.getProfile();
     controller.productList(
         userId: getProfileController.getProfileData.value.result?.userId ?? 0);
+  }
+
+  void transLateApp() {
+    log(db.get('selectedLanguage'));
+    db.get('selectedLanguage') == 'Hindi'
+        ? selectedLang = 'hi'
+        : db.get('selectedLanguage') == 'English'
+            ? selectedLang = 'en'
+            : db.get('selectedLanguage') == 'Punjabi'
+                ? selectedLang = 'pa'
+                : selectedLang = 'en';
   }
 
   @override
@@ -133,24 +153,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ConnectionState.waiting) {
                                 return const CircularProgressIndicator();
                               } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
+                                return TranslateTextBox(
+                                    text: 'Error: ${snapshot.error}',
+                                    toLanguage: selectedLang);
                               } else {
                                 return Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 0),
-                                  child: Text(
-                                    'Hi, ${snapshot.data}',
-                                    style: const TextStyle(
-                                      color: Color(0xFF483C32),
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'hi'.tr,
+                                        style: const TextStyle(
+                                          color: Color(0xFF483C32),
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        ' ,${snapshot.data}',
+                                        style: const TextStyle(
+                                          color: Color(0xFF483C32),
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }
                             },
                           ),
+
                           // Displaying Role
                           FutureBuilder<String>(
                             future: homecontroller.prefs.getUserRole(),

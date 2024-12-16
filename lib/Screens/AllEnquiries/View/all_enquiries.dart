@@ -26,7 +26,6 @@ class _AllEnquiriesState extends State<AllEnquiries> {
         controller.loadMoreData();
       }
     });
-    print("alll");
     return Scaffold(
         backgroundColor: AppColor.BACKGROUND,
         appBar: PreferredSize(
@@ -42,7 +41,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
               await controller.refreshAllEnquiries();
             },
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: constraints.maxHeight,
@@ -50,12 +49,12 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                   child: Obx(() {
                     if (controller.loading.value &&
                         controller.allEnquiriesList.isEmpty) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (controller.rxRequestStatus.value ==
                         Status.ERROR) {
-                      return Center(child: Text('Error fetching data'));
+                      return const Center(child: Text('Error fetching data'));
                     } else if (controller.allEnquiriesList.isEmpty) {
-                      return Center(child: Text('No data available'));
+                      return const Center(child: Text('No data available'));
                     } else {
                       return RefreshIndicator(
                         onRefresh: () async {
@@ -63,7 +62,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                         },
                         child: Column(
                           children: [
-                            Container(
+                            SizedBox(
                               height: Get.height * 0.7,
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
@@ -113,9 +112,9 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                           ));
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(
+                                      margin: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 10),
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 15),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -148,12 +147,13 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                             child: Container(
                                               width: Get.width * 0.22,
                                               height: Get.height * 0.12,
-                                              margin:
-                                                  EdgeInsets.only(right: 10),
+                                              margin: const EdgeInsets.only(
+                                                  right: 10),
                                               decoration: BoxDecoration(
                                                 color: AppColor.DARK_GREEN
                                                     .withOpacity(0.1),
-                                                borderRadius: BorderRadius.only(
+                                                borderRadius:
+                                                    const BorderRadius.only(
                                                   bottomLeft:
                                                       Radius.circular(18),
                                                   topLeft: Radius.circular(18),
@@ -204,7 +204,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                         ),
                                                       ),
                                                     )
-                                                  : SizedBox(), // Show nothing if image exists
+                                                  : const SizedBox(), // Show nothing if image exists
                                             ),
                                           ),
                                           Column(
@@ -215,8 +215,9 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                             children: [
                                               Container(
                                                 width: Get.size.width * 0.55,
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 5),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -224,7 +225,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                   children: [
                                                     Text(
                                                       'Enquiry #${controller.allEnquiriesList[index].id ?? ""}',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0x7F484848),
                                                         fontSize: 10,
@@ -236,14 +237,15 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                     ),
                                                     Row(
                                                       children: [
-                                                        CircleAvatar(
+                                                        const CircleAvatar(
                                                           radius: 2,
                                                           backgroundColor:
                                                               Color(0xFFEB5757),
                                                         ),
                                                         Text(
                                                           '  ${controller.allEnquiriesList[index].lastMessageDate ?? ""}',
-                                                          style: TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             color: Color(
                                                                 0x7F484848),
                                                             fontSize: 10,
@@ -265,20 +267,23 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                         .connectedPersonName ??
                                                     "",
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF333333),
+                                                  color:
+                                                      const Color(0xFF333333),
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0,
                                                 ),
                                               ),
                                               Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 8),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8),
                                                 width: Get.width * 0.58,
                                                 child: Text(
                                                   '${controller.allEnquiriesList[index].connectedPersonUserType ?? ""} from ${controller.allEnquiriesList[index].connectedPersonAddress ?? ""}',
                                                   style: GoogleFonts.poppins(
-                                                    color: Color(0xFF333333),
+                                                    color:
+                                                        const Color(0xFF333333),
                                                     fontSize: 10,
                                                     fontStyle: FontStyle.italic,
                                                     fontWeight: FontWeight.w400,
@@ -294,7 +299,8 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                         .lastMessage ??
                                                     "",
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF888888),
+                                                  color:
+                                                      const Color(0xFF888888),
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0,
@@ -311,8 +317,9 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                             ),
                             Obx(() {
                               return controller.loading.value
-                                  ? Center(child: CircularProgressIndicator())
-                                  : SizedBox(); // Empty SizedBox when not loading
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : const SizedBox(); // Empty SizedBox when not loading
                             }),
                           ],
                         ),
