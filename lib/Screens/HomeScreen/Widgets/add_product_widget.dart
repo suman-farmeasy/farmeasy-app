@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,9 +8,11 @@ import '../../../utils/Constants/color_constants.dart';
 import '../../ProductAndServices/View/add_product.dart';
 
 class AddProductWidget extends StatelessWidget {
-  const AddProductWidget({
+  AddProductWidget({
     super.key,
   });
+
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,7 @@ class AddProductWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Add New Product',
+                    'Add New Product'.tr,
                     style: GoogleFonts.poppins(
                       color: AppColor.BROWN_TEXT,
                       fontSize: 14,
@@ -72,7 +75,7 @@ class AddProductWidget extends StatelessWidget {
                   SizedBox(
                     width: 220,
                     child: Text(
-                      'To find relevant product and services',
+                      'To find relevant product and services'.tr,
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF666666),
                         fontSize: 10,

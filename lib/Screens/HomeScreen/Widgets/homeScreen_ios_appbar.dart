@@ -1,15 +1,19 @@
 import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/Constants/image_constant.dart';
 
 class HomeScreenIOS_AppBar extends StatelessWidget {
-  const HomeScreenIOS_AppBar({
+  HomeScreenIOS_AppBar({
     super.key,
   });
+
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class HomeScreenIOS_AppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
+            SizedBox(
               height: 25,
               width: 25,
               child: SvgPicture.asset(ImageConstants.WHITE_LOGO),
@@ -42,18 +46,18 @@ class HomeScreenIOS_AppBar extends StatelessWidget {
                     isScrollControlled: true,
                     builder: (context) {
                       return Container(
-                        margin: EdgeInsets.symmetric(vertical: 2),
+                        margin: const EdgeInsets.symmetric(vertical: 2),
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
                               height: MediaQuery.of(context).size.height * 0.25,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                     image: AssetImage(
                                         "assets/img/agriculture.png"),
                                     fit: BoxFit.cover,
@@ -65,48 +69,48 @@ class HomeScreenIOS_AppBar extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "What is FarmEasy?",
+                                    "What is FarmEasy?".tr,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       color: AppColor.BROWN_TEXT,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "FarmEasy is an innovative platform transforming agriculture by connecting farmers with landowners. It facilitates a seamless exchange between farmers needing land for cultivation and landowners offering agriculture space.",
+                                    "FarmEasyDescModel".tr,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
-                                      color: Color(0xFF666666),
+                                      color: const Color(0xFF666666),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "How to use FarmEasy?",
+                                    "How to use FarmEasy?".tr,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       color: AppColor.BROWN_TEXT,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "1. Find/put land on lease\n2. Find Farming jobs.\n3. Find Farmers",
+                                    "useFarmEasyThisWay".tr,
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
-                                      color: Color(0xFF666666),
+                                      color: const Color(0xFF666666),
                                     ),
                                   ),
                                   GestureDetector(
@@ -114,17 +118,17 @@ class HomeScreenIOS_AppBar extends StatelessWidget {
                                       Navigator.pop(context);
                                     },
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 18, bottom: 30),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                      margin: const EdgeInsets.only(
+                                          top: 18, bottom: 30),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: AppColor.DARK_GREEN,
                                       ),
                                       child: Center(
                                         child: Text(
-                                          "Back",
+                                          "Back".tr,
                                           style: GoogleFonts.poppins(
                                             color: Colors.white,
                                             fontSize: 16,
@@ -143,7 +147,7 @@ class HomeScreenIOS_AppBar extends StatelessWidget {
                     },
                   );
                 },
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.info,
                   color: Colors.white,
                   size: 18,

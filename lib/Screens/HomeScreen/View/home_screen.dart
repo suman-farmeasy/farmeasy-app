@@ -116,9 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: PreferredSize(
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-          child: isIOS
-              ? const HomeScreenIOS_AppBar()
-              : const HomeScreenANDROID_AppBar(),
+          child: isIOS ? HomeScreenIOS_AppBar() : HomeScreenANDROID_AppBar(),
         ),
         body: RefreshIndicator(
             onRefresh: () async {
@@ -161,6 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 0),
                                   child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         'hi'.tr,
@@ -208,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "$displayText   ",
+                                        displayText,
                                         style: const TextStyle(
                                             color: AppColor.DARK_GREEN,
                                             fontSize: 16,
@@ -267,10 +268,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.data == "Land Owner") {
-                            return const AddLandWidget();
+                            return AddLandWidget();
                           } else if (snapshot.data ==
                               StringConstatnt.AGRI_PROVIDER) {
-                            return const AddProductWidget(); // Return an empty container if user role is not "Land Owner"
+                            return AddProductWidget(); // Return an empty container if user role is not "Land Owner"
                           } else {
                             return Container();
                           }
@@ -305,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Farmers',
+                                      'Farmers'.tr,
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFF483C32),
                                         fontSize: 14,
@@ -324,15 +325,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         .selectedIndex
                                                         .value = 4;
                                                   },
-                                                  child: Text(
-                                                    'View all (${farmerController.farmer.value.result?.pageInfo?.totalObject ?? 0}) ',
-                                                    style: GoogleFonts.poppins(
-                                                      color: const Color(
-                                                          0xFF044D3A),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        'View all'.tr,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: const Color(
+                                                              0xFF044D3A),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '(${farmerController.farmer.value.result?.pageInfo?.totalObject ?? 0})',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: const Color(
+                                                              0xFF044D3A),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                               : Container()
@@ -661,8 +678,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             "",
                                                                       ));
                                                                 },
-                                                                child:
-                                                                    const Row(
+                                                                child: Row(
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .center,
@@ -670,7 +686,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       MainAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Icon(
+                                                                    const Icon(
                                                                       Icons
                                                                           .call,
                                                                       color: AppColor
@@ -678,9 +694,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       size: 15,
                                                                     ),
                                                                     Text(
-                                                                      '  Contact ',
+                                                                      'Contact'
+                                                                          .tr,
                                                                       style:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         color: Color(
                                                                             0xFF044D3A),
                                                                         fontSize:
@@ -766,7 +783,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Calculate Crop Earning Yield",
+                                        "Calculate Crop Earning Yield".tr,
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
@@ -776,7 +793,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         margin: const EdgeInsets.symmetric(
                                             vertical: 10),
                                         child: Text(
-                                          "Select crops(upto 3)",
+                                          "Select crops(upto 3)".tr,
                                           style: GoogleFonts.poppins(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 13,
@@ -829,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .spaceBetween,
                                                           children: [
                                                             Text(
-                                                              "Select Crops",
+                                                              "Select Crops".tr,
                                                               style: GoogleFonts.poppins(
                                                                   color: Colors
                                                                       .white,
@@ -884,7 +901,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           10.0),
                                                                       child:
                                                                           Text(
-                                                                        "Selected Crop List",
+                                                                        "Selected Crop List"
+                                                                            .tr,
                                                                         style: GoogleFonts.poppins(
                                                                             fontSize:
                                                                                 12,
@@ -999,7 +1017,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .spaceBetween,
                                                           children: [
                                                             Text(
-                                                              "Select up to 3 crops you are interested in",
+                                                              "Select up to 3 crops you are interested in"
+                                                                  .tr,
                                                               style: GoogleFonts
                                                                   .poppins(
                                                                 fontSize: 12,
@@ -1166,7 +1185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ),
                                                             child: Center(
                                                               child: Text(
-                                                                "Proceed",
+                                                                "Proceed".tr,
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -1198,16 +1217,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                             border: Border.all(
                                                 color: AppColor.GREY_BORDER),
                                           ),
-                                          child: const Center(
+                                          child: Center(
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "Select Crop",
+                                                  "Select Crop".tr,
                                                 ),
-                                                Icon(
+                                                const Icon(
                                                     Icons
                                                         .keyboard_arrow_down_rounded,
                                                     color: AppColor.BROWN_TEXT),
@@ -1370,12 +1389,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "Land Size(Area)",
-                                            style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Land Size".tr,
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              Text(
+                                                "(Area)",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           Obx(() {
                                             return Container(
@@ -1556,7 +1586,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              "Calculate",
+                                              "Calculate".tr,
                                               style: GoogleFonts.poppins(
                                                 color: AppColor.DARK_GREEN,
                                                 fontSize: 14,
@@ -1581,7 +1611,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: CircularProgressIndicator());
                               } else if (controller.rxRequestStatus.value ==
                                   Status.ERROR) {
-                                return const Text('Error fetching data');
+                                return Text('Some Error Occured'.tr);
                               } else if (controller
                                       .productData.value.result?.data?.length ==
                                   0) {
@@ -1594,13 +1624,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          ' My Products (${controller.productData.value.result?.data?.length ?? 0})',
-                                          style: GoogleFonts.poppins(
-                                            color: const Color(0xFF483C32),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'My Products'.tr,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF483C32),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            Text(
+                                              ' (${controller.productData.value.result?.data?.length ?? 0})',
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF483C32),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

@@ -1,3 +1,4 @@
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,12 +13,13 @@ import '../Controller/home_controller.dart';
 import '../Controller/recommended_landowners.dart';
 
 class PartnerBodyWidget extends StatelessWidget {
-  const PartnerBodyWidget({
+  PartnerBodyWidget({
     super.key,
     required this.homecontroller,
     required this.recoLandowner,
   });
 
+  final localeController = Get.put(LocaleController);
   final HomeController homecontroller;
   final RecommendedLandownersController recoLandowner;
 
@@ -34,7 +36,7 @@ class PartnerBodyWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Near by landowners',
+                      'Near by landowners'.tr,
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF483C32),
                         fontSize: 14,
@@ -49,13 +51,25 @@ class PartnerBodyWidget extends StatelessWidget {
                                       Get.to(
                                           () => const RecommendedLandowners());
                                     },
-                                    child: Text(
-                                      'View all (${recoLandowner.farmer.value.result?.count ?? 0}) ',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF044D3A),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'View all'.tr,
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF044D3A),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          '(${recoLandowner.farmer.value.result?.count ?? 0})',
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF044D3A),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Container()
@@ -291,21 +305,21 @@ class PartnerBodyWidget extends StatelessWidget {
                                                         enquiryData: "",
                                                       ));
                                                 },
-                                                child: const Row(
+                                                child: Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.call,
                                                       color:
                                                           AppColor.DARK_GREEN,
                                                       size: 15,
                                                     ),
                                                     Text(
-                                                      '  Contact ',
-                                                      style: TextStyle(
+                                                      'Contact'.tr,
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0xFF044D3A),
                                                         fontSize: 9,
@@ -326,13 +340,13 @@ class PartnerBodyWidget extends StatelessWidget {
                                   ),
                                 );
                               }))
-                      : const Center(
+                      : Center(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
                             child: Text(
-                              "There are no Partners",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
+                              "There are no Partners".tr,
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                             ),
                           ),
                         );

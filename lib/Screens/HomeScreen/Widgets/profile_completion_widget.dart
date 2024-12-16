@@ -1,4 +1,5 @@
 import 'package:farm_easy/Screens/Auth/CompleteProfile/View/complete_profile.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,7 @@ import '../Controller/home_controller.dart';
 import '../ProfielSection/Controller/profile_complete_controller.dart';
 
 class ProfileCompletion extends StatelessWidget {
-  const ProfileCompletion({
+  ProfileCompletion({
     super.key,
     required this.getProfileController,
     required this.profilePercentageController,
@@ -20,6 +21,7 @@ class ProfileCompletion extends StatelessWidget {
   final GetProfileController getProfileController;
   final ProfilePercentageController profilePercentageController;
   final HomeController homecontroller;
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class ProfileCompletion extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "completed",
+                        "completed".tr,
                         style: GoogleFonts.poppins(
                           color: AppColor.GREEN_SUBTEXT,
                           fontSize: 8,
@@ -96,7 +98,7 @@ class ProfileCompletion extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: Text(
-                        'Provide more information',
+                        'Provide more information'.tr,
                         style: GoogleFonts.poppins(
                           color: AppColor.BROWN_TEXT,
                           fontSize: 14,
@@ -107,7 +109,8 @@ class ProfileCompletion extends StatelessWidget {
                     SizedBox(
                       width: Get.width * 0.53,
                       child: Text(
-                        'Complete your profile to receive better recommendations.',
+                        'Complete your profile to receive better recommendations.'
+                            .tr,
                         style: GoogleFonts.poppins(
                           color: const Color(0xFF61646B),
                           fontSize: 10,
@@ -125,7 +128,7 @@ class ProfileCompletion extends StatelessWidget {
                               Get.to(() => const CompleteProfile());
                             },
                             child: Text(
-                              'Complete Profile',
+                              'Complete Profile'.tr,
                               style: GoogleFonts.poppins(
                                 color: AppColor.DARK_GREEN,
                                 fontSize: 14,

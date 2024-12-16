@@ -1,3 +1,4 @@
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -15,12 +16,13 @@ import '../Controller/home_controller.dart';
 import '../Controller/matching_farmer.dart';
 
 class LandOwnerBodyWidget extends StatelessWidget {
-  const LandOwnerBodyWidget({
+  LandOwnerBodyWidget({
     super.key,
     required this.homecontroller,
   });
 
   final HomeController homecontroller;
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class LandOwnerBodyWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'My Lands',
+                              'My Lands'.tr,
                               style: GoogleFonts.poppins(
                                 color: const Color(0xFF483C32),
                                 fontSize: 14,
@@ -51,13 +53,25 @@ class LandOwnerBodyWidget extends StatelessWidget {
                                 Get.to(() => const HomeScreenLand());
                                 // dashboardController.selectedIndex.value = 3;
                               },
-                              child: Text(
-                                'View all (${homecontroller.landData.value.result?.pageInfo?.totalObject?.toInt() ?? "No land added"}) >',
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFF044D3A),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'View all'.tr,
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF044D3A),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '(${homecontroller.landData.value.result?.pageInfo?.totalObject?.toInt() ?? "No land added".tr}) >',
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF044D3A),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
                             )
                           ],
@@ -269,7 +283,8 @@ class LandOwnerBodyWidget extends StatelessWidget {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Matching farmers for this land",
+                                                      "Matching farmers for this land"
+                                                          .tr,
                                                       style:
                                                           GoogleFonts.poppins(
                                                               fontSize: 12,
@@ -467,18 +482,18 @@ class LandOwnerBodyWidget extends StatelessWidget {
                                                                                           borderRadius: BorderRadius.circular(20),
                                                                                           border: Border.all(color: AppColor.DARK_GREEN, width: 1),
                                                                                         ),
-                                                                                        child: const Row(
+                                                                                        child: Row(
                                                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                                                           children: [
-                                                                                            Icon(
+                                                                                            const Icon(
                                                                                               Icons.call,
                                                                                               color: AppColor.DARK_GREEN,
                                                                                               size: 15,
                                                                                             ),
                                                                                             Text(
-                                                                                              '  Contact Farmer',
-                                                                                              style: TextStyle(
+                                                                                              'Contact Farmer'.tr,
+                                                                                              style: const TextStyle(
                                                                                                 color: Color(0xFF044D3A),
                                                                                                 fontSize: 9,
                                                                                                 fontFamily: 'Poppins',
@@ -535,7 +550,7 @@ class LandOwnerBodyWidget extends StatelessWidget {
                                                       height: 30,
                                                     ),
                                                     Text(
-                                                      '  Enquiries',
+                                                      'Enquiries'.tr,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color:
@@ -551,7 +566,7 @@ class LandOwnerBodyWidget extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      'Partners  ',
+                                                      'Partners'.tr,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color:

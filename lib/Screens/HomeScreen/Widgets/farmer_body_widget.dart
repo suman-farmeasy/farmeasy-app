@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:farm_easy/utils/Constants/image_constant.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ import '../Controller/home_controller.dart';
 import '../Controller/recomended_land_controller.dart';
 
 class FarmerBodyWidget extends StatelessWidget {
-  const FarmerBodyWidget({
+  FarmerBodyWidget({
     super.key,
     required this.homecontroller,
     required this.agriController,
@@ -30,6 +31,7 @@ class FarmerBodyWidget extends StatelessWidget {
   final ListAgriProviderController agriController;
   final DashboardController dashboardController;
   final RecommendedLandController recommendedlandController;
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class FarmerBodyWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Near by Partners',
+                      'Near by Partners'.tr,
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF483C32),
                         fontSize: 14,
@@ -62,13 +64,25 @@ class FarmerBodyWidget extends StatelessWidget {
                                           6;
                                       //  Get.to(()=>agriData(id: controller.landId.value,));
                                     },
-                                    child: Text(
-                                      'View all (${agriController.agriData.value.result?.pageInfo?.totalObject ?? 0}) ',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF044D3A),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'View all'.tr,
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF044D3A),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          ' (${agriController.agriData.value.result?.pageInfo?.totalObject ?? 0}) ',
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF044D3A),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Container()
@@ -381,21 +395,21 @@ class FarmerBodyWidget extends StatelessWidget {
                                                         enquiryData: "",
                                                       ));
                                                 },
-                                                child: const Row(
+                                                child: Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.call,
                                                       color:
                                                           AppColor.DARK_GREEN,
                                                       size: 15,
                                                     ),
                                                     Text(
-                                                      '  Contact ',
-                                                      style: TextStyle(
+                                                      'Contact'.tr,
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0xFF044D3A),
                                                         fontSize: 9,
@@ -440,7 +454,7 @@ class FarmerBodyWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Near by lands',
+                                  'Near by lands'.tr,
                                   style: GoogleFonts.poppins(
                                     color: const Color(0xFF483C32),
                                     fontSize: 14,
@@ -451,13 +465,25 @@ class FarmerBodyWidget extends StatelessWidget {
                                   onTap: () {
                                     Get.to(() => const RecommendedLandsList());
                                   },
-                                  child: Text(
-                                    'View all (${recommendedlandController.landData.value.result?.count ?? 0}) >',
-                                    style: GoogleFonts.poppins(
-                                      color: const Color(0xFF044D3A),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'View all'.tr,
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFF044D3A),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        ' (${recommendedlandController.landData.value.result?.count ?? 0}) >',
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFF044D3A),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 )
                               ],
@@ -615,7 +641,7 @@ class FarmerBodyWidget extends StatelessWidget {
                                                   margin: const EdgeInsets.only(
                                                       top: 5),
                                                   child: Text(
-                                                    "Land #${recommendedlandController.landData.value.result?.recommendedLands?[index].id ?? 0}",
+                                                    "${"Land".tr} #${recommendedlandController.landData.value.result?.recommendedLands?[index].id ?? 0}",
                                                     textAlign: TextAlign.center,
                                                     style: GoogleFonts.poppins(
                                                       color:
@@ -681,7 +707,7 @@ class FarmerBodyWidget extends StatelessWidget {
                                                           const EdgeInsets.only(
                                                               top: 5),
                                                       child: Text(
-                                                        'Area',
+                                                        'Area'.tr,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
@@ -762,7 +788,7 @@ class FarmerBodyWidget extends StatelessWidget {
                                                           const EdgeInsets.only(
                                                               top: 5),
                                                       child: Text(
-                                                        'Crop Preferences',
+                                                        'Crop Preferences'.tr,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
@@ -852,7 +878,8 @@ class FarmerBodyWidget extends StatelessWidget {
                                                               .center,
                                                       children: [
                                                         Text(
-                                                            'Land Owner’s Purpose',
+                                                            'Land Owner’s Purpose'
+                                                                .tr,
                                                             style: GoogleFonts
                                                                 .poppins(
                                                               color: const Color(
@@ -916,7 +943,7 @@ class FarmerBodyWidget extends StatelessWidget {
                                           width: Get.width * 0.06,
                                         ),
                                         Text(
-                                          'Contact Land Owner',
+                                          'Contact Land Owner'.tr,
                                           style: GoogleFonts.poppins(
                                             color: AppColor.DARK_GREEN,
                                             fontSize: 11,

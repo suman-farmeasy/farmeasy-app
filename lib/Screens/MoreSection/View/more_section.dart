@@ -342,13 +342,13 @@ class _MoreSectionState extends State<MoreSection> {
                 final shouldDelete = await Get.dialog<bool>(
                   AlertDialog(
                     title: Text(
-                      'Confirm Delete',
+                      'Confirm Delete'.tr,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w600,
                           color: AppColor.BROWN_TEXT),
                     ),
                     content: Text(
-                      'Are you sure you want to delete your account?',
+                      'Are you sure you want to delete your account?'.tr,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w400,
                           color: AppColor.BROWN_SUBTEXT),
@@ -358,7 +358,7 @@ class _MoreSectionState extends State<MoreSection> {
                         onPressed: () => Get.back(
                             result: false), // Dismiss dialog with false
                         child: Text(
-                          'No',
+                          'No'.tr,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 15,

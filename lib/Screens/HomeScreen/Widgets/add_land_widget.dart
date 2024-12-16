@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,9 +8,11 @@ import '../../../utils/Constants/color_constants.dart';
 import '../../LandSection/LandAdd/VIew/add_land.dart';
 
 class AddLandWidget extends StatelessWidget {
-  const AddLandWidget({
+  AddLandWidget({
     super.key,
   });
+
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,8 @@ class AddLandWidget extends StatelessWidget {
                   SizedBox(
                     width: 220,
                     child: Text(
-                      'To find relevant farmers, Agri-Service providers and get crop suggestions.',
+                      'To find relevant farmers, Agri-Service providers and get crop suggestions.'
+                          .tr,
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF666666),
                         fontSize: 10,

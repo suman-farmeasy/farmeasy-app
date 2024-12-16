@@ -20,14 +20,16 @@ class DashBoard extends StatelessWidget {
   final controller = Get.put(DashboardController());
   final prefs = AppPreferences();
   final List<Widget> contentWidgets = [
-    HomeScreen(),
+    const HomeScreen(),
     AllEnquiries(),
-    Threads(),
-    MyLands(),
-    DirectoryScreen(),
-    MoreSection(),
-    PartnerServices()
+    const Threads(),
+    const MyLands(),
+    const DirectoryScreen(),
+    const MoreSection(),
+    const PartnerServices()
   ];
+
+  DashBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,7 @@ class DashBoard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              buildNavItem(0, 'assets/logos/home.svg', 'Home'),
+              buildNavItem(0, 'assets/logos/home.svg', 'Home'.trArgs()),
               FutureBuilder<String>(
                 future: prefs.getUserRole(),
                 builder: (context, snapshot) {
@@ -79,16 +81,15 @@ class DashBoard extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    if (snapshot.data == "${StringConstatnt.LANDOWNER}") {
+                    if (snapshot.data == StringConstatnt.LANDOWNER) {
                       return buildNavItem(
-                          6, 'assets/logos/land.svg', 'Partners');
-                    } else if (snapshot.data == "${StringConstatnt.FARMER}") {
+                          6, 'assets/logos/land.svg', 'Partners'.tr);
+                    } else if (snapshot.data == StringConstatnt.FARMER) {
                       return buildNavItem(
-                          6, 'assets/logos/chat 1.svg', 'Partners');
-                    } else if (snapshot.data ==
-                        "${StringConstatnt.AGRI_PROVIDER}") {
+                          6, 'assets/logos/chat 1.svg', 'Partners'.tr);
+                    } else if (snapshot.data == StringConstatnt.AGRI_PROVIDER) {
                       return buildNavItem(
-                          1, 'assets/logos/chat 1.svg', 'Enquiry');
+                          1, 'assets/logos/chat 1.svg', 'Enquiry'.tr);
                     } else {
                       return Container();
                     }
@@ -96,7 +97,7 @@ class DashBoard extends StatelessWidget {
                   }
                 },
               ),
-              buildNavItem(2, 'assets/logos/Image.svg', 'Community'),
+              buildNavItem(2, 'assets/logos/Image.svg', 'Community'.tr),
               FutureBuilder<String>(
                 future: prefs.getUserRole(),
                 builder: (context, snapshot) {
@@ -105,14 +106,13 @@ class DashBoard extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    if (snapshot.data == "${StringConstatnt.LANDOWNER}") {
+                    if (snapshot.data == StringConstatnt.LANDOWNER) {
+                      return buildNavItem(
+                          4, 'assets/logos/contact.svg', 'Directory'.tr);
+                    } else if (snapshot.data == StringConstatnt.FARMER) {
                       return buildNavItem(
                           4, 'assets/logos/contact.svg', 'Directory');
-                    } else if (snapshot.data == "${StringConstatnt.FARMER}") {
-                      return buildNavItem(
-                          4, 'assets/logos/contact.svg', 'Directory');
-                    } else if (snapshot.data ==
-                        "${StringConstatnt.AGRI_PROVIDER}") {
+                    } else if (snapshot.data == StringConstatnt.AGRI_PROVIDER) {
                       return buildNavItem(
                           4, 'assets/logos/contact.svg', 'Directory');
                     } else {
@@ -140,8 +140,8 @@ class DashBoard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             decoration: ShapeDecoration(
               color: controller.selectedIndex.value == index
-                  ? Color(0x14044D3A)
-                  : Color(0xFFF9F9DF),
+                  ? const Color(0x14044D3A)
+                  : const Color(0xFFF9F9DF),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -155,7 +155,7 @@ class DashBoard extends StatelessWidget {
                       ? AppColor.DARK_GREEN
                       : Colors.black,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
                   label,
                   style: GoogleFonts.poppins(
@@ -165,7 +165,7 @@ class DashBoard extends StatelessWidget {
                         : FontWeight.w500,
                     color: controller.selectedIndex.value == index
                         ? AppColor.DARK_GREEN
-                        : Color(0xFF4F4F4F),
+                        : const Color(0xFF4F4F4F),
                   ),
                 ),
               ],
