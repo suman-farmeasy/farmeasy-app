@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/SplashScreen/View/splash_screen.dart';
@@ -59,7 +60,15 @@ void main() async {
       //  Get.to(() => MessagePage(), arguments: message);
     });
   }
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      tools: const [
+        ...DevicePreview.defaultTools,
+      ],
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

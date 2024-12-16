@@ -66,6 +66,9 @@ dependencies:
   pinput: ^5.0.0
   google_maps_flutter: ^2.9.0
 
+# Suman
+
+  device_preview: ^1.2.0
 
 
 
