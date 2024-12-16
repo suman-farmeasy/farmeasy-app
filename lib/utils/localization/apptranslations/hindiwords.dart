@@ -49,6 +49,7 @@ get hindiWords => {
           'इस जमीन के लिए किसानों का मिलान किया जा रहा है',
       'Contact Farmer': 'किसान से संपर्क करें',
       'Enquiries': 'पूछताछ',
+      'Enquiry': 'पूछताछ',
       "Partners": 'भागीदारों',
       'Land': 'भूमि',
       'Area': 'क्षेत्र',
@@ -61,4 +62,7 @@ get hindiWords => {
       'No': 'नहीं',
       'Yes': 'हाँ',
       'Home': 'घर',
+      'Community': 'समुदाय',
+      'Directory': 'निर्देशिका',
+      'More': 'अधिक',
     };

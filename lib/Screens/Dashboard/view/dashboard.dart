@@ -72,7 +72,7 @@ class DashBoard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              buildNavItem(0, 'assets/logos/home.svg', 'Home'.trArgs()),
+              buildNavItem(0, 'assets/logos/home.svg', 'Home'.tr),
               FutureBuilder<String>(
                 future: prefs.getUserRole(),
                 builder: (context, snapshot) {
@@ -111,10 +111,10 @@ class DashBoard extends StatelessWidget {
                           4, 'assets/logos/contact.svg', 'Directory'.tr);
                     } else if (snapshot.data == StringConstatnt.FARMER) {
                       return buildNavItem(
-                          4, 'assets/logos/contact.svg', 'Directory');
+                          4, 'assets/logos/contact.svg', 'Directory'.tr);
                     } else if (snapshot.data == StringConstatnt.AGRI_PROVIDER) {
                       return buildNavItem(
-                          4, 'assets/logos/contact.svg', 'Directory');
+                          4, 'assets/logos/contact.svg', 'Directory'.tr);
                     } else {
                       return Container();
                     }
@@ -122,7 +122,7 @@ class DashBoard extends StatelessWidget {
                   }
                 },
               ),
-              buildNavItem(5, 'assets/logos/application.svg', 'More'),
+              buildNavItem(5, 'assets/logos/application.svg', 'More'.tr),
             ],
           ),
         ),

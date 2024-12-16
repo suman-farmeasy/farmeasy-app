@@ -49,6 +49,7 @@ get englishWords => {
       "Matching farmers for this land": 'Matching farmers for this land',
       "Contact Farmer": "Contact Farmer",
       "Enquiries": "Enquiries",
+      "Enquiry": "Enquiries",
       "Partners": 'Partners',
       'Land': 'Land',
       'Area': 'Area',
@@ -61,4 +62,7 @@ get englishWords => {
       'No': 'No',
       'Yes': 'Yes',
       'Home': 'Home',
+      'Community': 'Community',
+      'Directory': 'Directory',
+      'More': 'More',
     };

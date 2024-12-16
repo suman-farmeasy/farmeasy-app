@@ -48,6 +48,7 @@ get punjabiWords => {
       "Matching farmers for this land": 'ਇਸ ਜ਼ਮੀਨ ਲਈ ਕਿਸਾਨਾਂ ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ',
       "Contact Farmer": "ਕਿਸਾਨ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
       "Enquiries": 'ਪੁੱਛਗਿੱਛ',
+      "Enquiry": 'ਪੁੱਛਗਿੱਛ',
       'Partners': 'ਭਾਈਵਾਲ',
       'Land': 'ਜ਼ਮੀਨ',
       "Area": 'ਖੇਤਰ',
@@ -60,4 +61,7 @@ get punjabiWords => {
       'No': 'ਨੰ',
       'Yes': 'ਹਾਂ',
       "Home": 'ਘਰ',
+      'Community': 'ਭਾਈਚਾਰਾ',
+      'Directory': 'ਡਾਇਰੈਕਟਰੀ',
+      'More': 'ਹੋਰ',
     };
