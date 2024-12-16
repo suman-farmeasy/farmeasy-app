@@ -55,7 +55,7 @@ void main() async {
 
   if (message != null) {
     print("Launched from terminated state");
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       //  Get.to(() => MessagePage(), arguments: message);
     });
   }
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
@@ -87,13 +87,13 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: AppColor.DARK_GREEN),
               useMaterial3: true,
             ),
-            supportedLocales: [
+            supportedLocales: const [
               Locale('en', ''),
             ],
             builder: (context, widget) {
               return MediaQuery(
                 data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 child: widget ?? const SizedBox(),
               );
