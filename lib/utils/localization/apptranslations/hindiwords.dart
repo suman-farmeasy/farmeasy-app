@@ -82,4 +82,5 @@ get hindiWords => {
       'Standard Operating Procedure': 'मानक संचालन प्रक्रिया',
       'Delete your account': 'अपना खाता हटाएं',
       'Logout': 'लॉग आउट',
+      "Subscription": 'सदस्यता',
     };

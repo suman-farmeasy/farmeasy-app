@@ -81,4 +81,5 @@ get punjabiWords => {
       'Standard Operating Procedure': 'ਸਟੈਂਡਰਡ ਓਪਰੇਟਿੰਗ ਪ੍ਰਕਿਰਿਆ',
       'Delete your account': 'ਆਪਣਾ ਖਾਤਾ ਮਿਟਾਓ',
       'Logout': 'ਲਾਗਆਉਟ',
+      "Subscription": 'ਗਾਹਕੀ',
     };

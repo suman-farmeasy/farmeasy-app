@@ -82,4 +82,5 @@ get englishWords => {
       'Standard Operating Procedure': 'Standard Operating Procedure',
       'Delete your account': 'Delete your account',
       'Logout': 'Logout',
+      'Subscription': 'Subscription',
     };
