@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/HomeScreen/Model/FarmerListResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class ListFarmerController extends GetxController {
 
   RxInt currentPage = 1.obs;
   RxInt totalPages = 0.obs;
-  RxList farmerData = [].obs;
+  RxList<Data> farmerData = <Data>[].obs;
   final prefs = AppPreferences();
   final _api = ListFarmerViewModel();
   final farmer = FarmerListResponseModel().obs;
@@ -38,7 +38,10 @@ class ListFarmerController extends GetxController {
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setRxRequestData(FarmerListResponseModel _value) =>
       farmer.value = _value;
-  Future<void> farmerList() async {
+  Future<void> farmerList({bool isPagination = false}) async {
+    if (isPagination) {
+      farmerData.clear();
+    }
     loading.value = true;
     rxRequestStatus.value = Status.LOADING;
     _api.farmer(

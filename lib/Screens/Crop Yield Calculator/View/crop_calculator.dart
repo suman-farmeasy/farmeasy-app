@@ -1,5 +1,5 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/Screens/HomeScreen/Controller/crop_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,9 +21,8 @@ class _CropDetailsScreenState extends State<CropDetailsScreen> {
     final bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     final crops = controller.cropDetails.value.result ?? [];
 
-    // Calculate net profits dynamically based on available data
     final netProfits = crops
-        .map((crop) => crop.cropYield?.netProfitPercentage ?? 0.0)
+        .map((crop) => crop.cropYield?.netProfitPercentageValue ?? 0.0)
         .toList();
 
     return DefaultTabController(
@@ -144,18 +143,24 @@ class _CropDetailsScreenState extends State<CropDetailsScreen> {
                                               ),
                                             ),
                                             Center(
-                                              child: CircularPercentIndicator(
-                                                radius: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.2,
-                                                lineWidth: 15.0,
-                                                percent:
-                                                    netProfits[index] / 100,
-                                                progressColor:
-                                                    AppColor.LIGHT_GREEN,
-                                                backgroundColor:
-                                                    Color(0xFFFDCA40),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  print(
+                                                      "VALUE${netProfits[index] / 100}");
+                                                },
+                                                child: CircularPercentIndicator(
+                                                  radius: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.2,
+                                                  lineWidth: 15.0,
+                                                  percent:
+                                                      netProfits[index] / 100,
+                                                  progressColor:
+                                                      AppColor.LIGHT_GREEN,
+                                                  backgroundColor:
+                                                      Color(0xFFFDCA40),
+                                                ),
                                               ),
                                             ),
                                             Padding(
@@ -734,6 +739,39 @@ class _CropDetailsScreenState extends State<CropDetailsScreen> {
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Farming type",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: Color(
+                                                                  0xFF61646B)
+                                                              .withOpacity(0.8),
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "${crops[index].cropYieldPerAcre!.farmingType ?? ""}",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color:
+                                                              Color(0xFF333333),
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                   Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment

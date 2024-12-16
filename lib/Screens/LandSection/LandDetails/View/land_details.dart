@@ -1,4 +1,4 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Enquiries/Controller/enquiries_controller.dart';
@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../Utils/Constants/dimensions_constatnts.dart';
+import '../../../../Constants/dimensions_constatnts.dart';
 
 class LandDetails extends StatefulWidget {
   LandDetails({super.key, required this.id});
@@ -41,7 +41,7 @@ class _LandDetailsState extends State<LandDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.getLandDetails();
+    controller.getLandDetails(widget.id);
     enquiriesController.enquiriesListData();
   }
 
@@ -151,7 +151,9 @@ class _LandDetailsState extends State<LandDetails> {
                 Expanded(
                     child: TabBarView(
                   children: [
-                    InfoView(),
+                    InfoView(
+                      landId: widget.id,
+                    ),
                     EnquiriesView(),
                   ],
                 ))

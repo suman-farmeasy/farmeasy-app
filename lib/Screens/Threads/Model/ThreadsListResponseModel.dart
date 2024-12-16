@@ -7,7 +7,7 @@ class ThreadListResponseModel {
   ThreadListResponseModel.fromJson(Map<String, dynamic> json) {
     detail = json['detail'];
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+        json['result'] != null ? new Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -64,21 +64,23 @@ class Data {
   int? totalLikes;
   int? totalReplies;
   String? createdOn;
+  bool? isPostedByMe;
 
   Data(
       {this.id,
-        this.userId,
-        this.userType,
-        this.userImage,
-        this.userName,
-        this.images,
-        this.title,
-        this.description,
-        this.tags,
-        this.isLiked,
-        this.totalLikes,
-        this.totalReplies,
-        this.createdOn});
+      this.userId,
+      this.userType,
+      this.userImage,
+      this.userName,
+      this.images,
+      this.title,
+      this.description,
+      this.tags,
+      this.isLiked,
+      this.totalLikes,
+      this.totalReplies,
+      this.createdOn,
+      this.isPostedByMe});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -86,6 +88,7 @@ class Data {
     userType = json['user_type'];
     userImage = json['user_image'];
     userName = json['user_name'];
+    isPostedByMe = json['posted_by_me'];
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
@@ -113,6 +116,7 @@ class Data {
     data['user_type'] = this.userType;
     data['user_image'] = this.userImage;
     data['user_name'] = this.userName;
+    data['posted_by_me'] = this.isPostedByMe;
     if (this.images != null) {
       data['images'] = this.images!.map((v) => v.toJson()).toList();
     }

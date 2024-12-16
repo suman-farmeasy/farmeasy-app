@@ -1,15 +1,16 @@
 import 'dart:convert';
 
-import 'package:device_preview/device_preview.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/SplashScreen/View/splash_screen.dart';
 import 'package:farm_easy/Screens/notification_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'Utils/firebase_options.dart';
+
+import 'firebase_options.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {
@@ -25,7 +26,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // on background notification tapped
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     if (message.notification != null) {
       print("Background Notification Tapped");
@@ -38,7 +38,6 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
 
-  //listen to foreground notifications
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     String payloadData = jsonEncode(message.data);
     print("Got a message in foregorund");
@@ -50,7 +49,6 @@ void main() async {
     }
   });
 
-  // for handling in terminated state
   final RemoteMessage? message =
       await FirebaseMessaging.instance.getInitialMessage();
 
@@ -60,15 +58,7 @@ void main() async {
       //  Get.to(() => MessagePage(), arguments: message);
     });
   }
-  runApp(
-    DevicePreview(
-      enabled: true,
-      tools: const [
-        ...DevicePreview.defaultTools,
-      ],
-      builder: (context) => const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -76,17 +66,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'FARMEASY',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: AppColor.DARK_GREEN),
-          useMaterial3: true,
-        ),
-        //  home: SplashScreen(),
-        // home: UserRegistration(
-        //   userType: StringConstatnt.AGRI_PROVIDER,
-        // ));
-        home: SplashScreen());
+    return ScreenUtilInit(
+      designSize: Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'FARMEASY',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: AppColor.DARK_GREEN),
+              useMaterial3: true,
+            ),
+            supportedLocales: [
+              Locale('en', ''),
+            ],
+            builder: (context, widget) {
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1.0,
+                ),
+                child: widget ?? const SizedBox(),
+              );
+            },
+            // home: OtpScreen(phoneNumber: '98765432123', countryCode: '91'));
+            home: SplashScreen());
+      },
+    );
   }
 }

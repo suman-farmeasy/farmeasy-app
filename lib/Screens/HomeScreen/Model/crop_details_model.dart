@@ -66,11 +66,11 @@ class Result {
 }
 
 class CropYield {
-  double? revenue;
-  double? cost;
-  double? netProfit;
-  double? costPercentage;
-  double? netProfitPercentage;
+  String? revenue;
+  String? cost;
+  String? netProfit;
+  String? costPercentage;
+  String? netProfitPercentage;
 
   CropYield(
       {this.revenue,
@@ -78,6 +78,16 @@ class CropYield {
       this.netProfit,
       this.costPercentage,
       this.netProfitPercentage});
+  // Getter to convert netProfitPercentage to double
+  double get netProfitPercentageValue =>
+      double.tryParse(netProfitPercentage ?? '0.0') ?? 0.0;
+
+  // Similarly, you can add getters for other fields as needed
+  double get revenueValue => double.tryParse(revenue ?? '0.0') ?? 0.0;
+  double get costValue => double.tryParse(cost ?? '0.0') ?? 0.0;
+  double get costPercentageValue =>
+      double.tryParse(costPercentage ?? '0.0') ?? 0.0;
+  double get netProfitValue => double.tryParse(netProfit ?? '0.0') ?? 0.0;
 
   CropYield.fromJson(Map<String, dynamic> json) {
     revenue = json['revenue'];
@@ -99,15 +109,15 @@ class CropYield {
 }
 
 class CostOfFarmingPerAcre {
-  int? seeds;
-  int? fertiliser;
-  int? pesticides;
-  int? machinery;
-  int? labour;
-  int? landRent;
-  int? supportMaterial;
-  int? otherExpenses;
-  int? total;
+  String? seeds;
+  String? fertiliser;
+  String? pesticides;
+  String? machinery;
+  String? labour;
+  String? landRent;
+  String? supportMaterial;
+  String? otherExpenses;
+  String? total;
 
   CostOfFarmingPerAcre(
       {this.seeds,
@@ -149,16 +159,18 @@ class CostOfFarmingPerAcre {
 
 class CropYieldPerAcre {
   String? sowingSeason;
+  String? farmingType;
   String? harvestSeason;
-  double? avgPrice;
-  int? yieldInKg;
-  int? cropValue;
-  int? expenditure;
-  int? netProfit;
+  String? avgPrice;
+  String? yieldInKg;
+  String? cropValue;
+  String? expenditure;
+  String? netProfit;
 
   CropYieldPerAcre(
       {this.sowingSeason,
       this.harvestSeason,
+      this.farmingType,
       this.avgPrice,
       this.yieldInKg,
       this.cropValue,
@@ -173,6 +185,7 @@ class CropYieldPerAcre {
     cropValue = json['crop_value'];
     expenditure = json['expenditure'];
     netProfit = json['net_profit'];
+    farmingType = json['farming_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -184,6 +197,7 @@ class CropYieldPerAcre {
     data['crop_value'] = this.cropValue;
     data['expenditure'] = this.expenditure;
     data['net_profit'] = this.netProfit;
+    data['farming_type'] = this.farmingType;
     return data;
   }
 }

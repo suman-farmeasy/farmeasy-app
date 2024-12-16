@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
-class IntropageController extends GetxController{
-
+class IntropageController extends GetxController {
   int currentPage = 0;
   RxInt dotPage = 0.obs;
 
@@ -10,14 +9,13 @@ class IntropageController extends GetxController{
     'Landowners',
     'Farmers',
     'Partners',
-
   ];
 
   final List<String> subtitles = [
-    'Bringing Farmers and Landowners Together, Cultivating Connections for a Prosperous Tomorrow.',
-     'Optimize Land Use, Seamlessly Connect with Farmers, Services.',
-    'Boost Yield, Access Tools, Market Insights, Connect with Resources.',
-    'Tailored Support, Enhance Efficiency, Grow Together with Farming Community.'
+    'FarmEasy connects farmers and landowners to drive innovative, efficient, and sustainable agriculture.',
+    'Work with skilled farmers to make your unused land productive and support sustainable farming.',
+    'Find new chances to grow crops and succeed by accessing land and resources through FarmEasy.',
+    'Be part of FarmEasy to help make farming more productive and eco-friendly with smart solutions.'
   ];
 
   final List<String> imagePaths = [
@@ -25,6 +23,5 @@ class IntropageController extends GetxController{
     'assets/img/intro2.svg',
     'assets/img/intro3.svg',
     'assets/img/intro2.svg',
-
   ];
 }

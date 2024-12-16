@@ -1,40 +1,62 @@
 import 'dart:async';
 
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/Model/PhoneOtpResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/ViewModel/phone_otp_view_model.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/View/user_registration.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/SplashScreen/Model/IsUserExist.dart';
 import 'package:farm_easy/Screens/SplashScreen/ViewModel/is_user_exist_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../Role Selection/View/role_selection.dart';
 
-class OtpScreenController extends GetxController {
+class OtpScreenController extends GetxController with CodeAutoFill {
   var isOtpComplete = false.obs;
-  final RxInt timerSecondsRemaining = 30.obs;
+  final RxInt timerSecondsRemaining = 60.obs;
   final RxBool timerFinished = false.obs;
+  var resendAttempts = 0.obs; // Counter for resend attempts
   final RxBool isVisible = true.obs;
   late Timer _timer;
   String countryCode = '';
   String phoneNumber = ""; // Example phone number
   final AppPreferences _prefs = AppPreferences();
-  final TextEditingController otpController =
-      TextEditingController(text: "9524");
+  final otpController = TextEditingController().obs;
 
-  //FocusNode focusNode = FocusNode();
-
+  FocusNode focusNode = FocusNode();
   RxString otpValue = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-    // focusNode.requestFocus();
+    focusNode.requestFocus();
     startTimer();
+    listenForOtp();
+  }
+
+  void listenForOtp() async {
+    await SmsAutoFill().listenForCode();
+  }
+
+  void generateAppHash() async {
+    String? appSignature = await SmsAutoFill().getAppSignature;
+    print("App Hash: $appSignature");
+  }
+
+  @override
+  void codeUpdated() {
+    String code =
+        this.code ?? ""; // Get the OTP code from CodeAutoFill's code property
+    otpController.value.text = code; // Autofill OTP field
+    otpValue.value = code; // Update OTP value
+    isOtpComplete.value = code.length == 4; // Example: assuming 6-digit OTP
+    if (isOtpComplete.value) {
+      verify(); // Automatically trigger verification if OTP is complete
+    }
   }
 
   void startTimer() {
@@ -50,7 +72,7 @@ class OtpScreenController extends GetxController {
   }
 
   void hideAfterDelay() {
-    Timer(Duration(seconds: 30), () {
+    Timer(Duration(seconds: 60), () {
       timerSecondsRemaining.value = 0;
     });
   }
@@ -63,10 +85,10 @@ class OtpScreenController extends GetxController {
   void setRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setAuthData(PhoneOtpResponseModel _value) => authData.value = _value;
 
-  void varify() {
+  // Method to handle OTP verification
+  void verify() {
     loading.value = true;
     _api.phoneOtpData({
-      // "country_code": "$countryCode",
       "country_code": "91",
       "mobile": "$phoneNumber",
       "otp": otpController.value.text
@@ -74,16 +96,7 @@ class OtpScreenController extends GetxController {
       loading.value = false;
       setRequestStatus(Status.SUCCESS);
       setAuthData(value);
-      Get.snackbar(
-        'Message',
-        '${value.detail.obs}',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+
       _prefs.setUserAccessToken(value.result?.access ?? "");
       _prefs.setUserRefreshToken(value.result?.refresh ?? "");
       if (await _prefs.getUserRefreshToken() != "") {
@@ -91,21 +104,31 @@ class OtpScreenController extends GetxController {
       }
       await isUserExist();
     }).onError((error, stackTrace) async {
-      Get.snackbar(
-        'Message',
-        'Invalid OTP',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
+      showErrorCustomSnackbar(
+        title: 'Message',
+        message: 'Invalid OTP',
       );
 
       Status.ERROR.obs;
       loading.value = false;
       print(stackTrace);
     });
+  }
+
+  // Method to handle the resend OTP logic
+  void resendOtp() {
+    if (resendAttempts.value < 5) {
+      verify();
+      resendAttempts.value++;
+      startTimer();
+      print("Resend OTP, attempt: ${resendAttempts.value}");
+      // Call your API to resend OTP here
+    } else {
+      showErrorCustomSnackbar(
+        title: 'Limit Reached',
+        message: 'You can only resend the OTP 5 times.',
+      );
+    }
   }
 
   final _userExist = IsUserExistViewModel();
@@ -145,8 +168,8 @@ class OtpScreenController extends GetxController {
 
   @override
   void onClose() {
-    otpController.dispose();
-    //  focusNode.dispose();
+    otpController.value.dispose();
+    SmsAutoFill().unregisterListener(); // Stop listening for OTP SMS
     super.onClose();
   }
 }

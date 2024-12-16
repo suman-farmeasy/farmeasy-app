@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Model/UpdateProfileResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/VIewModel/complete_profile_view_model.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -59,8 +59,8 @@ class UpdateProfileController extends GetxController {
   RxInt selectedMonths = 0.obs;
   RxInt selectedDate = 0.obs;
 
-  RxList<int> years = [for (int year = 01; year <= 40; year++) year].obs;
-  RxList<int> months = [for (int month = 01; month <= 12; month++) month].obs;
+  RxList<int> years = [for (int year = 00; year <= 40; year++) year].obs;
+  RxList<int> months = [for (int month = 00; month <= 12; month++) month].obs;
   RxList<int> date = [for (int date = 01; date <= 31; date++) date].obs;
 
   Future<void> updateAgriProviderProfileImage(
@@ -181,7 +181,6 @@ class UpdateProfileController extends GetxController {
     String name,
     String bio,
     String profileType,
-    String countryCode,
     String phoneNo,
     String insta,
     String fb,
@@ -199,15 +198,11 @@ class UpdateProfileController extends GetxController {
       'Content-Type': 'multipart/form-data',
     };
     request.headers.addAll(headers);
-    // request.files.add(await http.MultipartFile.fromPath('image', image.path));
     if (educationId == 0) {
     } else {
       request.fields['education'] = educationId.toString();
     }
-    if (countryCode == "") {
-    } else {
-      request.fields['country_code'] = countryCode;
-    }
+    request.fields['country_code'] = '91';
     request.fields['full_name'] = name;
     request.fields['bio'] = bio;
     request.fields['profile_type'] = profileType;
@@ -231,7 +226,8 @@ class UpdateProfileController extends GetxController {
         await _prefs.setUserName(name);
         final dashboardControllers = Get.find<DashboardController>();
         dashboardControllers.profileController.profilePercentage();
-
+        final getProfileControllers = Get.find<GetProfileController>();
+        getProfileControllers.getProfile();
         Get.back();
       } else {
         print('Error: ${response.statusCode}');
@@ -251,7 +247,6 @@ class UpdateProfileController extends GetxController {
     String name,
     List experties,
     String bio,
-    String countryCode,
     String phoneNo,
     String insta,
     String fb,
@@ -270,7 +265,7 @@ class UpdateProfileController extends GetxController {
       'full_name': name,
       'expertise': experties.toList(),
       'bio': bio,
-      'country_code': countryCode,
+      'country_code': '91',
       'mobile': phoneNo,
       'facebook_url': fb,
       'instagram_url': insta,
@@ -297,8 +292,8 @@ class UpdateProfileController extends GetxController {
       Get.back();
       final dashboardControllers = Get.find<DashboardController>();
       final getProfileControllers = Get.find<GetProfileController>();
-      dashboardControllers.profileController.profilePercentage();
       getProfileControllers.getProfile();
+      dashboardControllers.profileController.profilePercentage();
 
       Get.back();
     }).onError((error, stackTrace) {
@@ -311,7 +306,6 @@ class UpdateProfileController extends GetxController {
       String name,
       List roles,
       String bio,
-      String countryCode,
       String phoneNo,
       String insta,
       String fb,
@@ -323,7 +317,7 @@ class UpdateProfileController extends GetxController {
       'full_name': name,
       'roles': roles.toList(),
       'bio': bio,
-      'country_code': countryCode,
+      'country_code': '91',
       'mobile': phoneNo,
       'facebook_url': fb,
       'instagram_url': insta,
@@ -347,6 +341,8 @@ class UpdateProfileController extends GetxController {
       }
       Get.back();
       final dashboardControllers = Get.find<DashboardController>();
+      final getProfileControllers = Get.find<GetProfileController>();
+      getProfileControllers.getProfile();
       dashboardControllers.profileController.profilePercentage();
       Get.back();
     }).onError((error, stackTrace) {

@@ -1,18 +1,16 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/Controller/all_enquiries_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllEnquiries extends StatefulWidget {
-  const AllEnquiries({super.key});
-
+  AllEnquiries({super.key, this.isbackButton});
+  bool? isbackButton = false;
   @override
   State<AllEnquiries> createState() => _AllEnquiriesState();
 }
@@ -28,12 +26,14 @@ class _AllEnquiriesState extends State<AllEnquiries> {
         controller.loadMoreData();
       }
     });
+    print("alll");
     return Scaffold(
         backgroundColor: AppColor.BACKGROUND,
         appBar: PreferredSize(
             preferredSize:
                 Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
             child: CommonAppBar(
+              isbackButton: widget.isbackButton ?? false,
               title: 'All Enquiries',
             )),
         body: LayoutBuilder(builder: (context, constraints) {
@@ -64,7 +64,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                         child: Column(
                           children: [
                             Container(
-                              height: Get.height * 0.8,
+                              height: Get.height * 0.7,
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 controller: _enquiryScroller,
@@ -130,20 +130,82 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: Get.height * 0.12,
-                                            width: Get.width * 0.24,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(controller
-                                                            .allEnquiriesList[
-                                                                index]
-                                                            .connectedPersonImage ??
-                                                        ""),
-                                                    fit: BoxFit.cover)),
+                                          InkWell(
+                                            onTap: () {
+                                              Get.to(() => UserProfileScreen(
+                                                  id: controller
+                                                          .allEnquiriesList[
+                                                              index]
+                                                          .connectedPersonUserId!
+                                                          .toInt() ??
+                                                      0,
+                                                  userType: controller
+                                                          .allEnquiriesList[
+                                                              index]
+                                                          .connectedPersonUserType ??
+                                                      ""));
+                                            },
+                                            child: Container(
+                                              width: Get.width * 0.22,
+                                              height: Get.height * 0.12,
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              decoration: BoxDecoration(
+                                                color: AppColor.DARK_GREEN
+                                                    .withOpacity(0.1),
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(18),
+                                                  topLeft: Radius.circular(18),
+                                                ),
+                                                image: controller
+                                                                .allEnquiriesList[
+                                                                    index]
+                                                                .connectedPersonImage !=
+                                                            null &&
+                                                        controller
+                                                                .allEnquiriesList[
+                                                                    index]
+                                                                .connectedPersonImage !=
+                                                            ""
+                                                    ? DecorationImage(
+                                                        image: NetworkImage(
+                                                          controller
+                                                                  .allEnquiriesList[
+                                                                      index]
+                                                                  .connectedPersonImage! ??
+                                                              "",
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : null,
+                                              ),
+                                              child: controller
+                                                          .allEnquiriesList[
+                                                              index]
+                                                          .connectedPersonImage ==
+                                                      ""
+                                                  ? Center(
+                                                      child: Text(
+                                                        controller
+                                                                .allEnquiriesList[
+                                                                    index]
+                                                                .connectedPersonName![
+                                                                    0]
+                                                                .toUpperCase() ??
+                                                            "",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: 50,
+                                                          color: AppColor
+                                                              .DARK_GREEN, // Text color contrasting the background
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : SizedBox(), // Show nothing if image exists
+                                            ),
                                           ),
                                           Column(
                                             crossAxisAlignment:

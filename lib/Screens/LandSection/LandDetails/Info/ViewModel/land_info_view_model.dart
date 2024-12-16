@@ -1,4 +1,4 @@
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/ChatGptCropSuggestionResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/CheckLandDetailsResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/CropSuggestionResponseModel.dart';
@@ -8,7 +8,7 @@ import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandPercent
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandTypeResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandUpdateResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/WaterResourceResponseModel.dart';
-import 'package:farm_easy/API/Services/network/network_api_services.dart';
+import 'package:farm_easy/Services/network/network_api_services.dart';
 
 class LandDetailViewModel {
   final _infoService = NetworkApiServices();
@@ -69,6 +69,16 @@ class UploadLandImagesViewModel {
 }
 
 class LandPercentageViewModel {
+  final _api = NetworkApiServices();
+  Future<LandPercentageResponseModel> landPercentage(
+      var headerMap, int id) async {
+    dynamic response =
+        await _api.getApi(ApiUrls.LAND_PERCENTAGE + '$id', true, headerMap);
+    return LandPercentageResponseModel.fromJson(response);
+  }
+}
+
+class DistanceViewModel {
   final _api = NetworkApiServices();
   Future<LandPercentageResponseModel> landPercentage(
       var headerMap, int id) async {

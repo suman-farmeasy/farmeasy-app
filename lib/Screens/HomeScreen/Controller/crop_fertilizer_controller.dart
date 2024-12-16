@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_fertilizer_data_model.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class CropFertilizerController extends GetxController {

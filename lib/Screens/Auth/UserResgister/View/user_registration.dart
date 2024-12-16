@@ -1,19 +1,23 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Screens/Auth/UserResgister/Controller/partner_services_list.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/select_corp.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/user_controller.dart';
-import 'package:farm_easy/Screens/Partners/Controller/partner_services_controller.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../../ApiUrls/api_urls.dart';
 
 class UserRegistration extends StatefulWidget {
   UserRegistration({super.key, required this.userType});
@@ -24,7 +28,7 @@ class UserRegistration extends StatefulWidget {
 
 class _UserRegistrationState extends State<UserRegistration> {
   final controller = Get.put(UserController());
-  final serviceController = Get.put(PartnerServicesController());
+  final serviceController = Get.put(PartnerServicesList());
   final cropcontroller = Get.put(FarmerCrops());
   @override
   Widget build(BuildContext context) {
@@ -96,6 +100,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.circular(5)),
                         child: TextFormField(
                           keyboardType: TextInputType.text,
+                          focusNode: controller.focusNodeName,
                           controller: controller.nameController.value,
                           onChanged: (value) {},
                           decoration: InputDecoration(
@@ -138,7 +143,6 @@ class _UserRegistrationState extends State<UserRegistration> {
                           )),
                     ),
                     Container(
-                        height: Get.height * 0.069,
                         margin: EdgeInsets.only(top: 10, bottom: 0),
                         decoration: BoxDecoration(
                             color: Colors.transparent,
@@ -152,7 +156,8 @@ class _UserRegistrationState extends State<UserRegistration> {
                           boxDecoration: BoxDecoration(
                               border: Border.all(color: Colors.transparent)),
                           inputDecoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(top: 12),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.h),
                             prefixIcon: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
@@ -160,6 +165,16 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 "assets/logos/house.svg",
                               ),
                             ),
+                            suffixIcon: GestureDetector(
+                                onTap: () {
+                                  controller.locationController.value.clear();
+                                  print(
+                                      "${controller.locationController.value.text}");
+                                  setState(() {});
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                )),
                             hintText: "Search your location",
                             border: InputBorder.none,
                             hintStyle: GoogleFonts.poppins(
@@ -181,14 +196,33 @@ class _UserRegistrationState extends State<UserRegistration> {
                             // print("#####################${selectedLatitude}");
                             // print("#####################${selectedLongitude}");
                           },
-                          itemClick: (Prediction prediction) {
+                          itemClick: (Prediction prediction) async {
+                            setState(() {});
                             String location = prediction.description ?? "";
                             controller.locationController.value.text = location;
                             print('NEW LOCATION ${location.length}');
+                            controller.fetchPlaceDetails(prediction.placeId!);
+                            String url = ApiUrls.ADD_SERVICABLE_AREA +
+                                '?city=${controller.cityValue.value}&state=${controller.stateValue.value}&country=${controller.countryValue.value}';
+                            try {
+                              var response = await http.get(Uri.parse(url));
+
+                              if (response.statusCode == 200) {
+                                await controller.servicesArea(url);
+                                print(
+                                    "Serviceable area data: ${response.body}");
+                              } else {
+                                // Handle error response
+                                print("Failed to fetch serviceable area data");
+                              }
+                            } catch (e) {
+                              print("Error: $e");
+                            }
                             controller.locationController.value.selection =
                                 TextSelection.fromPosition(
                               TextPosition(offset: location.length),
                             );
+
                             if (location.isNotEmpty) {}
                           },
                           seperatedBuilder: Divider(),
@@ -211,7 +245,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                               ),
                             );
                           },
-                          isCrossBtnShown: true,
+                          isCrossBtnShown: false,
                         )),
                     Container(
                       margin: EdgeInsets.only(bottom: 0),
@@ -360,7 +394,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                     }),
                               ),
                             ),
-                            controller.select!.value == -1
+                            controller.select!.value == -1 ||
+                                    controller.locationController.value.text ==
+                                        ""
                                 ? Container(
                                     margin: EdgeInsets.only(top: 40),
                                     padding: EdgeInsets.symmetric(vertical: 16),
@@ -446,7 +482,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Select Crops",
+                                                    "serviceable area ",
                                                     style: GoogleFonts.poppins(
                                                         color: Colors.white,
                                                         fontSize: 16,
@@ -581,38 +617,58 @@ class _UserRegistrationState extends State<UserRegistration> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      SvgPicture.asset(
-                                          "assets/img/servicearea.svg"),
-                                      Obx(() {
-                                        return controller
-                                                    .servicableAreaName.value ==
-                                                ""
-                                            ? Text(
-                                                'Select Serviceable Area',
-                                                style: GoogleFonts.poppins(
-                                                  color: Color(0xFF757575),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 0,
-                                                ),
-                                              )
-                                            : Text(
-                                                controller
-                                                    .servicableAreaName.value,
-                                                style: GoogleFonts.poppins(
-                                                  color: Color(0xFF757575),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 0,
-                                                ),
-                                              );
-                                      }),
-                                      Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: Color(0xFF757575),
-                                      )
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          SvgPicture.asset(
+                                              "assets/img/servicearea.svg"),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Obx(() {
+                                            return controller.servicableAreaName
+                                                        .value ==
+                                                    ""
+                                                ? Text(
+                                                    'Select Serviceable Area',
+                                                    style: GoogleFonts.poppins(
+                                                      color: Color(0xFF757575),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    controller
+                                                        .servicableAreaName
+                                                        .value,
+                                                    style: GoogleFonts.poppins(
+                                                      color: Color(0xFF757575),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
+                                                  );
+                                          }),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.keyboard_arrow_down_rounded,
+                                            color: Color(0xFF757575),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   )),
                             ),
@@ -740,22 +796,30 @@ class _UserRegistrationState extends State<UserRegistration> {
                               }
                             }),
                             Obx(() {
-                              if (serviceController.agriItems.isEmpty) {
-                                return Container(
-                                  margin: EdgeInsets.only(top: 40),
-                                  height: AppDimension.h * 0.07,
-                                  width: AppDimension.w * 0.85,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0x19044D3A),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Proceed",
-                                      style: GoogleFonts.poppins(
-                                        color: Color(0xFFA0A6A3),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                              if (serviceController.agriItems.isEmpty ||
+                                  controller.locationController.value.text ==
+                                      "") {
+                                return InkWell(
+                                  onTap: () {
+                                    print(
+                                        "LL${controller.locationController.value.text}");
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 40),
+                                    height: AppDimension.h * 0.07,
+                                    width: AppDimension.w * 0.85,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0x19044D3A),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Proceed",
+                                        style: GoogleFonts.poppins(
+                                          color: Color(0xFFA0A6A3),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1341,21 +1405,29 @@ class _UserRegistrationState extends State<UserRegistration> {
                               ],
                             ),
                             Obx(() {
-                              if (cropcontroller.selectedCropsId.isEmpty) {
-                                return Container(
-                                  margin: EdgeInsets.only(top: 40),
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0x19044D3A),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Proceed",
-                                      style: GoogleFonts.poppins(
-                                        color: Color(0xFFA0A6A3),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                              if (cropcontroller.selectedCropsId.isEmpty ||
+                                  controller.locationController.value.text ==
+                                      "") {
+                                return InkWell(
+                                  onTap: () {
+                                    print(
+                                        "LOCATION${controller.locationController.value.text} LOCr");
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 40),
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0x19044D3A),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Proceed",
+                                        style: GoogleFonts.poppins(
+                                          color: Color(0xFFA0A6A3),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/Model/EmailOtpResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/ViewModel/email_view_model.dart';
 import 'package:farm_easy/Screens/Auth/Role%20Selection/View/role_selection.dart';
@@ -8,8 +8,8 @@ import 'package:farm_easy/Screens/Auth/UserResgister/View/user_registration.dart
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/SplashScreen/Model/IsUserExist.dart';
 import 'package:farm_easy/Screens/SplashScreen/ViewModel/is_user_exist_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -78,16 +78,11 @@ class EmailOtpScreenController extends GetxController {
       }
       await isUserExist();
     }).onError((error, stackTrace) async {
-      Get.snackbar(
-        'Message',
-        'Invalid OTP',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
+      showErrorCustomSnackbar(
+        title: "Message",
+        message: 'Invalid OTP',
       );
+
       loading.value = false;
       Status.ERROR.obs;
       print(stackTrace);

@@ -1,10 +1,9 @@
-  plugins {
+plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
 }
 
 def localProperties = new Properties()
@@ -55,16 +54,16 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 5
-        versionName "2.0.3"
+        versionCode 24
+        versionName "2.2.1"
     }
     signingConfigs {
                    release {
-                          keyAlias keystoreProperties['keyAlias']
-                          keyPassword keystoreProperties['keyPassword']
-                          storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-                          storePassword keystoreProperties['storePassword']
-                      }
+                       storePassword="farmeasy"
+                       keyPassword="farmeasy"
+                       keyAlias="farmeasy"
+                       storeFile=file("/Users/sahil/Documents/flutter projects/farmeasyapp/farmeasy.jks")
+                   }
          }
     buildTypes {
         release {

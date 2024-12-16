@@ -1,14 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/Screens/AllEnquiries/Controller/all_enquiries_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/chat_controller.dart';
-import 'package:http/http.dart' as http;
 import 'package:farm_easy/Screens/ChatSection/Model/SendMessageResponseModel.dart';
 import 'package:farm_easy/Screens/ChatSection/ViewModel/chat_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class SendMessageController extends GetxController {
@@ -17,6 +20,8 @@ class SendMessageController extends GetxController {
   final sendMessage = SendMessageResponseModel().obs;
   RxInt landId = 0.obs;
   RxInt userId = 0.obs;
+
+  final enqcontroller = Get.put(AllEnquiriesController());
 
   final loading = false.obs;
   final _prefs = AppPreferences();
@@ -44,16 +49,22 @@ class SendMessageController extends GetxController {
       uploadImage(imagePath);
     }
   }
-  // chatList.enquiryId.value=sendMessage.value.result?.enquiryId?.toInt()??0;
 
   Future<void> uploadImage(String imagePath) async {
     String? accessToken = await _prefs.getUserAccessToken();
     try {
+      final compressedImageBytes = await compressImage(File(imagePath));
       final url = Uri.parse("${ApiUrls.SEND_MESSGAE}");
       final request = http.MultipartRequest('POST', url);
       request.files.add(
-        await http.MultipartFile.fromPath('media', imagePath),
+        http.MultipartFile.fromBytes(
+          'media',
+          compressedImageBytes,
+          filename:
+              'compressed_${DateTime.now().millisecondsSinceEpoch}${imagePath.split('/').last}', // Compressed file name
+        ),
       );
+
       request.headers['Authorization'] = 'Bearer $accessToken';
       if (landId.value != 0) {
         request.fields['land_id'] = '${landId.value}';
@@ -100,6 +111,16 @@ class SendMessageController extends GetxController {
       chatList.enquiryId.value =
           sendMessage.value.result?.enquiryId?.toInt() ?? 0;
       chatList.chatsData();
+      enqcontroller.allEnquiriesList.clear();
+      enqcontroller.allEnquiries();
     }).onError((error, stackTrace) {});
+  }
+
+  Future<List<int>> compressImage(File file) async {
+    final result = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      quality: 50,
+    );
+    return result ?? [];
   }
 }

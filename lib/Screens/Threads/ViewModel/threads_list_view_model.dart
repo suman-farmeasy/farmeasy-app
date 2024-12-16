@@ -1,8 +1,8 @@
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Threads/Model/LikeUnilkeResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/Model/ThreadsListResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/ParticularThread/Model/thread_response_model.dart';
-import 'package:farm_easy/API/Services/network/network_api_services.dart';
+import 'package:farm_easy/Services/network/network_api_services.dart';
 
 class ThreadsListViewModel {
   final _api = NetworkApiServices();
@@ -36,6 +36,19 @@ class ParticularThreadViewModel {
       var headerMap, int threadId) async {
     dynamic response = await _api.getApi(
       ApiUrls.PARTICULAR_THREAD + '$threadId',
+      true,
+      headerMap,
+    );
+    return ParticularThreadResponseModel.fromJson(response);
+  }
+}
+
+class DeleteThreadViewModel {
+  final _api = NetworkApiServices();
+  Future<ParticularThreadResponseModel> deletedThread(
+      var headerMap, int threadId) async {
+    dynamic response = await _api.deleteApi(
+      ApiUrls.DELETE_THREAD + '$threadId',
       true,
       headerMap,
     );

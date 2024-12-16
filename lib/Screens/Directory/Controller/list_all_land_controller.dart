@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/Directory/Model/AllLandResponseModel.dart';
 import 'package:farm_easy/Screens/Directory/ViewModel/directory_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class ListAllLandsController extends GetxController {
   final prefs = AppPreferences();
   final _api = ListAllLandViewModel();
   final landlist = AllLandResponseModel().obs;
-  RxList landData = [].obs;
+  RxList<Data> landData = <Data>[].obs;
   final loading = false.obs;
   final rxRequestStatus = Status.LOADING.obs;
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
@@ -37,8 +37,11 @@ class ListAllLandsController extends GetxController {
     searchLandsData("");
   }
 
-  Future allLandList() async {
+  Future allLandList({bool isPagination = false}) async {
     loading.value = true;
+    if (isPagination) {
+      landData.clear();
+    }
     Status.LOADING;
     _api.listlands(
       currentPage.value,

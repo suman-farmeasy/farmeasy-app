@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/map_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/AddLandResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/CropResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/LandPurposeResponse.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/ViewModel/land_view_model.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/View/land_details.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -23,6 +23,19 @@ class LandController extends GetxController {
     super.onInit();
     purposeFunc();
     cropData();
+
+    ever(latiTude, (_) => validateFields());
+    ever(longiTude, (_) => validateFields());
+    ever(landArea, (_) => validateFields());
+    ever(selectedPurposeid, (_) => validateFields());
+    ever(cropAdded, (_) => validateFields());
+    ever(otherCropAddedName, (_) => validateFields());
+
+    addressLine.value.addListener(() => validateFields());
+    city.value.addListener(() => validateFields());
+    state.value.addListener(() => validateFields());
+    county.value.addListener(() => validateFields());
+    landTitleController.value.addListener(() => validateFields());
   }
 
   RxBool useNeverScrollPhysics = true.obs;
@@ -46,13 +59,13 @@ class LandController extends GetxController {
         fontSize: 16.0);
   }
 
-  RxString displayedAddress = ''.obs;
+  RxString displayedAddress = "".obs;
   RxBool isAdded = false.obs;
   RxBool isaddressAdded = false.obs;
   void addAddress() {
     isaddressAdded.value = true;
     displayedAddress.value =
-        "${addressLine.value.text},${city.value.text},${state.value.text},${county.value.text}";
+        "${addressLine.value.text}, ${city.value.text}, ${state.value.text}, ${county.value.text}";
   }
 
   void add() {
@@ -116,16 +129,12 @@ class LandController extends GetxController {
     landtitleValue.value = true;
   }
 
-  RxString selectedUnit = "Select Type".obs;
+  RxString selectedUnit = "Acres".obs;
   RxString selectedleaseUinit = "Months".obs;
   RxString amount = "Select Type".obs;
 
-  RxList<String> units = [
-    "Select Type",
-    "Acres",
-    "Square Meters",
-    "Square Feets",
-  ].obs;
+  RxList<String> units =
+      ["Acres", "Square Meters", "Square Feets", "Hectare", "Bigha"].obs;
   RxList<String> leaseunits = ["Months", "Years"].obs;
   RxList<String> amountType = ["Select Type", '\$', "₹"].obs;
 
@@ -203,6 +212,11 @@ class LandController extends GetxController {
 
   void addselectCrop() {
     isCropValue.value = true;
+    Get.back();
+  }
+
+  void addselectCropfromContainer() {
+    isCropValue.value = true;
   }
 
   void cropAdd() {
@@ -211,8 +225,27 @@ class LandController extends GetxController {
 
   RxList cropAdded = [].obs;
   RxList cropAddedName = [].obs;
+  RxList otherCropAdded = [].obs;
+  RxList otherCropAddedName = [].obs;
 
   // RxInt currentCrop = 0.obs;
+  RxBool areFieldsValid = false.obs;
+
+  void validateFields() {
+    print("Are fields valid: ${otherCropAddedName}");
+    areFieldsValid.value = latiTude.value.isNotEmpty &&
+        longiTude.value.isNotEmpty &&
+        addressLine.value.text.isNotEmpty &&
+        city.value.text.isNotEmpty &&
+        state.value.text.isNotEmpty &&
+        county.value.text.isNotEmpty &&
+        landArea.value.isNotEmpty &&
+        selectedPurposeid.value.isNotEmpty &&
+        (cropAdded.isNotEmpty || otherCropAddedName.isNotEmpty) &&
+        landTitleController.value.text.isNotEmpty;
+
+    print("Are fields valid: ${areFieldsValid.value}");
+  }
 
   /// ADD_LAND
   final _landAddApi = AddLandViewModel();
@@ -240,6 +273,7 @@ class LandController extends GetxController {
           "lease_type": "${lease_type.value}",
           "lease_duration": "${leaseDUration.value}",
           "expected_lease_amount": "${leaseAmount.value}",
+          "other_crops": otherCropAddedName.toList()
         }),
         {
           "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
@@ -247,6 +281,7 @@ class LandController extends GetxController {
         }).then((value) async {
       addLandLoading.value = false;
       rxAddLandRequestStatus(Status.SUCCESS);
+      print(value);
       setAddLanddata(value);
       landId.value = value.result!.id!.toInt();
       addressLine.value.clear();
@@ -254,6 +289,7 @@ class LandController extends GetxController {
       state.value.clear();
       county.value.clear();
       landSize.value.clear();
+      otherCropAddedName.clear();
       mapController.showMap.value = true;
       useNeverScrollPhysics.value = true;
       current.value = -1;
@@ -275,29 +311,17 @@ class LandController extends GetxController {
       print(
           "=============================@@@@@@@@@@@@@@@@@@@@@@@@@@=================                      ${landId}");
       // landData.value.result!.id == ;
-      Get.snackbar(
-        'Message',
-        'Land Added Successfully',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+      showSuccessCustomSnackbar(
+          title: 'Message', message: 'Land Added Successfully');
+
       Get.to(() => LandDetails(id: landId.value));
     }).onError((error, stackTrace) {
       addLandLoading.value = false;
-      Get.snackbar(
-        'Message',
-        'This field may not be blank.',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
+      showErrorCustomSnackbar(
+        title: 'Message',
+        message: 'This field may not be blank.',
       );
+
       print(error);
       print(stackTrace);
     });

@@ -35,6 +35,7 @@ class Result {
   String? minPrice;
   String? maxPrice;
   String? modalPrice;
+  String? images;
 
   Result(
       {this.state,
@@ -46,6 +47,7 @@ class Result {
       this.arrivalDate,
       this.minPrice,
       this.maxPrice,
+      this.images,
       this.modalPrice});
 
   Result.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,7 @@ class Result {
     commodity = json['commodity'];
     variety = json['variety'];
     grade = json['grade'];
+    images = json['image'];
     arrivalDate = json['arrival_date'];
     minPrice = json['min_price'];
     maxPrice = json['max_price'];
@@ -73,6 +76,7 @@ class Result {
     data['min_price'] = this.minPrice;
     data['max_price'] = this.maxPrice;
     data['modal_price'] = this.modalPrice;
+    data['image'] = this.images;
     return data;
   }
 }

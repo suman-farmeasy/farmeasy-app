@@ -1,15 +1,11 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Followers/Followers/Controller/followers_controller.dart';
 import 'package:farm_easy/Screens/Followers/Followings/Controller/follow_unfollow_controller.dart';
-import 'package:farm_easy/Screens/Followers/Followings/Controller/following_controller.dart';
-import 'package:farm_easy/Screens/Threads/View/threads.dart';
 import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FollowersView extends StatefulWidget {
@@ -71,11 +67,22 @@ class _FollowersViewState extends State<FollowersView> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  //
-                                  // Get.to(() => UserProfileScreen(
-                                  //   id: controller.followerslist.value.result?.data![index].followingUserId ?? 0,
-                                  //   userType: controller.followerslist.value.result?.data![index].followingUserType ?? "",
-                                  // ));
+                                  Get.to(() => UserProfileScreen(
+                                        id: controller
+                                                .followerslist
+                                                .value
+                                                .result
+                                                ?.data![index]
+                                                .followerUserId ??
+                                            0,
+                                        userType: controller
+                                                .followerslist
+                                                .value
+                                                .result
+                                                ?.data![index]
+                                                .followerUserType ??
+                                            "",
+                                      ));
                                 },
                                 child: Container(
                                   height:
@@ -84,7 +91,7 @@ class _FollowersViewState extends State<FollowersView> {
                                       MediaQuery.of(context).size.width * 0.17,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.blueGrey,
+                                    color: AppColor.DARK_GREEN.withOpacity(0.2),
                                     image: DecorationImage(
                                       image: NetworkImage(controller
                                               .followerslist
@@ -95,6 +102,26 @@ class _FollowersViewState extends State<FollowersView> {
                                           ""),
                                     ),
                                   ),
+                                  child: controller.followerslist.value.result
+                                              ?.data?[index].followerImage ==
+                                          ""
+                                      ? Center(
+                                          child: Text(
+                                            controller
+                                                    .followerslist
+                                                    .value
+                                                    .result
+                                                    ?.data?[index]
+                                                    .followerName![0]
+                                                    .toUpperCase() ??
+                                                "",
+                                            style: TextStyle(
+                                              fontSize: 26,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
                                 ),
                               ),
                               Container(

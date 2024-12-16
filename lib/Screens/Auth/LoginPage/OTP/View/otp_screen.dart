@@ -1,7 +1,7 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/Controller/auth_controller.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/controller/controller.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/View/login_page.dart';
@@ -57,15 +57,20 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: AppDimension.h * 0.06,
               ),
               Container(child: Center(child: StringConstatnt.OTP_VERIFICATION)),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  "Please enter the code we sent over SMS to",
-                  style: GoogleFonts.poppins(
-                    color: AppColor.BROWN_SUBTEXT,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    height: 0.12,
+              InkWell(
+                onTap: () {
+                  controller.generateAppHash();
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    "Please enter the code we sent over SMS to",
+                    style: GoogleFonts.poppins(
+                      color: AppColor.BROWN_SUBTEXT,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 0.12,
+                    ),
                   ),
                 ),
               ),
@@ -96,8 +101,8 @@ class _OtpScreenState extends State<OtpScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
                 child: Pinput(
-                  controller: controller.otpController,
-                  //  focusNode: controller.focusNode,
+                  controller: controller.otpController.value,
+                  focusNode: controller.focusNode,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   defaultPinTheme: PinTheme(
                     width: MediaQuery.of(context).size.width * 0.13,
@@ -132,57 +137,68 @@ class _OtpScreenState extends State<OtpScreen> {
                   onCompleted: (pin) {
                     controller.otpValue.value = pin;
                     controller.isOtpComplete.value = true;
-
                     print(pin);
                   },
                 ),
               ),
               Obx(() {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                      visible: controller.timerSecondsRemaining.value > 0,
-                      child: Text(
-                        "${controller.timerSecondsRemaining.value}s  ",
-                        style: GoogleFonts.poppins(
-                          color: AppColor.BROWN_TEXT,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 0.10,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: controller.timerSecondsRemaining.value > 0,
+                        child: Text(
+                          "${controller.timerSecondsRemaining.value}s  ",
+                          style: GoogleFonts.poppins(
+                            color: AppColor.BROWN_TEXT,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 0.10,
+                          ),
                         ),
                       ),
-                    ),
-                    controller.timerFinished.value
-                        ? TextButton(
-                            onPressed: () {
-                              resendController.login();
-                            },
-                            child: Text(
-                              "Resend",
+                      controller.timerFinished.value
+                          ? Obx(() {
+                              return InkWell(
+                                onTap: controller.resendAttempts.value < 5
+                                    ? () {
+                                        controller.resendOtp();
+                                      }
+                                    : null, // Disable the button after 5 attempts
+                                child: Text(
+                                  controller.resendAttempts.value < 5
+                                      ? "Resend OTP"
+                                      : "Limit reached",
+                                  style: TextStyle(
+                                    color: controller.resendAttempts.value < 5
+                                        ? AppColor.DARK_GREEN
+                                        : AppColor
+                                            .BROWN_SUBTEXT, // Change color if limit is reached
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            })
+                          : Text(
+                              "before you can resend",
                               style: TextStyle(
-                                color: AppColor.DARK_GREEN,
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
+                                color: AppColor.BROWN_SUBTEXT,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                                 height: 0.10,
                               ),
-                            ))
-                        : Text(
-                            "before you can resend",
-                            style: TextStyle(
-                              color: AppColor.BROWN_SUBTEXT,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              height: 0.10,
                             ),
-                          ),
-                  ],
+                    ],
+                  ),
                 );
               }),
               SizedBox(
-                height: AppDimension.h * 0.3,
+                height: AppDimension.h * 0.15,
               ),
               Obx(
                 () => controller.loading.value
@@ -203,7 +219,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         onTap: () {
                           if (controller.isOtpComplete.value) {
                             print("NEW PIN${controller.otpValue.value}");
-                            controller.varify();
+                            controller.verify();
                           }
                         },
                         child: Container(

@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/HomeScreen/Model/ListAgriProviderResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,15 +23,17 @@ class ListAgriProviderController extends GetxController {
   final loading = false.obs;
   final searchController = TextEditingController();
   RxString searchAgriProvider = "".obs;
-  void searchAgri(String query) {
-    agriProviderData.clear();
+
+  void searchAgri(String query, int id) {
+    agriProviderDataId.clear();
     searchAgriProvider.value = query;
-    agriDataList();
+    // agriDataList();
+    agriDataListId(id);
   }
 
-  void clearSearch() {
+  void clearSearch(int id) {
     searchController.clear();
-    searchAgri("");
+    searchAgri("", id);
   }
 
   RxInt serviceID = 0.obs;

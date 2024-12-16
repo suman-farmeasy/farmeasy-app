@@ -1,8 +1,8 @@
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ListTagsResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ThreadCreatedResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ThreadsImageResponseModel.dart';
-import 'package:farm_easy/API/Services/network/network_api_services.dart';
+import 'package:farm_easy/Services/network/network_api_services.dart';
 
 class CreateThreadsViewModel {
   final _api = NetworkApiServices();
@@ -18,6 +18,14 @@ class ListTagsViewModel {
   final _api = NetworkApiServices();
   Future<ListTagsResponseModel> listTags() async {
     dynamic response = await _api.getApi(ApiUrls.TAGS_LIST, false, {});
+    return ListTagsResponseModel.fromJson(response);
+  }
+}
+
+class ListNewTagsViewModel {
+  final _api = NetworkApiServices();
+  Future<ListTagsResponseModel> listTags() async {
+    dynamic response = await _api.getApi(ApiUrls.TAGS_NEW_LIST, false, {});
     return ListTagsResponseModel.fromJson(response);
   }
 }

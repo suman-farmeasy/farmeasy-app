@@ -1,15 +1,18 @@
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/land_weather_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandDetailsResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/ViewModel/land_info_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-
-import 'package:http/http.dart';
 
 class LandInfoController extends GetxController {
+  var currentDistance = 100.obs; // Initial distance
+
+  // Update distance based on slider value
+  void updateDistance(double value) {
+    currentDistance.value = value.toInt();
+  }
+
   RxInt select = 0.obs;
   RxBool containerVisible = true.obs;
   RxBool waterSourceVisible = true.obs;
@@ -37,12 +40,12 @@ class LandInfoController extends GetxController {
   void setRxlandDetails(Status _value) => rxlandDetailsLoading.value = _value;
   void setRxLandDetailsData(LandDetailsResponseModel _value) =>
       landDetailsData.value = _value;
-  Future<void> getLandDetails() async {
+  Future<void> getLandDetails(int landId) async {
     landDetailsLoading.value = true;
     _api.landInfo({
       "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
       "Content-Type": "application/json"
-    }, landId.value).then((value) {
+    }, landId).then((value) {
       landDetailsLoading.value = false;
       setRxLandDetailsData(value);
       final weatherController = Get.find<LandWeatherController>();

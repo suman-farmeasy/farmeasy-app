@@ -1,10 +1,11 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/crop_suggestion_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/land_controller.dart';
+import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/listother_crop.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/map_controller.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -25,6 +26,7 @@ class _AddLandState extends State<AddLand> {
   final controller = Get.put(LandController());
   final mapcontroller = Get.put(MapController());
   final chatgptCropController = Get.put(ChatGPTCropSuggestionController());
+  final otherCropController = Get.put(ListOthersCropController());
   final _formKey = GlobalKey<FormState>();
   final _landSize = GlobalKey<FormState>();
   final _landlease = GlobalKey<FormState>();
@@ -176,12 +178,23 @@ class _AddLandState extends State<AddLand> {
                                                   },
                                                   initialCameraPosition:
                                                       mapcontroller
-                                                              .initialCameraPosition
-                                                              .value ??
-                                                          CameraPosition(
-                                                              target:
-                                                                  LatLng(0, 0),
-                                                              zoom: 15),
+                                                                  .pinnedLocation
+                                                                  .value !=
+                                                              null
+                                                          ? CameraPosition(
+                                                              target: mapcontroller
+                                                                  .pinnedLocation
+                                                                  .value!,
+                                                              zoom: 15,
+                                                            )
+                                                          : mapcontroller
+                                                                  .initialCameraPosition
+                                                                  .value ??
+                                                              CameraPosition(
+                                                                target: LatLng(
+                                                                    0, 0),
+                                                                zoom: 15,
+                                                              ),
                                                   myLocationEnabled: true,
                                                   mapType: MapType.hybrid,
                                                   myLocationButtonEnabled: true,
@@ -189,45 +202,45 @@ class _AddLandState extends State<AddLand> {
                                                   markers: {
                                                     mapcontroller
                                                         .currentLocationMarker
-                                                        .value!
+                                                        .value!,
                                                   },
-                                                  //  polygons: mapcontroller.polygons.toSet(),
                                                   onTap:
                                                       (LatLng position) async {
                                                     List<Placemark> placemarks =
                                                         await placemarkFromCoordinates(
                                                             position.latitude,
                                                             position.longitude);
-                                                    if (placemarks != null &&
-                                                        placemarks.isNotEmpty) {
+
+                                                    if (placemarks.isNotEmpty) {
                                                       Placemark placemark =
                                                           placemarks.first;
                                                       String streetName =
                                                           "${placemark.thoroughfare} ${placemark.subThoroughfare}";
                                                       String address =
                                                           "$streetName, ${placemark.subLocality}, ${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
+
+                                                      // Save full address and location
                                                       mapcontroller.fullAddress
                                                           .value = address;
+                                                      mapcontroller
+                                                          .pinnedLocation
+                                                          .value = position;
+
+                                                      // Update the address fields
                                                       controller
                                                           .addressLine
                                                           .value
                                                           .text = streetName;
-                                                      print(
-                                                          "===================================${mapcontroller.fullAddress.value}");
                                                       controller.state.value
                                                               .text =
                                                           placemark
-                                                              .administrativeArea
-                                                              .toString();
-
+                                                              .administrativeArea!;
                                                       controller
                                                               .city.value.text =
-                                                          placemark.locality
-                                                              .toString();
+                                                          placemark.locality!;
                                                       controller.county.value
                                                               .text =
-                                                          placemark.country
-                                                              .toString();
+                                                          placemark.country!;
                                                       controller
                                                               .longiTude.value =
                                                           position.longitude
@@ -236,17 +249,31 @@ class _AddLandState extends State<AddLand> {
                                                               .latiTude.value =
                                                           position.latitude
                                                               .toString();
-                                                      print(
-                                                          "===========LATITUDE===================${controller.latiTude.value}");
-                                                      print(
-                                                          "===========LONGITUDE===================${controller.longiTude.value}");
 
+                                                      // Print logs
                                                       print(
-                                                          "Tapped Location: Latitude: ${position.latitude}, Longitude: ${position.longitude}");
+                                                          "Full address: ${mapcontroller.fullAddress.value}");
+                                                      print(
+                                                          "Latitude: ${controller.latiTude.value}");
+                                                      print(
+                                                          "Longitude: ${controller.longiTude.value}");
+
+                                                      // Update the marker location
+                                                      mapcontroller
+                                                              .currentLocationMarker
+                                                              .value =
+                                                          mapcontroller
+                                                              .currentLocationMarker
+                                                              .value
+                                                              ?.copyWith(
+                                                                  positionParam:
+                                                                      position);
                                                     } else {
                                                       print(
                                                           "Location not found");
                                                     }
+
+                                                    // Add position to drawnPolygon and create the polygon
                                                     mapcontroller.drawnPolygon
                                                         .add(position);
                                                     if (mapcontroller
@@ -269,15 +296,6 @@ class _AddLandState extends State<AddLand> {
                                                         ),
                                                       );
                                                     }
-                                                    mapcontroller
-                                                            .currentLocationMarker
-                                                            .value =
-                                                        mapcontroller
-                                                            .currentLocationMarker
-                                                            .value
-                                                            ?.copyWith(
-                                                      positionParam: position,
-                                                    );
                                                   },
                                                 ),
                                                 Container(
@@ -388,26 +406,39 @@ class _AddLandState extends State<AddLand> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 120),
                                     child: InkWell(
-                                      onTap: () {
-                                        controller.useNeverScrollPhysics.value =
-                                            !controller
-                                                .useNeverScrollPhysics.value;
-                                        mapcontroller.showMap.value = false;
-                                        controller.displayedAddress.value =
-                                            mapcontroller.fullAddress.value;
-                                        // controller.addAddress();
-                                        controller.isAdded.value = true;
-                                        chatgptCropController.cropSuggestion(
-                                            controller.city.value.text,
-                                            controller.state.value.text,
-                                            controller.county.value.text);
-                                        print(
-                                            "CITY:: ${controller.city.value.text}");
-                                        print(
-                                            "STATE:: ${controller.state.value.text}");
-                                        print(
-                                            "Country:: ${controller.county.value.text}");
-                                      },
+                                      onTap: controller.latiTude.value == ""
+                                          ? () {}
+                                          : () {
+                                              controller.useNeverScrollPhysics
+                                                      .value =
+                                                  !controller
+                                                      .useNeverScrollPhysics
+                                                      .value;
+                                              mapcontroller.showMap.value =
+                                                  false;
+                                              controller
+                                                      .displayedAddress.value =
+                                                  mapcontroller
+                                                      .fullAddress.value;
+                                              // controller.addAddress();
+                                              controller.isAdded.value = true;
+                                              controller
+                                                  .addressLine.value.text = "";
+                                              chatgptCropController
+                                                  .cropSuggestion(
+                                                      controller
+                                                          .city.value.text,
+                                                      controller
+                                                          .state.value.text,
+                                                      controller
+                                                          .county.value.text);
+                                              print(
+                                                  "CITY:: ${controller.city.value.text}");
+                                              print(
+                                                  "STATE:: ${controller.state.value.text}");
+                                              print(
+                                                  "Country:: ${controller.county.value.text}");
+                                            },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                           vertical: 15,
@@ -951,7 +982,7 @@ class _AddLandState extends State<AddLand> {
                                             TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'Land Size',
+                                                  text: 'Land Nickname',
                                                   style: GoogleFonts.poppins(
                                                     color: Color(0xFF919191),
                                                     fontSize: 12,
@@ -1035,7 +1066,7 @@ class _AddLandState extends State<AddLand> {
                                       TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: 'Land Title',
+                                            text: 'Land Nickname',
                                             style: GoogleFonts.poppins(
                                               color: Color(0xFF272727),
                                               fontSize: 14,
@@ -1083,7 +1114,7 @@ class _AddLandState extends State<AddLand> {
                                                 controller: controller
                                                     .landTitleController.value,
                                                 decoration: InputDecoration(
-                                                  hintText: 'Land Title',
+                                                  hintText: 'Land Nickname',
                                                   hintStyle:
                                                       GoogleFonts.poppins(
                                                     color: Color(0x994F4F4F),
@@ -1095,7 +1126,7 @@ class _AddLandState extends State<AddLand> {
                                                 ),
                                                 validator: (value) {
                                                   if (value!.isEmpty) {
-                                                    return 'enter the land size';
+                                                    return 'Enter nickname';
                                                   }
                                                   {
                                                     return null;
@@ -1109,40 +1140,51 @@ class _AddLandState extends State<AddLand> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 120),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 3,
-                                        ),
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: AppColor.DARK_GREEN,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (_landTitle.currentState!
+                                              .validate()) {
+                                            controller.addTitle();
+                                          }
+                                          {
+                                            return null;
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 3,
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: TextButton(
-                                              onPressed: () {
-                                                if (_landTitle.currentState!
-                                                    .validate()) {
-                                                  controller.addTitle();
-                                                }
-                                                {
-                                                  return null;
-                                                }
-                                              },
-                                              child: Text(
-                                                'Add ',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 0,
-                                                ),
-                                              )),
+                                          margin: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: AppColor.DARK_GREEN,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  if (_landTitle.currentState!
+                                                      .validate()) {
+                                                    controller.addTitle();
+                                                  }
+                                                  {
+                                                    return null;
+                                                  }
+                                                },
+                                                child: Text(
+                                                  'Add ',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                )),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -1169,7 +1211,7 @@ class _AddLandState extends State<AddLand> {
                                     TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: 'Land Title',
+                                          text: 'Land Nickname',
                                           style: GoogleFonts.poppins(
                                             color: Color(0xFF919191),
                                             fontSize: 12,
@@ -1191,7 +1233,7 @@ class _AddLandState extends State<AddLand> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: controller.landtitleValue,
+                                    onPressed: controller.landTitleValue,
                                     child: Text(
                                       'Add',
                                       style: GoogleFonts.poppins(
@@ -1383,7 +1425,7 @@ class _AddLandState extends State<AddLand> {
                                                 ),
                                                 validator: (value) {
                                                   if (value!.isEmpty) {
-                                                    return 'enter the land size';
+                                                    return 'Enter land size';
                                                   }
                                                   {
                                                     return null;
@@ -1435,40 +1477,51 @@ class _AddLandState extends State<AddLand> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 120),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 3,
-                                        ),
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: AppColor.DARK_GREEN,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (_landSize.currentState!
+                                              .validate()) {
+                                            controller.addLand();
+                                          }
+                                          {
+                                            return null;
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 3,
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: TextButton(
-                                              onPressed: () {
-                                                if (_landSize.currentState!
-                                                    .validate()) {
-                                                  controller.addLand();
-                                                }
-                                                {
-                                                  return null;
-                                                }
-                                              },
-                                              child: Text(
-                                                'Add ',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 0,
-                                                ),
-                                              )),
+                                          margin: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: AppColor.DARK_GREEN,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  if (_landSize.currentState!
+                                                      .validate()) {
+                                                    controller.addLand();
+                                                  }
+                                                  {
+                                                    return null;
+                                                  }
+                                                },
+                                                child: Text(
+                                                  'Add ',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                )),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -1758,36 +1811,43 @@ class _AddLandState extends State<AddLand> {
                                     }),
                                     Padding(
                                       padding: EdgeInsets.only(left: 120),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 3,
-                                        ),
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: AppColor.DARK_GREEN,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller.purposeAdded();
+                                          print(
+                                              "============================================================${controller.selectedPurposeName.value}");
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 3,
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: TextButton(
-                                              onPressed: () {
-                                                controller.purposeAdded();
-                                                print(
-                                                    "============================================================${controller.selectedPurposeName.value}");
-                                              },
-                                              child: Text(
-                                                'Add ',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 0,
-                                                ),
-                                              )),
+                                          margin: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: AppColor.DARK_GREEN,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  controller.purposeAdded();
+                                                  print(
+                                                      "============================================================${controller.selectedPurposeName.value}");
+                                                },
+                                                child: Text(
+                                                  'Add ',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                )),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -2138,46 +2198,62 @@ class _AddLandState extends State<AddLand> {
                                               Padding(
                                                 padding:
                                                     EdgeInsets.only(left: 120),
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 3,
-                                                  ),
-                                                  margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                  ),
-                                                  decoration: ShapeDecoration(
-                                                    color: AppColor.DARK_GREEN,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    if (_landlease.currentState!
+                                                        .validate()) {
+                                                      controller.addLease();
+                                                    }
+                                                    {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      vertical: 3,
                                                     ),
-                                                  ),
-                                                  child: Center(
-                                                    child: TextButton(
-                                                        onPressed: () {
-                                                          if (_landlease
-                                                              .currentState!
-                                                              .validate()) {
-                                                            controller
-                                                                .addLease();
-                                                          }
-                                                          {
-                                                            return null;
-                                                          }
-                                                        },
-                                                        child: Text(
-                                                          'Add ',
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 0,
-                                                          ),
-                                                        )),
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                    ),
+                                                    decoration: ShapeDecoration(
+                                                      color:
+                                                          AppColor.DARK_GREEN,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: TextButton(
+                                                          onPressed: () {
+                                                            if (_landlease
+                                                                .currentState!
+                                                                .validate()) {
+                                                              controller
+                                                                  .addLease();
+                                                            }
+                                                            {
+                                                              return null;
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            'Add ',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              height: 0,
+                                                            ),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ),
                                               )
@@ -2433,7 +2509,7 @@ class _AddLandState extends State<AddLand> {
                                                                     AppColor
                                                                         .DARK_GREEN,
                                                                 title: Text(
-                                                                  'Rent',
+                                                                  'Rent/month',
                                                                   style: GoogleFonts
                                                                       .poppins(
                                                                     color: Color(
@@ -2650,41 +2726,53 @@ class _AddLandState extends State<AddLand> {
                                               Padding(
                                                 padding:
                                                     EdgeInsets.only(left: 120),
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 3,
-                                                  ),
-                                                  margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                  ),
-                                                  decoration: ShapeDecoration(
-                                                    color: AppColor.DARK_GREEN,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    print(
+                                                        "LEASE TYPE:::${controller.lease_type.value}");
+                                                    controller.addAmount();
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      vertical: 3,
                                                     ),
-                                                  ),
-                                                  child: Center(
-                                                    child: TextButton(
-                                                        onPressed: () {
-                                                          print(
-                                                              "LEASE TYPE:::${controller.lease_type.value}");
-                                                          controller
-                                                              .addAmount();
-                                                        },
-                                                        child: Text(
-                                                          'Add ',
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 0,
-                                                          ),
-                                                        )),
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                    ),
+                                                    decoration: ShapeDecoration(
+                                                      color:
+                                                          AppColor.DARK_GREEN,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: TextButton(
+                                                          onPressed: () {
+                                                            print(
+                                                                "LEASE TYPE:::${controller.lease_type.value}");
+                                                            controller
+                                                                .addAmount();
+                                                          },
+                                                          child: Text(
+                                                            'Add ',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              height: 0,
+                                                            ),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ),
                                               )
@@ -2812,23 +2900,52 @@ class _AddLandState extends State<AddLand> {
                                           ),
                                         ),
                                         Container(
-                                          width: Get.width * 0.5,
+                                          width: Get.width * 0.53,
                                           child: Wrap(
                                             children: List.generate(
-                                              controller.cropAddedName.length,
-                                              (index) => Container(
-                                                child: Text(
-                                                  "${controller.cropAddedName[index]}, ",
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF272727),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
+                                              controller.cropAddedName.length +
+                                                  controller.otherCropAddedName
+                                                      .length,
+                                              (index) {
+                                                final isCropAddedName = index <
+                                                    controller
+                                                        .cropAddedName.length;
+                                                final cropName = isCropAddedName
+                                                    ? controller
+                                                        .cropAddedName[index]
+                                                    : controller
+                                                            .otherCropAddedName[
+                                                        index -
+                                                            controller
+                                                                .cropAddedName
+                                                                .length];
+
+                                                // Check if it's the last item
+                                                final isLast = index ==
+                                                    (controller.cropAddedName
+                                                            .length +
+                                                        controller
+                                                            .otherCropAddedName
+                                                            .length -
+                                                        1);
+
+                                                return Container(
+                                                  child: Text(
+                                                    isLast
+                                                        ? "$cropName"
+                                                        : "$cropName, ",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Color(0xFF272727),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
+                                                );
+                                              },
                                             ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                     Row(
@@ -2922,13 +3039,14 @@ class _AddLandState extends State<AddLand> {
                                               .rxRequestStatus ==
                                           Status.LOADING) {
                                         return Container(
-                                            margin: EdgeInsets.symmetric(
-                                                vertical: 20),
-                                            child: Center(
-                                              child: CircularProgressIndicator(
-                                                color: AppColor.DARK_GREEN,
-                                              ),
-                                            ));
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              color: AppColor.DARK_GREEN,
+                                            ),
+                                          ),
+                                        );
                                       } else if (chatgptCropController
                                               .rxRequestStatus ==
                                           Status.SUCCESS) {
@@ -2938,55 +3056,258 @@ class _AddLandState extends State<AddLand> {
                                           child: Wrap(
                                             spacing: 10,
                                             children: List.generate(
-                                                chatgptCropController
-                                                    .cropData
-                                                    .value
-                                                    .result!
-                                                    .length, (index) {
-                                              final cropId =
+                                                chatgptCropController.cropData
+                                                        .value.result!.length +
+                                                    1, (index) {
+                                              if (index ==
                                                   chatgptCropController.cropData
-                                                      .value.result![index].id;
-                                              final cropName =
-                                                  chatgptCropController.cropData
-                                                      .value.result![index].name
-                                                      .toString();
-                                              bool isSelected = cropId !=
-                                                      null &&
-                                                  controller.cropAdded
-                                                      .contains(cropId.toInt());
-                                              bool isSelectedName = cropName !=
-                                                      null &&
-                                                  controller.cropAddedName
-                                                      .contains(
-                                                          cropName.toString());
-                                              return InkWell(
-                                                onTap: () {
-                                                  if (cropId != null) {
-                                                    if (isSelected) {
-                                                      controller.cropAdded
-                                                          .remove(cropId);
-                                                    } else {
-                                                      controller.cropAdded
-                                                          .add(cropId);
-                                                    }
-                                                  }
-                                                  if (cropName != null) {
-                                                    if (isSelectedName) {
-                                                      controller.cropAddedName
-                                                          .remove(cropName);
-                                                    } else {
-                                                      controller.cropAddedName
-                                                          .add(cropName);
-                                                    }
-                                                  }
-                                                },
-                                                child: AnimatedContainer(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                                  decoration: BoxDecoration(
+                                                      .value.result!.length) {
+                                                bool isSelected = controller
+                                                    .cropAdded
+                                                    .contains(-1);
+                                                return InkWell(
+                                                  onTap: () {
+                                                    otherCropController
+                                                        .listOtherCrop("");
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      isScrollControlled: true,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      builder: (context) {
+                                                        return Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.7,
+                                                          color: Colors.white,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      15,
+                                                                  vertical: 10),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color:
+                                                                              AppColor.GREY_BORDER),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                    ),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.72,
+                                                                    child:
+                                                                        TextFormField(
+                                                                      controller: otherCropController
+                                                                          .cropController
+                                                                          .value,
+                                                                      onChanged:
+                                                                          (value) {
+                                                                        otherCropController
+                                                                            .listOtherCrop(value); // Call API on every change
+                                                                      },
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Enter Crop",
+                                                                        contentPadding:
+                                                                            EdgeInsets.symmetric(horizontal: 15),
+                                                                        border:
+                                                                            InputBorder.none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Get.back();
+                                                                    },
+                                                                    icon: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      color: AppColor
+                                                                          .DARK_GREEN,
+                                                                      size: 20,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 10),
+                                                              Container(
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.5,
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: Obx(() {
+                                                                  if (otherCropController
+                                                                          .rxRequestStatus ==
+                                                                      Status
+                                                                          .LOADING) {
+                                                                    return Center(
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                      ),
+                                                                    );
+                                                                  } else if (otherCropController
+                                                                          .rxRequestStatus ==
+                                                                      Status
+                                                                          .SUCCESS) {
+                                                                    return SingleChildScrollView(
+                                                                      child:
+                                                                          Wrap(
+                                                                        spacing:
+                                                                            10,
+                                                                        children:
+                                                                            List.generate(
+                                                                          otherCropController
+                                                                              .cropData
+                                                                              .value
+                                                                              .result!
+                                                                              .length,
+                                                                          (index) {
+                                                                            final cropId =
+                                                                                otherCropController.cropData.value.result![index].id;
+                                                                            final cropName =
+                                                                                otherCropController.cropData.value.result![index].name.toString();
+                                                                            bool
+                                                                                isSelected =
+                                                                                cropId != null && controller.otherCropAdded.contains(cropId.toInt());
+                                                                            bool
+                                                                                isSelectedName =
+                                                                                cropName != null && controller.otherCropAddedName.contains(cropName.toString());
+
+                                                                            return InkWell(
+                                                                              onTap: () {
+                                                                                if (cropId != null) {
+                                                                                  if (isSelected) {
+                                                                                    controller.otherCropAdded.remove(cropId);
+                                                                                  } else {
+                                                                                    controller.otherCropAdded.add(cropId);
+                                                                                  }
+                                                                                }
+                                                                                if (cropName != null) {
+                                                                                  if (isSelectedName) {
+                                                                                    controller.otherCropAddedName.remove(cropName);
+                                                                                  } else {
+                                                                                    controller.otherCropAddedName.add(cropName);
+                                                                                  }
+                                                                                }
+                                                                              },
+                                                                              child: AnimatedContainer(
+                                                                                margin: EdgeInsets.symmetric(vertical: 5),
+                                                                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(40),
+                                                                                  border: isSelected ? Border.all(color: AppColor.DARK_GREEN) : Border.all(color: AppColor.GREY_BORDER),
+                                                                                  gradient: isSelected ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
+                                                                                ),
+                                                                                duration: Duration(milliseconds: 200),
+                                                                                child: Text(cropName),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    return Container();
+                                                                  }
+                                                                }),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  controller
+                                                                      .addselectCrop();
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .symmetric(
+                                                                    vertical: 3,
+                                                                  ),
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                  ),
+                                                                  decoration:
+                                                                      ShapeDecoration(
+                                                                    color: AppColor
+                                                                        .DARK_GREEN,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                    ),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: TextButton(
+                                                                        onPressed: controller.addselectCrop,
+                                                                        child: Text(
+                                                                          'Add ',
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                          ),
+                                                                        )),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+
+//                                                     if (isSelected) {
+//                                                       controller.cropAdded
+//                                                           .remove(-1);
+// //controller.cropAddedName.remove("Others");
+//                                                     } else {
+//                                                       controller.cropAdded
+//                                                           .add(-1);
+//                                                       //  controller.cropAddedName.add("Others");
+//                                                     }
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10,
+                                                            horizontal: 10),
+                                                    decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               40),
@@ -3001,13 +3322,90 @@ class _AddLandState extends State<AddLand> {
                                                           ? AppColor
                                                               .PRIMARY_GRADIENT
                                                           : AppColor
-                                                              .WHITE_GRADIENT),
-                                                  duration: Duration(
-                                                      milliseconds: 10),
-                                                  child: Text(
-                                                      "${chatgptCropController.cropData.value.result![index].name.toString()}"),
-                                                ),
-                                              );
+                                                              .WHITE_GRADIENT,
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 200),
+                                                    child: Text("Others"),
+                                                  ),
+                                                );
+                                              } else {
+                                                final cropId =
+                                                    chatgptCropController
+                                                        .cropData
+                                                        .value
+                                                        .result![index]
+                                                        .id;
+                                                final cropName =
+                                                    chatgptCropController
+                                                        .cropData
+                                                        .value
+                                                        .result![index]
+                                                        .name
+                                                        .toString();
+                                                bool isSelected =
+                                                    cropId != null &&
+                                                        controller.cropAdded
+                                                            .contains(
+                                                                cropId.toInt());
+                                                bool isSelectedName =
+                                                    cropName != null &&
+                                                        controller.cropAddedName
+                                                            .contains(cropName
+                                                                .toString());
+
+                                                return InkWell(
+                                                  onTap: () {
+                                                    if (cropId != null) {
+                                                      if (isSelected) {
+                                                        controller.cropAdded
+                                                            .remove(cropId);
+                                                      } else {
+                                                        controller.cropAdded
+                                                            .add(cropId);
+                                                      }
+                                                    }
+                                                    if (cropName != null) {
+                                                      if (isSelectedName) {
+                                                        controller.cropAddedName
+                                                            .remove(cropName);
+                                                      } else {
+                                                        controller.cropAddedName
+                                                            .add(cropName);
+                                                      }
+                                                    }
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10,
+                                                            horizontal: 10),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40),
+                                                      border: isSelected
+                                                          ? Border.all(
+                                                              color: AppColor
+                                                                  .DARK_GREEN)
+                                                          : Border.all(
+                                                              color: AppColor
+                                                                  .GREY_BORDER),
+                                                      gradient: isSelected
+                                                          ? AppColor
+                                                              .PRIMARY_GRADIENT
+                                                          : AppColor
+                                                              .WHITE_GRADIENT,
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 200),
+                                                    child: Text(cropName),
+                                                  ),
+                                                );
+                                              }
                                             }),
                                           ),
                                         );
@@ -3017,33 +3415,37 @@ class _AddLandState extends State<AddLand> {
                                     }),
                                     Padding(
                                       padding: EdgeInsets.only(left: 120),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 3,
-                                        ),
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: AppColor.DARK_GREEN,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child: InkWell(
+                                        onTap: controller
+                                            .addselectCropfromContainer,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 3,
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: TextButton(
-                                              onPressed:
-                                                  controller.addselectCrop,
-                                              child: Text(
-                                                'Add ',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 0,
-                                                ),
-                                              )),
+                                          margin: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: AppColor.DARK_GREEN,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: TextButton(
+                                                onPressed: controller
+                                                    .addselectCropfromContainer,
+                                                child: Text(
+                                                  'Add ',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                )),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -3185,60 +3587,69 @@ class _AddLandState extends State<AddLand> {
             );
           }),
         ),
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          height: Get.height * 0.08,
-          child: Obx(() {
-            return controller.addLandLoading.value
-                ? Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 3,
-                    ),
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColor.DARK_GREEN)),
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      color: AppColor.DARK_GREEN,
-                    )),
-                  )
-                : InkWell(
-                    onTap: () {
-                      controller.addLandData();
-                    },
-                    child: Container(
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            height: Get.height * 0.08,
+            child: Obx(() {
+              return controller.addLandLoading.value &&
+                      controller.areFieldsValid.value
+                  ? Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 3,
                       ),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      decoration: ShapeDecoration(
-                        color: AppColor.DARK_GREEN,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
                       ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColor.DARK_GREEN)),
                       child: Center(
-                        child: TextButton(
-                            onPressed: () {
+                          child: CircularProgressIndicator(
+                        color: AppColor.DARK_GREEN,
+                      )),
+                    )
+                  : GestureDetector(
+                      onTap: controller.areFieldsValid.value == false
+                          ? () {}
+                          : () {
                               controller.addLandData();
                             },
-                            child: Text(
-                              'Proceed ',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                height: 0,
-                              ),
-                            )),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 3,
+                        ),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        decoration: ShapeDecoration(
+                          color: controller.areFieldsValid.value
+                              ? AppColor.DARK_GREEN
+                              : AppColor.DARK_GREEN.withOpacity(0.4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Center(
+                          child: TextButton(
+                              onPressed:
+                                  controller.areFieldsValid.value == false
+                                      ? () {}
+                                      : () {
+                                          controller.addLandData();
+                                        },
+                              child: Text(
+                                'Proceed ',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
+                              )),
+                        ),
                       ),
-                    ),
-                  );
-          }),
+                    );
+            }),
+          ),
         ),
       ),
     );

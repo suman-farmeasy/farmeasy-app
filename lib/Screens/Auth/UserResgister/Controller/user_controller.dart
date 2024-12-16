@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Screens/Auth/UserResgister/Controller/partner_services_list.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/select_corp.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/AgriProviderResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/CreateUserResponseModel.dart';
@@ -11,9 +11,8 @@ import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/agri_provider_res
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/create_user_view_model.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/farmer_experties_view_model.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
-import 'package:farm_easy/Screens/Partners/Controller/partner_services_controller.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +20,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class UserController extends GetxController {
+  FocusNode focusNode = FocusNode();
+  FocusNode focusNodeName = FocusNode();
   RxString cityValue = ''.obs;
   RxString stateValue = ''.obs;
   RxString countryValue = ''.obs;
@@ -75,25 +76,29 @@ class UserController extends GetxController {
 
   RxString servicableAreaName = ''.obs;
   RxInt servicableAreaId = 0.obs;
-  FocusNode focusNode = FocusNode();
+  // FocusNode focusNode = FocusNode();
   final cropcontroller = Get.put(FarmerCrops());
+  final _apiService = ServiceAreaViewModel();
+  final loadingService = false.obs;
+  final serviceData = ServiceableAreaResponseModel().obs;
+  void setRequestStatusService(Status _value) =>
+      rxRequestStatusService.value = _value;
+  void setCreateUserDataService(ServiceableAreaResponseModel _value) =>
+      serviceData.value = _value;
+  final rxRequestStatusService = Status.LOADING.obs;
 
   ///FOR_LANDOWNER
   final _api = CreateUserViewModel();
-  final _apiService = ServiceAreaViewModel();
+
   final loading = false.obs;
-  final loadingService = false.obs;
+
   final createUserData = CreateUserResponseModel().obs;
-  final serviceData = ServiceableAreaResponseModel().obs;
   final rxRequestStatus = Status.LOADING.obs;
-  final rxRequestStatusService = Status.LOADING.obs;
   void setRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void setRequestStatusService(Status _value) =>
-      rxRequestStatusService.value = _value;
+
   void setCreateUserData(CreateUserResponseModel _value) =>
       createUserData.value = _value;
-  void setCreateUserDataService(ServiceableAreaResponseModel _value) =>
-      serviceData.value = _value;
+
   final AppPreferences _prefs = AppPreferences();
 
   ///FOR_LANDOWNER
@@ -112,23 +117,23 @@ class UserController extends GetxController {
       "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}'
     }).then((value) async {
       await _prefs.setUserName(nameController.value.text ?? "");
-      Get.snackbar(
-        'Message',
-        'Registeration Successfull',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+      // Get.snackbar(
+      //   'Message',
+      //   'Registeration Successfull',
+      //   snackPosition: SnackPosition.TOP,
+      //   duration: Duration(seconds: 3),
+      //   colorText: Colors.black,
+      //   instantInit: true,
+      //   backgroundGradient: AppColor.PRIMARY_GRADIENT,
+      //   maxWidth: double.infinity,
+      // );
       Get.offAll(() => DashBoard());
     }).onError((error, stackTrace) {});
   }
 
-  Future servicesArea() async {
+  Future servicesArea(String url) async {
     loading.value = true;
-    _apiService.agriProvider().then((value) async {
+    _apiService.agriProvider(url).then((value) async {
       loading.value = false;
       setCreateUserDataService(value);
     }).onError((error, stackTrace) {
@@ -156,16 +161,16 @@ class UserController extends GetxController {
           "Content-Type": "application/json"
         }).then((value) async {
       _prefs.setUserName(nameController.value.text ?? "");
-      Get.snackbar(
-        'Message',
-        'Registeration Successfull',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+      // Get.snackbar(
+      //   'Message',
+      //   'Registeration Successfull',
+      //   snackPosition: SnackPosition.TOP,
+      //   duration: Duration(seconds: 3),
+      //   colorText: Colors.black,
+      //   instantInit: true,
+      //   backgroundGradient: AppColor.PRIMARY_GRADIENT,
+      //   maxWidth: double.infinity,
+      // );
       Get.offAll(() => DashBoard());
     }).onError((error, stackTrace) {
       print(error);
@@ -173,7 +178,7 @@ class UserController extends GetxController {
     });
   }
 
-  final serviceController = Get.put(PartnerServicesController());
+  final serviceController = Get.put(PartnerServicesList());
 
   ///FOR_AGRI_PROVIDER
   Future agriProvider() async {
@@ -197,16 +202,7 @@ class UserController extends GetxController {
           "Content-Type": "application/json"
         }).then((value) async {
       _prefs.setUserName(nameController.value.text ?? "");
-      Get.snackbar(
-        'Message',
-        'Registeration Successfull',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+
       Get.offAll(() => DashBoard());
     }).onError((error, stackTrace) {});
   }
@@ -216,8 +212,8 @@ class UserController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     print("on Init Called");
+    focusNodeName.requestFocus();
     farmerExperties();
-    servicesArea();
   }
 
   ///FOR_FARMER_EXPERTIES

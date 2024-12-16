@@ -1,6 +1,5 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Screens/Dashboard/controller/current_location_controller.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/SplashScreen/Controller/splashscreen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,12 +13,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final splashController = Get.put(SplashController());
 
-  final locationCOntroller = Get.put(CurrentLocation());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    locationCOntroller.detectLocation();
   }
 
   @override
@@ -70,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             );
                           },
                           onEnd: () {
-                            splashController.isLogin();
+                            splashController.getVersionCodeAndName();
                             //  print("================================================================${splashController.isLogin()}");
                           },
                         ),

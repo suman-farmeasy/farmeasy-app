@@ -1,7 +1,7 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/Controller/email_controller.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/View/login_page.dart';
 import 'package:flutter/material.dart';
@@ -66,9 +66,7 @@ class _EmailLoginState extends State<EmailLogin> {
                 height: AppDimension.h * 0.02,
               ),
               Container(
-                margin: EdgeInsets.only(left: 20),
-                height: AppDimension.h * 0.07,
-                width: AppDimension.w * 0.85,
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColor.BROWN_SUBTEXT),
@@ -118,12 +116,14 @@ class _EmailLoginState extends State<EmailLogin> {
               SizedBox(
                 height: AppDimension.h * 0.04,
               ),
-              Obx(() {
-                return controller.loading.value
-                    ? Center(
-                        child: Container(
-                          height: AppDimension.h * 0.07,
-                          width: AppDimension.w * 0.85,
+              Center(
+                child: Obx(() {
+                  return controller.loading.value
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 18, horizontal: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: AppColor.DARK_GREEN),
@@ -132,18 +132,18 @@ class _EmailLoginState extends State<EmailLogin> {
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                      )
-                    : InkWell(
-                        onTap: () {
-                          controller.emailFill.value
-                              ? controller.login()
-                              : Container();
-                        },
-                        child: Center(
+                        )
+                      : InkWell(
+                          onTap: () {
+                            controller.emailFill.value
+                                ? controller.login()
+                                : Container();
+                          },
                           child: Container(
-                            height: AppDimension.h * 0.07,
-                            width: AppDimension.w * 0.85,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 18, horizontal: 20),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: controller.emailFill.value
@@ -163,9 +163,9 @@ class _EmailLoginState extends State<EmailLogin> {
                               ),
                             ),
                           ),
-                        ),
-                      );
-              }),
+                        );
+                }),
+              ),
               SizedBox(
                 height: AppDimension.h * 0.03,
               ),

@@ -1,6 +1,6 @@
 import 'package:farm_easy/Screens/MarketPrices/Model/market_List_model.dart';
 import 'package:farm_easy/Screens/MarketPrices/ViewModel/view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,4 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/education_list_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

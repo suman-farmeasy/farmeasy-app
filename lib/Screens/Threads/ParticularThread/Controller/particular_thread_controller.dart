@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/Threads/ParticularThread/Model/thread_response_model.dart';
 import 'package:farm_easy/Screens/Threads/ViewModel/threads_list_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class ParticularThreadController extends GetxController {

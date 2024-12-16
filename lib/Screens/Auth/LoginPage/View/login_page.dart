@@ -1,7 +1,7 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/View/email_login.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/Controller/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -60,15 +60,31 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: AppDimension.h * 0.05,
               ),
-              Text(
-                'Please select country & enter phone number',
-                style: TextStyle(
-                  color: Color(0xFF483C32),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  height: 0.10,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '     Enter your phone number',
+                    style: TextStyle(
+                      color: Color(0xFF483C32),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      height: 0.10,
+                    ),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                      color: Color(0xFF483C32),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      height: 0.10,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: AppDimension.h * 0.02,
@@ -188,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text(
                             "  +91",
                             style: TextStyle(
-                              color: Color(0xFF4F4F4F),
+                              color: Colors.black45,
                               fontSize: 14,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
@@ -200,6 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         width: Get.width * 0.68,
                         child: TextFormField(
+                          focusNode: controller.focusNode,
                           controller: controller.phoneController.value,
                           keyboardType: TextInputType.number,
                           onChanged: (value) {

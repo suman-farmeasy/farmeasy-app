@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 import '../View/chat_gpt.dart';
 
@@ -20,7 +20,7 @@ class ChatGptController extends GetxController {
   }
 
   void getChatGPTData(String userMessage) async {
-    final apiKey = "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"; // Replace this with your API key
+    final apiKey = "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";
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
     final headers = {
       'Content-Type': 'application/json',

@@ -1,12 +1,18 @@
 import 'dart:io';
 
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/update_profile_controller.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -26,22 +32,27 @@ class ProfileController extends GetxController {
     if (pickedFile != null) {
       File? croppedFile = await cropImage(File(pickedFile.path));
       if (croppedFile != null) {
-        setImageFile(croppedFile);
+        // Compress the cropped image
+        File compressedFile = await compressImage(croppedFile);
+
+        setImageFile(compressedFile); // Update state with the compressed image
+
+        // Fetch user role and upload the image based on the role
         String? userRole = await prefs.getUserRole();
+        final updateProfileController = Get.find<UpdateProfileController>();
+
         if (userRole == StringConstatnt.FARMER) {
-          final updateProfileController = Get.find<UpdateProfileController>();
-          await updateProfileController.updateFarmerProfileImage(croppedFile);
+          await updateProfileController
+              .updateFarmerProfileImage(compressedFile);
         } else if (userRole == StringConstatnt.AGRI_PROVIDER) {
-          final updateProfileController = Get.find<UpdateProfileController>();
           await updateProfileController
-              .updateAgriProviderProfileImage(croppedFile);
+              .updateAgriProviderProfileImage(compressedFile);
         } else if (userRole == StringConstatnt.LANDOWNER) {
-          final updateProfileController = Get.find<UpdateProfileController>();
           await updateProfileController
-              .updateLandOwnerProfileImage(croppedFile);
+              .updateLandOwnerProfileImage(compressedFile);
         }
 
-        Get.back();
+        Get.back(); // Close the bottom sheet or screen after uploading
       }
     }
   }
@@ -66,9 +77,61 @@ class ProfileController extends GetxController {
     return croppedFile != null ? File(croppedFile.path) : null;
   }
 
+  Future<File> compressImage(File file) async {
+    final result = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      quality: 50,
+    );
+    // /compressed_image.jpg
+    if (result != null) {
+      final tempDir = Directory.systemTemp;
+      final compressedFile = File(
+          '${tempDir.path}/compressed_image${DateTime.now().millisecondsSinceEpoch}.jpg');
+      print('Compressed file path: ${compressedFile.path}');
+      await compressedFile.writeAsBytes(result);
+      return compressedFile;
+    } else {
+      throw Exception('Image compression failed');
+    }
+  }
+
   void setImageFile(File file) {
     imageFile.value = file;
     update();
+  }
+
+  final getProfile = Get.find<GetProfileController>();
+  Future<void> deleteProfilePic() async {
+    try {
+      String? accessToken = await prefs.getUserAccessToken();
+      if (accessToken == null) {
+        print("Access token is null. Cannot proceed with image deletion.");
+        return;
+      }
+
+      final url = Uri.parse(ApiUrls.REMOVE_PROFILE_IMAGE);
+      print("Deleting profile image with URL: $url");
+
+      // Make the API call
+      final response = await http.patch(
+        url,
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      // Check the response status
+      if (response.statusCode == 200) {
+        print("Image deleted successfully.");
+        getProfile.getProfile(); // Refresh profile data
+      } else {
+        // Log detailed error response
+        print("Failed to delete image. Status code: ${response.statusCode}");
+        print("Reason: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print("Error deleting image: $e");
+    }
   }
 
   void openBottomSheet(BuildContext context) {
@@ -76,7 +139,8 @@ class ProfileController extends GetxController {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: Get.height * 0.13,
+          padding: EdgeInsets.only(top: 30),
+          height: Get.height * 0.43,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -84,33 +148,113 @@ class ProfileController extends GetxController {
             ),
             color: Colors.white,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
-                  pickImage(ImageSource.gallery);
-                },
-                icon: Icon(
-                  CupertinoIcons.photo,
-                  color: AppColor.DARK_GREEN,
-                  size: 40,
+              Text(
+                "Upload Profile Picture",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Color(0xFF484848)),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "This document will be safe and secure and we’re not",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color(0xFF484848).withOpacity(0.7)),
+              ),
+              Text(
+                "going to share anything with anyone.",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color(0xFF484848).withOpacity(0.7)),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickImage(ImageSource.camera);
+                      },
+                      child: buildImageOption(
+                          context, "assets/img/cam.svg", "Open Camera"),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        pickImage(ImageSource.gallery);
+                      },
+                      child: buildImageOption(
+                          context, "assets/img/gal.svg", "Open Gallery"),
+                    ),
+                  ],
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  pickImage(ImageSource.camera);
+              InkWell(
+                onTap: () {
+                  Get.back();
                 },
-                icon: Icon(
-                  CupertinoIcons.camera,
-                  color: AppColor.DARK_GREEN,
-                  size: 40,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.DARK_GREEN),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Back",
+                      style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: AppColor.DARK_GREEN,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget buildImageOption(
+      BuildContext context, String assetPath, String label) {
+    return DottedBorder(
+      borderType: BorderType.RRect,
+      color: Color(0xFFE4E4E4),
+      dashPattern: [2, 4],
+      radius: Radius.circular(12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.12,
+          width: MediaQuery.of(context).size.height * 0.12,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(assetPath),
+                SizedBox(height: 10),
+                Text(
+                  label,
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: Color(0xFF484848)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

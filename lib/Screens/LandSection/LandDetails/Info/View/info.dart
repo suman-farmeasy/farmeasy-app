@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
+import 'package:farm_easy/Screens/LandSection/EditLand/View/edit_land.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Enquiries/Controller/enquiries_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/check_land_details_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/controller.dart';
@@ -21,6 +22,7 @@ import 'package:farm_easy/Screens/LandSection/MatchingAgriProvider/Controller/ag
 import 'package:farm_easy/Screens/LandSection/MatchingAgriProvider/View/matching_agri_provider.dart';
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/Controller/matching_farmer_controller.dart';
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/View/matching_farmer.dart';
+import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
 import 'package:farm_easy/Screens/WeatherScreen/View/weather_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,8 +32,8 @@ import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class InfoView extends StatefulWidget {
-  const InfoView({super.key});
-
+  InfoView({super.key, required this.landId});
+  int landId;
   @override
   State<InfoView> createState() => _InfoViewState();
 }
@@ -54,18 +56,25 @@ class _InfoViewState extends State<InfoView> {
   final controller = Get.put(LandInfoController());
   final currentWeather = Get.put(LandWeatherController());
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    landController.landDetails(widget.landId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.BACKGROUND,
         body: RefreshIndicator(
           color: AppColor.DARK_GREEN,
           onRefresh: () async {
-            await controller.getLandDetails();
-            await landController.landDetails();
+            await controller.getLandDetails(widget.landId);
+            await landController.landDetails(widget.landId);
             await percentageController.percentageIndicator();
             await enqcontroller.enquiriesListData();
-            await farmerController.matchingFarmer();
-            await agriController.getAgriData();
+            await farmerController.matchingFarmer(100);
+            await agriController.getAgriData(100);
             await cropSugestionController.cropSuggestion();
           },
           child: SingleChildScrollView(
@@ -123,7 +132,7 @@ class _InfoViewState extends State<InfoView> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${currentWeather.currentWeatherData.value.main?.temp?.toInt() ?? 0}º',
+                                          '${currentWeather.currentWeatherData.value.main?.feelsLike?.toInt() ?? 0}º',
                                           style: GoogleFonts.poppins(
                                             color: AppColor.BROWN_TEXT,
                                             fontSize: 40,
@@ -232,6 +241,192 @@ class _InfoViewState extends State<InfoView> {
                                     )),
                               );
                             }),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 15),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 20),
+                                                decoration: BoxDecoration(
+                                                    color: AppColor.DARK_GREEN,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(12),
+                                                      topRight:
+                                                          Radius.circular(12),
+                                                    )),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Distance Filter",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: CircleAvatar(
+                                                        radius: 10,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          color: AppColor
+                                                              .DARK_GREEN,
+                                                          size: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Distance",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColor
+                                                                  .BROWN_TEXT),
+                                                    ),
+                                                    Obx(() => Text(
+                                                          "${controller.currentDistance.value} km",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: AppColor
+                                                                      .BROWN_TEXT),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              Obx(
+                                                () => Slider(
+                                                  value: controller
+                                                      .currentDistance.value
+                                                      .toDouble(),
+                                                  min: 100,
+                                                  max: 1000,
+                                                  divisions: (1000 - 100) ~/
+                                                      50, // Calculate divisions
+                                                  label:
+                                                      "${controller.currentDistance.value} km",
+                                                  onChanged: (value) {
+                                                    controller
+                                                        .updateDistance(value);
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  farmerController
+                                                      .matchingFarmer(controller
+                                                          .currentDistance
+                                                          .value);
+                                                  agriController.getAgriData(
+                                                      controller.currentDistance
+                                                          .value);
+
+                                                  setState(() {
+                                                    Get.back();
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                  ),
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 10),
+                                                  decoration: ShapeDecoration(
+                                                    color: AppColor.DARK_GREEN,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Apply Filter ',
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset("assets/img/filter.svg"),
+                                    Text(
+                                      "  Distance Filter",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.BROWN_TEXT,
+                                          fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Obx(() {
                               return Container(
                                 margin: EdgeInsets.only(bottom: 20),
@@ -247,13 +442,194 @@ class _InfoViewState extends State<InfoView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Land Information",
-                                      style: GoogleFonts.poppins(
-                                        color: AppColor.BROWN_TEXT,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "  Land Information   ",
+                                          style: GoogleFonts.poppins(
+                                            color: AppColor.BROWN_TEXT,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            imageController.photos.clear();
+                                            imageController.uploadedIds.clear();
+
+                                            Get.to(() => EditLand(
+                                                  landId: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.landId ??
+                                                      0,
+                                                  nickName: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.landTitle ??
+                                                      "",
+                                                  landSizeData: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.landSizeData
+                                                          ?.area ??
+                                                      "",
+                                                  landSizeDataType: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.landSizeData
+                                                          ?.unit ??
+                                                      "",
+                                                  purposeId: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.purpose
+                                                          ?.id ??
+                                                      0,
+                                                  purposeName: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.purpose
+                                                          ?.name ??
+                                                      "",
+                                                  leaseDuration: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.leaseDurationData
+                                                          ?.duration ??
+                                                      "",
+                                                  leaseDurationType: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.leaseDurationData
+                                                          ?.unit ??
+                                                      "",
+                                                  leaseType: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.leaseType ??
+                                                      "",
+                                                  leaseAmount: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.leaseAmountData
+                                                          ?.amount ??
+                                                      "",
+                                                  leaseAmountValue: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.leaseAmountData
+                                                          ?.unit ??
+                                                      "",
+                                                  cropToGrow: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .cropToGrow! ??
+                                                      [],
+                                                  landType: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .landType
+                                                          ?.id ??
+                                                      0,
+                                                  isWaterAvailable: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .waterSourceAvailable ??
+                                                      true,
+                                                  waterValue: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .waterSource
+                                                          ?.id ??
+                                                      0,
+                                                  isAccommodationAvailable:
+                                                      controller
+                                                              .landDetailsData
+                                                              .value
+                                                              .result!
+                                                              .accomodationAvailable ??
+                                                          true,
+                                                  accommodation: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .accomodation ??
+                                                      "",
+                                                  isEquipmentAvailable: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .equipmentAvailable ??
+                                                      true,
+                                                  equipment: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .equipment ??
+                                                      "",
+                                                  isRoadAccess: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .roadAccess ??
+                                                      true,
+                                                  isFarmedBefore: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .landFarmedBefore ??
+                                                      true,
+                                                  cropGrew: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result!
+                                                          .cropsGrown! ??
+                                                      [],
+                                                  landImages: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.images ??
+                                                      [],
+                                                  certificate: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.certificationDocumnet ??
+                                                      "",
+                                                  isLandCertified: controller
+                                                          .landDetailsData
+                                                          .value
+                                                          .result
+                                                          ?.organicCertification ??
+                                                      true,
+                                                ));
+                                          },
+                                          child: SvgPicture.asset(
+                                              "assets/img/edit_land.svg"),
+                                        )
+                                      ],
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -643,281 +1019,430 @@ class _InfoViewState extends State<InfoView> {
                                             0,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
-                                          return Container(
-                                            margin: EdgeInsets.only(right: 20),
-                                            width: Get.width * 0.8,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                  color: AppColor.GREY_BORDER),
-                                              boxShadow: [AppColor.BOX_SHADOW],
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    width: Get.width * 0.24,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                "${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].image ?? ""}"),
-                                                            fit: BoxFit.cover),
-                                                        color: Colors.black,
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(() => UserProfileScreen(
+                                                  id: farmerController
+                                                          .matchingFarmerData
+                                                          .value
+                                                          .result
+                                                          ?.matchingFarmerList?[
+                                                              index]
+                                                          .userId
+                                                          ?.toInt() ??
+                                                      0,
+                                                  userType: farmerController
+                                                          .matchingFarmerData
+                                                          .value
+                                                          .result
+                                                          ?.matchingFarmerList?[
+                                                              index]
+                                                          .userType ??
+                                                      ""));
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 20),
+                                              width: Get.width * 0.8,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color:
+                                                        AppColor.GREY_BORDER),
+                                                boxShadow: [
+                                                  AppColor.BOX_SHADOW
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.to(() => UserProfileScreen(
+                                                          id: farmerController
+                                                                  .matchingFarmerData
+                                                                  .value
+                                                                  .result
+                                                                  ?.matchingFarmerList?[
+                                                                      index]
+                                                                  .userId
+                                                                  ?.toInt() ??
+                                                              0,
+                                                          userType: farmerController
+                                                                  .matchingFarmerData
+                                                                  .value
+                                                                  .result
+                                                                  ?.matchingFarmerList?[
+                                                                      index]
+                                                                  .userType ??
+                                                              ""));
+                                                    },
+                                                    //farmerController.farmerData
+                                                    child: Container(
+                                                      width: Get.width * 0.25,
+                                                      height: Get.height * 0.16,
+                                                      decoration: BoxDecoration(
+                                                        color: AppColor
+                                                            .DARK_GREEN
+                                                            .withOpacity(0.1),
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        18),
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        18)))),
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      Text(
-                                                        '${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].fullName ?? ""}',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: AppColor
-                                                              .BROWN_TEXT,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  18),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  18),
                                                         ),
+                                                        image: farmerController
+                                                                        .matchingFarmerData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingFarmerList?[
+                                                                            index]
+                                                                        .image !=
+                                                                    null &&
+                                                                farmerController
+                                                                        .matchingFarmerData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingFarmerList?[
+                                                                            index]
+                                                                        .image !=
+                                                                    ""
+                                                            ? DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                  farmerController
+                                                                          .matchingFarmerData
+                                                                          .value
+                                                                          .result
+                                                                          ?.matchingFarmerList?[
+                                                                              index]
+                                                                          .image! ??
+                                                                      "",
+                                                                ),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )
+                                                            : null, // Only apply image if it exists
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                            "assets/farm/locationbrown.svg",
-                                                            width: 14,
-                                                          ),
-                                                          Container(
-                                                            width: Get.width *
-                                                                0.44,
-                                                            child: Text(
-                                                              '  ${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].livesIn ?? ""}',
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Color(
-                                                                    0xFF61646B),
-                                                                fontSize: 8,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                            "assets/farm/brownPort.svg",
-                                                            width: 14,
-                                                          ),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 5),
-                                                            height: 20,
-                                                            width:
-                                                                Get.width * 0.4,
-                                                            child: ListView
-                                                                .builder(
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .horizontal,
-                                                                    itemCount: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[
-                                                                                index]
-                                                                            .expertise!
-                                                                            .length ??
-                                                                        0,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                            experties) {
-                                                                      return Container(
-                                                                        margin: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                5),
-                                                                        padding:
-                                                                            EdgeInsets.symmetric(horizontal: 8),
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(20),
-                                                                            color: Color(0x14167C0C)),
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Text(
-                                                                            '${farmerController.matchingFarmerData.value.result!.matchingFarmerList?[index].expertise![experties].name ?? ""}',
-                                                                            style:
-                                                                                GoogleFonts.poppins(
-                                                                              color: AppColor.DARK_GREEN,
-                                                                              fontSize: 8,
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    }),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Get.to(
-                                                              () => ChatScreen(
-                                                                    landId: controller
-                                                                        .landId
-                                                                        .value,
-                                                                    enquiryId: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .enquiryId
-                                                                            ?.toInt() ??
-                                                                        0,
-                                                                    userId: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .userId
-                                                                            ?.toInt() ??
-                                                                        0,
-                                                                    userType: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .userType ??
-                                                                        "",
-                                                                    userFrom: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .livesIn ??
-                                                                        "",
-                                                                    userName: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .fullName ??
-                                                                        "",
-                                                                    image: farmerController
-                                                                            .matchingFarmerData
-                                                                            .value
-                                                                            .result!
-                                                                            .matchingFarmerList?[index]
-                                                                            .image ??
-                                                                        "",
-                                                                    isEnquiryCreatedByMe:
-                                                                        false,
-                                                                    isEnquiryDisplay:
-                                                                        false,
-                                                                    enquiryData:
-                                                                        "",
-                                                                  ));
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            left: 60,
-                                                          ),
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      15,
-                                                                  vertical: 4),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                            border: Border.all(
-                                                                color: AppColor
-                                                                    .DARK_GREEN,
-                                                                width: 1),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Icon(
-                                                                Icons.call,
-                                                                color: AppColor
-                                                                    .DARK_GREEN,
-                                                                size: 15,
-                                                              ),
-                                                              Text(
-                                                                '  Contact Farmer',
+                                                      child: farmerController
+                                                                      .matchingFarmerData
+                                                                      .value
+                                                                      .result
+                                                                      ?.matchingFarmerList?[
+                                                                          index]
+                                                                      .image ==
+                                                                  null ||
+                                                              farmerController
+                                                                      .matchingFarmerData
+                                                                      .value
+                                                                      .result
+                                                                      ?.matchingFarmerList?[
+                                                                          index]
+                                                                      .image ==
+                                                                  ""
+                                                          ? Center(
+                                                              child: Text(
+                                                                farmerController
+                                                                        .matchingFarmerData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingFarmerList?[
+                                                                            index]
+                                                                        .fullName![
+                                                                            0]
+                                                                        .toUpperCase() ??
+                                                                    "",
                                                                 style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF044D3A),
-                                                                  fontSize: 9,
-                                                                  fontFamily:
-                                                                      'Poppins',
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  fontSize: 50,
+                                                                  color: AppColor
+                                                                      .DARK_GREEN, // Text color contrasting the background
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
-                                                                  height: 0.16,
                                                                 ),
-                                                              )
-                                                            ],
+                                                              ),
+                                                            )
+                                                          : SizedBox(), // Show nothing if image exists
+                                                    ),
+                                                  ),
+                                                  // Container(
+                                                  //     width: Get.width * 0.24,
+                                                  //     decoration: BoxDecoration(
+                                                  //         image: DecorationImage(
+                                                  //             image: NetworkImage(
+                                                  //                 "${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].image ?? ""}"),
+                                                  //             fit: BoxFit.cover),
+                                                  //         color: Colors.black,
+                                                  //         borderRadius:
+                                                  //             BorderRadius.only(
+                                                  //                 bottomLeft: Radius
+                                                  //                     .circular(
+                                                  //                         18),
+                                                  //                 topLeft: Radius
+                                                  //                     .circular(
+                                                  //                         18)))),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Text(
+                                                          '${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].fullName ?? ""}',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .BROWN_TEXT,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/farm/locationbrown.svg",
+                                                              width: 14,
+                                                            ),
+                                                            Container(
+                                                              width: Get.width *
+                                                                  0.44,
+                                                              child: Text(
+                                                                '  ${farmerController.matchingFarmerData.value.result?.matchingFarmerList?[index].livesIn ?? ""}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: Color(
+                                                                      0xFF61646B),
+                                                                  fontSize: 8,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/farm/brownPort.svg",
+                                                              width: 14,
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 5),
+                                                              height: 20,
+                                                              width: Get.width *
+                                                                  0.4,
+                                                              child: ListView
+                                                                  .builder(
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemCount: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[
+                                                                                  index]
+                                                                              .expertise!
+                                                                              .length ??
+                                                                          0,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              experties) {
+                                                                        return Container(
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 5),
+                                                                          padding:
+                                                                              EdgeInsets.symmetric(horizontal: 8),
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20),
+                                                                              color: Color(0x14167C0C)),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              '${farmerController.matchingFarmerData.value.result!.matchingFarmerList?[index].expertise![experties].name ?? ""}',
+                                                                              style: GoogleFonts.poppins(
+                                                                                color: AppColor.DARK_GREEN,
+                                                                                fontSize: 8,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Get.to(
+                                                                () =>
+                                                                    ChatScreen(
+                                                                      landId: controller
+                                                                          .landId
+                                                                          .value,
+                                                                      enquiryId: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .enquiryId
+                                                                              ?.toInt() ??
+                                                                          0,
+                                                                      userId: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .userId
+                                                                              ?.toInt() ??
+                                                                          0,
+                                                                      userType: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .userType ??
+                                                                          "",
+                                                                      userFrom: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .livesIn ??
+                                                                          "",
+                                                                      userName: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .fullName ??
+                                                                          "",
+                                                                      image: farmerController
+                                                                              .matchingFarmerData
+                                                                              .value
+                                                                              .result!
+                                                                              .matchingFarmerList?[index]
+                                                                              .image ??
+                                                                          "",
+                                                                      isEnquiryCreatedByMe:
+                                                                          false,
+                                                                      isEnquiryDisplay:
+                                                                          false,
+                                                                      enquiryData:
+                                                                          "",
+                                                                    ));
+                                                          },
+                                                          child: Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                              left: 60,
+                                                            ),
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        15,
+                                                                    vertical:
+                                                                        4),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              border: Border.all(
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  width: 1),
+                                                            ),
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.call,
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  size: 15,
+                                                                ),
+                                                                Text(
+                                                                  '  Contact Farmer',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFF044D3A),
+                                                                    fontSize: 9,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    height:
+                                                                        0.16,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           );
                                         }),
                                   )
-                                : Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Lottie.asset(
-                                              "assets/lotties/animation.json",
-                                              height: 100,
-                                              width: double.infinity),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                : Obx(() {
+                                    return farmerController.showAnimation.value
+                                        ? Lottie.asset(
+                                            "assets/lotties/animation.json",
+                                            height: 100,
+                                            width: double.infinity,
+                                          )
+                                        : Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 30.0,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                textAlign: TextAlign.center,
+                                                "Use Distance filter to see matching farmers near you",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black45),
+                                              ),
+                                            ),
+                                          );
+                                  }),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -974,270 +1499,399 @@ class _InfoViewState extends State<InfoView> {
                                             0,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
-                                          return Container(
-                                            margin: EdgeInsets.only(right: 20),
-                                            width: AppDimension.w * 0.8,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                  color: AppColor.GREY_BORDER),
-                                              boxShadow: [AppColor.BOX_SHADOW],
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    width: Get.width * 0.25,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                "${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].image ?? ""}"),
-                                                            fit: BoxFit.cover),
-                                                        color: Colors.black,
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.to(() => UserProfileScreen(
+                                                  id: agriController
+                                                          .agriProviderData
+                                                          .value
+                                                          .result
+                                                          ?.matchingAgriServiceProviders?[
+                                                              index]
+                                                          .userId
+                                                          ?.toInt() ??
+                                                      0,
+                                                  userType: agriController
+                                                          .agriProviderData
+                                                          .value
+                                                          .result
+                                                          ?.matchingAgriServiceProviders?[
+                                                              index]
+                                                          .userType ??
+                                                      ""));
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 20),
+                                              width: AppDimension.w * 0.8,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color:
+                                                        AppColor.GREY_BORDER),
+                                                boxShadow: [
+                                                  AppColor.BOX_SHADOW
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.to(() => UserProfileScreen(
+                                                          id: agriController
+                                                                  .agriProviderData
+                                                                  .value
+                                                                  .result
+                                                                  ?.matchingAgriServiceProviders?[
+                                                                      index]
+                                                                  .userId
+                                                                  ?.toInt() ??
+                                                              0,
+                                                          userType: agriController
+                                                                  .agriProviderData
+                                                                  .value
+                                                                  .result
+                                                                  ?.matchingAgriServiceProviders?[
+                                                                      index]
+                                                                  .userType ??
+                                                              ""));
+                                                    },
+                                                    //farmerController.farmerData
+                                                    child: Container(
+                                                      width: Get.width * 0.25,
+                                                      height: Get.height * 0.16,
+                                                      decoration: BoxDecoration(
+                                                        color: AppColor
+                                                            .DARK_GREEN
+                                                            .withOpacity(0.1),
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        18),
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        18)))),
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      Text(
-                                                        '${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].fullName ?? ""}',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: AppColor
-                                                              .BROWN_TEXT,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  18),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  18),
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                            "assets/farm/locationbrown.svg",
-                                                            width: 14,
-                                                          ),
-                                                          Container(
-                                                            width: Get.width *
-                                                                0.45,
-                                                            child: Text(
-                                                              '  ${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].livesIn ?? ""}',
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Color(
-                                                                    0xFF61646B),
-                                                                fontSize: 8,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                        height: 20,
-                                                        width: Get.width * 0.43,
-                                                        child: ListView.builder(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            itemCount: agriController
-                                                                    .agriProviderData
-                                                                    .value
-                                                                    .result
-                                                                    ?.matchingAgriServiceProviders?[
-                                                                        index]
-                                                                    .roles
-                                                                    ?.length ??
-                                                                0,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    indexes) {
-                                                              return Container(
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            5),
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8),
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20),
-                                                                    color: Color(
-                                                                        0x14167C0C)),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    '${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].roles![indexes].name ?? ""}',
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                      color: AppColor
-                                                                          .DARK_GREEN,
-                                                                      fontSize:
-                                                                          8,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      height:
-                                                                          0.22,
-                                                                    ),
-                                                                  ),
+                                                        image: agriController
+                                                                        .agriProviderData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingAgriServiceProviders?[
+                                                                            index]
+                                                                        .image !=
+                                                                    null &&
+                                                                agriController
+                                                                        .agriProviderData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingAgriServiceProviders?[
+                                                                            index]
+                                                                        .image !=
+                                                                    ""
+                                                            ? DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                  agriController
+                                                                          .agriProviderData
+                                                                          .value
+                                                                          .result
+                                                                          ?.matchingAgriServiceProviders?[
+                                                                              index]
+                                                                          .image! ??
+                                                                      "",
                                                                 ),
-                                                              );
-                                                            }),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )
+                                                            : null, // Only apply image if it exists
                                                       ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            left: 80),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 15,
-                                                                vertical: 4),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          border: Border.all(
-                                                              color: AppColor
-                                                                  .DARK_GREEN,
-                                                              width: 1),
-                                                        ),
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            Get.to(
-                                                                () =>
-                                                                    ChatScreen(
-                                                                      landId: agriController
-                                                                          .landId
-                                                                          .value,
-                                                                      enquiryId: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .enquiryId ??
-                                                                          0,
-                                                                      userId: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .userId
-                                                                              ?.toInt() ??
-                                                                          0,
-                                                                      userType: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .userType ??
-                                                                          "",
-                                                                      userFrom: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .livesIn ??
-                                                                          "",
-                                                                      userName: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .fullName ??
-                                                                          "",
-                                                                      image: agriController
-                                                                              .agriProviderData
-                                                                              .value
-                                                                              .result
-                                                                              ?.matchingAgriServiceProviders?[index]
-                                                                              .image ??
-                                                                          "",
-                                                                      isEnquiryCreatedByMe:
-                                                                          false,
-                                                                      isEnquiryDisplay:
-                                                                          false,
-                                                                      enquiryData:
-                                                                          "",
-                                                                    ));
-                                                          },
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Icon(
-                                                                Icons.call,
-                                                                color: AppColor
-                                                                    .DARK_GREEN,
-                                                                size: 15,
-                                                              ),
-                                                              Text(
-                                                                '  Contact ',
+                                                      child: agriController
+                                                                  .agriProviderData
+                                                                  .value
+                                                                  .result
+                                                                  ?.matchingAgriServiceProviders?[
+                                                                      index]
+                                                                  .image ==
+                                                              null
+                                                          ? Center(
+                                                              child: Text(
+                                                                agriController
+                                                                        .agriProviderData
+                                                                        .value
+                                                                        .result
+                                                                        ?.matchingAgriServiceProviders?[
+                                                                            index]
+                                                                        .fullName![
+                                                                            0]
+                                                                        .toUpperCase() ??
+                                                                    "",
                                                                 style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF044D3A),
-                                                                  fontSize: 9,
-                                                                  fontFamily:
-                                                                      'Poppins',
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  fontSize: 50,
+                                                                  color: AppColor
+                                                                      .DARK_GREEN, // Text color contrasting the background
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
-                                                                  height: 0.16,
                                                                 ),
-                                                              )
-                                                            ],
+                                                              ),
+                                                            )
+                                                          : SizedBox(), // Show nothing if image exists
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Text(
+                                                          '${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].fullName ?? ""}',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .BROWN_TEXT,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/farm/locationbrown.svg",
+                                                              width: 14,
+                                                            ),
+                                                            Container(
+                                                              width: Get.width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                '  ${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].livesIn ?? ""}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: Color(
+                                                                      0xFF61646B),
+                                                                  fontSize: 8,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          height: 20,
+                                                          width:
+                                                              Get.width * 0.43,
+                                                          child:
+                                                              ListView.builder(
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemCount: agriController
+                                                                          .agriProviderData
+                                                                          .value
+                                                                          .result
+                                                                          ?.matchingAgriServiceProviders?[
+                                                                              index]
+                                                                          .roles
+                                                                          ?.length ??
+                                                                      0,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          indexes) {
+                                                                    return Container(
+                                                                      margin: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              5),
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              8),
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              20),
+                                                                          color:
+                                                                              Color(0x14167C0C)),
+                                                                      child:
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          '${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].roles![indexes].name ?? ""}',
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            fontSize:
+                                                                                8,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            height:
+                                                                                0.22,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 80),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      15,
+                                                                  vertical: 4),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            border: Border.all(
+                                                                color: AppColor
+                                                                    .DARK_GREEN,
+                                                                width: 1),
+                                                          ),
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              Get.to(() =>
+                                                                  ChatScreen(
+                                                                    landId: agriController
+                                                                        .landId
+                                                                        .value,
+                                                                    enquiryId: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .enquiryId ??
+                                                                        0,
+                                                                    userId: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .userId
+                                                                            ?.toInt() ??
+                                                                        0,
+                                                                    userType: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .userType ??
+                                                                        "",
+                                                                    userFrom: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .livesIn ??
+                                                                        "",
+                                                                    userName: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .fullName ??
+                                                                        "",
+                                                                    image: agriController
+                                                                            .agriProviderData
+                                                                            .value
+                                                                            .result
+                                                                            ?.matchingAgriServiceProviders?[index]
+                                                                            .image ??
+                                                                        "",
+                                                                    isEnquiryCreatedByMe:
+                                                                        false,
+                                                                    isEnquiryDisplay:
+                                                                        false,
+                                                                    enquiryData:
+                                                                        "",
+                                                                  ));
+                                                            },
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.call,
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  size: 15,
+                                                                ),
+                                                                Text(
+                                                                  '  Contact ',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFF044D3A),
+                                                                    fontSize: 9,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    height:
+                                                                        0.16,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           );
                                         }))
-                                : Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Lottie.asset(
-                                              "assets/lotties/animation.json",
-                                              height: 100,
-                                              width: double.infinity),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                : Obx(() {
+                                    return agriController.showAnimation.value
+                                        ? Lottie.asset(
+                                            "assets/lotties/animation.json",
+                                            height: 100,
+                                            width: double.infinity,
+                                          )
+                                        : Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 20.0,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                textAlign: TextAlign.center,
+                                                "TUse Distance filter to see matching partners near you",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black45),
+                                              ),
+                                            ),
+                                          );
+                                  }),
                             Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
@@ -1484,7 +2138,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -1744,7 +2399,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -1819,7 +2475,7 @@ class _InfoViewState extends State<InfoView> {
                                           Align(
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              'Is there space available for farmer accomodation?',
+                                              'Is there space available for farmer accommodation?',
                                               style: GoogleFonts.poppins(
                                                 color: Color(0xFF272727),
                                                 fontSize: 13,
@@ -1913,56 +2569,56 @@ class _InfoViewState extends State<InfoView> {
                                               ),
                                             ],
                                           ),
-                                          Visibility(
-                                            visible: updateLand
-                                                .isAccomodationAvailable.value,
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 15),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color:
-                                                        AppColor.GREY_BORDER),
-                                                boxShadow: [
-                                                  AppColor.BOX_SHADOW
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(18),
-                                              ),
-                                              child: Form(
-                                                key: _accomodationKey,
-                                                child: TextFormField(
-                                                  controller: updateLand
-                                                      .accomodationController
-                                                      .value,
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter the value';
-                                                    }
-                                                    return "";
-                                                  },
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 15,
-                                                              horizontal: 20),
-                                                      hintText:
-                                                          "What’s available?",
-                                                      hintStyle:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0x994F4F4F),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 0.10,
-                                                      ),
-                                                      border: InputBorder.none),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          // Visibility(
+                                          //   visible: updateLand
+                                          //       .isAccomodationAvailable.value,
+                                          //   child: Container(
+                                          //     margin: EdgeInsets.symmetric(
+                                          //         vertical: 15),
+                                          //     decoration: BoxDecoration(
+                                          //       color: Colors.white,
+                                          //       border: Border.all(
+                                          //           color:
+                                          //               AppColor.GREY_BORDER),
+                                          //       boxShadow: [
+                                          //         AppColor.BOX_SHADOW
+                                          //       ],
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(18),
+                                          //     ),
+                                          //     child: Form(
+                                          //       key: _accomodationKey,
+                                          //       child: TextFormField(
+                                          //         controller: updateLand
+                                          //             .accomodationController
+                                          //             .value,
+                                          //         validator: (value) {
+                                          //           if (value!.isEmpty) {
+                                          //             return 'Please enter the value';
+                                          //           }
+                                          //           return "";
+                                          //         },
+                                          //         decoration: InputDecoration(
+                                          //             contentPadding:
+                                          //                 EdgeInsets.symmetric(
+                                          //                     vertical: 15,
+                                          //                     horizontal: 20),
+                                          //             hintText:
+                                          //                 "What’s available?",
+                                          //             hintStyle:
+                                          //                 GoogleFonts.poppins(
+                                          //               color:
+                                          //                   Color(0x994F4F4F),
+                                          //               fontSize: 14,
+                                          //               fontWeight:
+                                          //                   FontWeight.w500,
+                                          //               height: 0.10,
+                                          //             ),
+                                          //             border: InputBorder.none),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           InkWell(
                                             onTap: () async {
                                               updateLand.isAccomodationAvailable
@@ -1980,7 +2636,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -2055,7 +2712,7 @@ class _InfoViewState extends State<InfoView> {
                                           Align(
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              'Do you have any equipment/machines available at your land for farming?',
+                                              'Availability of farm equipment and machine near land.',
                                               style: GoogleFonts.poppins(
                                                 color: Color(0xFF272727),
                                                 fontSize: 13,
@@ -2143,56 +2800,56 @@ class _InfoViewState extends State<InfoView> {
                                               ),
                                             ],
                                           ),
-                                          Visibility(
-                                            visible: updateLand
-                                                .isEquipmentAvailable.value,
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 15),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color:
-                                                        AppColor.GREY_BORDER),
-                                                boxShadow: [
-                                                  AppColor.BOX_SHADOW
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(18),
-                                              ),
-                                              child: Form(
-                                                key: _equipmentKey,
-                                                child: TextFormField(
-                                                  controller: updateLand
-                                                      .equipmentController
-                                                      .value,
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter the value';
-                                                    }
-                                                    return "";
-                                                  },
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 15,
-                                                              horizontal: 20),
-                                                      hintText:
-                                                          "What’s available?",
-                                                      hintStyle:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0x994F4F4F),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 0.10,
-                                                      ),
-                                                      border: InputBorder.none),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          // Visibility(
+                                          //   visible: updateLand
+                                          //       .isEquipmentAvailable.value,
+                                          //   child: Container(
+                                          //     margin: EdgeInsets.symmetric(
+                                          //         vertical: 15),
+                                          //     decoration: BoxDecoration(
+                                          //       color: Colors.white,
+                                          //       border: Border.all(
+                                          //           color:
+                                          //               AppColor.GREY_BORDER),
+                                          //       boxShadow: [
+                                          //         AppColor.BOX_SHADOW
+                                          //       ],
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(18),
+                                          //     ),
+                                          //     child: Form(
+                                          //       key: _equipmentKey,
+                                          //       child: TextFormField(
+                                          //         controller: updateLand
+                                          //             .equipmentController
+                                          //             .value,
+                                          //         validator: (value) {
+                                          //           if (value!.isEmpty) {
+                                          //             return 'Please enter the value';
+                                          //           }
+                                          //           return "";
+                                          //         },
+                                          //         decoration: InputDecoration(
+                                          //             contentPadding:
+                                          //                 EdgeInsets.symmetric(
+                                          //                     vertical: 15,
+                                          //                     horizontal: 20),
+                                          //             hintText:
+                                          //                 "What’s available?",
+                                          //             hintStyle:
+                                          //                 GoogleFonts.poppins(
+                                          //               color:
+                                          //                   Color(0x994F4F4F),
+                                          //               fontSize: 14,
+                                          //               fontWeight:
+                                          //                   FontWeight.w500,
+                                          //               height: 0.10,
+                                          //             ),
+                                          //             border: InputBorder.none),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           InkWell(
                                             onTap: () async {
                                               updateLand.isEquipmentAvailable
@@ -2209,7 +2866,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -2482,7 +3140,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -2648,7 +3307,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                             },
                                             child: Container(
@@ -2699,314 +3359,315 @@ class _InfoViewState extends State<InfoView> {
                                     )
                                   : Container();
                             }),
-                            Obx(() {
-                              return landController.landData.value.result
-                                          ?.isOrganicCertificationAdded ==
-                                      false
-                                  ? Container(
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 20),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: AppColor.GREY_BORDER),
-                                        boxShadow: [AppColor.BOX_SHADOW],
-                                        borderRadius: BorderRadius.circular(18),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              'Is this property certified organic, or does it qualify for organic certification under federal organic regulations?',
-                                              style: GoogleFonts.poppins(
-                                                color: Color(0xFF272727),
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: List.generate(
-                                                450 ~/ 4,
-                                                (index) => Expanded(
-                                                      child: Container(
-                                                        margin: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 12),
-                                                        color: index % 2 == 0
-                                                            ? Colors.transparent
-                                                            : AppColor
-                                                                .GREY_BORDER,
-                                                        height: 1,
-                                                      ),
-                                                    )),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Obx(
-                                                () => Container(
-                                                  width: AppDimension.w * 0.4,
-                                                  child: RadioListTile<bool>(
-                                                    activeColor:
-                                                        AppColor.DARK_GREEN,
-                                                    title: Text(
-                                                      'Yes',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF333333),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    value: true,
-                                                    groupValue: updateLand
-                                                        .isCertified.value,
-                                                    onChanged: (value) {
-                                                      updateLand.isCertified
-                                                          .value = value!;
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                              Obx(
-                                                () => Expanded(
-                                                  child: RadioListTile<bool>(
-                                                    title: Text(
-                                                      'No',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF333333),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    value: false,
-                                                    activeColor:
-                                                        AppColor.DARK_GREEN,
-                                                    groupValue: updateLand
-                                                        .isCertified.value,
-                                                    onChanged: (value) {
-                                                      updateLand.isCertified
-                                                          .value = value!;
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          updateLand.isCertified.value
-                                              ? updateLand.selectedPdf.value !=
-                                                      null
-                                                  ? Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10,
-                                                              horizontal: 10),
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10,
-                                                              horizontal: 10),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18),
-                                                        border: Border.all(
-                                                            color: AppColor
-                                                                .GREY_BORDER),
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      top: 20),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                "assets/logos/doc.svg",
-                                                                width: 30,
-                                                              )),
-                                                          Container(
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        20,
-                                                                    horizontal:
-                                                                        20),
-                                                            child: Text(
-                                                              "${updateLand.selectedPdf.value?.path != null ? updateLand.selectedPdf.value!.path.split('/').last : ''}",
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Color(
-                                                                    0xFF283037),
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : InkWell(
-                                                      onTap: () {
-                                                        updateLand.pickPdf();
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 10,
-                                                                horizontal: 10),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 10,
-                                                                horizontal: 10),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(18),
-                                                          border: Border.all(
-                                                              color: AppColor
-                                                                  .GREY_BORDER),
-                                                        ),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Container(
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            10),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  "assets/logos/doc.svg",
-                                                                  width: 30,
-                                                                )),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          2,
-                                                                      horizontal:
-                                                                          10),
-                                                              child: Text(
-                                                                "Browse document\n",
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: Color(
-                                                                      0xFF283037),
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      bottom:
-                                                                          15),
-                                                              child: Text(
-                                                                "to Upload",
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: Color(
-                                                                      0xFF6E7B89),
-                                                                  fontSize: 10,
-                                                                  height: -0.07,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                              : Container(),
-                                          InkWell(
-                                            onTap: () async {
-                                              updateLand.isCertified.value
-                                                  ? await updateLand
-                                                      .selectedPDF()
-                                                  : await updateLand
-                                                      .certificationValue();
-                                              Future.delayed(
-                                                  const Duration(seconds: 1),
-                                                  () {
-                                                landController.landDetails();
-                                              });
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  left: Get.width * 0.5),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 13,
-                                                      horizontal: 40),
-                                              decoration: ShapeDecoration(
-                                                color: AppColor.DARK_GREEN,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                              ),
-                                              child: updateLand.pdfloading.value
-                                                  ? Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5),
-                                                      height: 15,
-                                                      width: 15,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Colors.white,
-                                                        strokeWidth: 3,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      'Save',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFFFBFBFB),
-                                                        fontSize: 12,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        height: 0,
-                                                      ),
-                                                    ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container();
-                            }),
+                            // Obx(() {
+                            //   return landController.landData.value.result
+                            //               ?.isOrganicCertificationAdded ==
+                            //           false
+                            //       ? Container(
+                            //           margin:
+                            //               EdgeInsets.symmetric(vertical: 20),
+                            //           padding: EdgeInsets.symmetric(
+                            //               vertical: 10, horizontal: 15),
+                            //           decoration: BoxDecoration(
+                            //             color: Colors.white,
+                            //             border: Border.all(
+                            //                 color: AppColor.GREY_BORDER),
+                            //             boxShadow: [AppColor.BOX_SHADOW],
+                            //             borderRadius: BorderRadius.circular(18),
+                            //           ),
+                            //           child: Column(
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             children: [
+                            //               Align(
+                            //                 alignment: Alignment.topLeft,
+                            //                 child: Text(
+                            //                   'Is this property certified organic, or does it qualify for organic certification under federal organic regulations?',
+                            //                   style: GoogleFonts.poppins(
+                            //                     color: Color(0xFF272727),
+                            //                     fontSize: 13,
+                            //                     fontWeight: FontWeight.w500,
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //               Row(
+                            //                 children: List.generate(
+                            //                     450 ~/ 4,
+                            //                     (index) => Expanded(
+                            //                           child: Container(
+                            //                             margin: EdgeInsets
+                            //                                 .symmetric(
+                            //                                     vertical: 12),
+                            //                             color: index % 2 == 0
+                            //                                 ? Colors.transparent
+                            //                                 : AppColor
+                            //                                     .GREY_BORDER,
+                            //                             height: 1,
+                            //                           ),
+                            //                         )),
+                            //               ),
+                            //               Row(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.spaceBetween,
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 children: [
+                            //                   Obx(
+                            //                     () => Container(
+                            //                       width: AppDimension.w * 0.4,
+                            //                       child: RadioListTile<bool>(
+                            //                         activeColor:
+                            //                             AppColor.DARK_GREEN,
+                            //                         title: Text(
+                            //                           'Yes',
+                            //                           style:
+                            //                               GoogleFonts.poppins(
+                            //                             color:
+                            //                                 Color(0xFF333333),
+                            //                             fontSize: 12,
+                            //                             fontWeight:
+                            //                                 FontWeight.w500,
+                            //                           ),
+                            //                         ),
+                            //                         value: true,
+                            //                         groupValue: updateLand
+                            //                             .isCertified.value,
+                            //                         onChanged: (value) {
+                            //                           updateLand.isCertified
+                            //                               .value = value!;
+                            //                         },
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                   Obx(
+                            //                     () => Expanded(
+                            //                       child: RadioListTile<bool>(
+                            //                         title: Text(
+                            //                           'No',
+                            //                           style:
+                            //                               GoogleFonts.poppins(
+                            //                             color:
+                            //                                 Color(0xFF333333),
+                            //                             fontSize: 12,
+                            //                             fontWeight:
+                            //                                 FontWeight.w500,
+                            //                           ),
+                            //                         ),
+                            //                         value: false,
+                            //                         activeColor:
+                            //                             AppColor.DARK_GREEN,
+                            //                         groupValue: updateLand
+                            //                             .isCertified.value,
+                            //                         onChanged: (value) {
+                            //                           updateLand.isCertified
+                            //                               .value = value!;
+                            //                         },
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               updateLand.isCertified.value
+                            //                   ? updateLand.selectedPdf.value !=
+                            //                           null
+                            //                       ? Container(
+                            //                           margin:
+                            //                               EdgeInsets.symmetric(
+                            //                                   vertical: 10,
+                            //                                   horizontal: 10),
+                            //                           padding:
+                            //                               EdgeInsets.symmetric(
+                            //                                   vertical: 10,
+                            //                                   horizontal: 10),
+                            //                           decoration: BoxDecoration(
+                            //                             borderRadius:
+                            //                                 BorderRadius
+                            //                                     .circular(18),
+                            //                             border: Border.all(
+                            //                                 color: AppColor
+                            //                                     .GREY_BORDER),
+                            //                           ),
+                            //                           child: Column(
+                            //                             crossAxisAlignment:
+                            //                                 CrossAxisAlignment
+                            //                                     .center,
+                            //                             children: [
+                            //                               Container(
+                            //                                   margin: EdgeInsets
+                            //                                       .only(
+                            //                                           top: 20),
+                            //                                   child: SvgPicture
+                            //                                       .asset(
+                            //                                     "assets/logos/doc.svg",
+                            //                                     width: 30,
+                            //                                   )),
+                            //                               Container(
+                            //                                 margin: EdgeInsets
+                            //                                     .symmetric(
+                            //                                         vertical:
+                            //                                             20,
+                            //                                         horizontal:
+                            //                                             20),
+                            //                                 child: Text(
+                            //                                   "${updateLand.selectedPdf.value?.path != null ? updateLand.selectedPdf.value!.path.split('/').last : ''}",
+                            //                                   style: GoogleFonts
+                            //                                       .poppins(
+                            //                                     color: Color(
+                            //                                         0xFF283037),
+                            //                                     fontSize: 10,
+                            //                                     fontWeight:
+                            //                                         FontWeight
+                            //                                             .w400,
+                            //                                   ),
+                            //                                 ),
+                            //                               ),
+                            //                             ],
+                            //                           ),
+                            //                         )
+                            //                       : InkWell(
+                            //                           onTap: () {
+                            //                             updateLand.pickPdf();
+                            //                           },
+                            //                           child: Container(
+                            //                             margin: EdgeInsets
+                            //                                 .symmetric(
+                            //                                     vertical: 10,
+                            //                                     horizontal: 10),
+                            //                             padding: EdgeInsets
+                            //                                 .symmetric(
+                            //                                     vertical: 10,
+                            //                                     horizontal: 10),
+                            //                             decoration:
+                            //                                 BoxDecoration(
+                            //                               borderRadius:
+                            //                                   BorderRadius
+                            //                                       .circular(18),
+                            //                               border: Border.all(
+                            //                                   color: AppColor
+                            //                                       .GREY_BORDER),
+                            //                             ),
+                            //                             child: Column(
+                            //                               crossAxisAlignment:
+                            //                                   CrossAxisAlignment
+                            //                                       .center,
+                            //                               children: [
+                            //                                 Container(
+                            //                                     margin: EdgeInsets
+                            //                                         .symmetric(
+                            //                                             vertical:
+                            //                                                 10),
+                            //                                     child:
+                            //                                         SvgPicture
+                            //                                             .asset(
+                            //                                       "assets/logos/doc.svg",
+                            //                                       width: 30,
+                            //                                     )),
+                            //                                 Container(
+                            //                                   margin: EdgeInsets
+                            //                                       .symmetric(
+                            //                                           vertical:
+                            //                                               2,
+                            //                                           horizontal:
+                            //                                               10),
+                            //                                   child: Text(
+                            //                                     "Browse document\n",
+                            //                                     style:
+                            //                                         GoogleFonts
+                            //                                             .poppins(
+                            //                                       color: Color(
+                            //                                           0xFF283037),
+                            //                                       fontSize: 10,
+                            //                                       fontWeight:
+                            //                                           FontWeight
+                            //                                               .w400,
+                            //                                     ),
+                            //                                   ),
+                            //                                 ),
+                            //                                 Container(
+                            //                                   margin: EdgeInsets
+                            //                                       .only(
+                            //                                           bottom:
+                            //                                               15),
+                            //                                   child: Text(
+                            //                                     "to Upload",
+                            //                                     style:
+                            //                                         GoogleFonts
+                            //                                             .poppins(
+                            //                                       color: Color(
+                            //                                           0xFF6E7B89),
+                            //                                       fontSize: 10,
+                            //                                       height: -0.07,
+                            //                                       fontWeight:
+                            //                                           FontWeight
+                            //                                               .w400,
+                            //                                     ),
+                            //                                   ),
+                            //                                 ),
+                            //                               ],
+                            //                             ),
+                            //                           ),
+                            //                         )
+                            //                   : Container(),
+                            //               InkWell(
+                            //                 onTap: () async {
+                            //                   updateLand.isCertified.value
+                            //                       ? await updateLand
+                            //                           .selectedPDF()
+                            //                       : await updateLand
+                            //                           .certificationValue();
+                            //                   Future.delayed(
+                            //                       const Duration(seconds: 1),
+                            //                       () {
+                            //                     landController
+                            //                         .landDetails(widget.landId);
+                            //                   });
+                            //                 },
+                            //                 child: Container(
+                            //                   margin: EdgeInsets.only(
+                            //                       left: Get.width * 0.5),
+                            //                   padding:
+                            //                       const EdgeInsets.symmetric(
+                            //                           vertical: 13,
+                            //                           horizontal: 40),
+                            //                   decoration: ShapeDecoration(
+                            //                     color: AppColor.DARK_GREEN,
+                            //                     shape: RoundedRectangleBorder(
+                            //                         borderRadius:
+                            //                             BorderRadius.circular(
+                            //                                 8)),
+                            //                   ),
+                            //                   child: updateLand.pdfloading.value
+                            //                       ? Container(
+                            //                           margin:
+                            //                               EdgeInsets.symmetric(
+                            //                                   horizontal: 5),
+                            //                           height: 15,
+                            //                           width: 15,
+                            //                           child:
+                            //                               CircularProgressIndicator(
+                            //                             color: Colors.white,
+                            //                             strokeWidth: 3,
+                            //                           ),
+                            //                         )
+                            //                       : Text(
+                            //                           'Save',
+                            //                           style: TextStyle(
+                            //                             color:
+                            //                                 Color(0xFFFBFBFB),
+                            //                             fontSize: 12,
+                            //                             fontFamily: 'Poppins',
+                            //                             fontWeight:
+                            //                                 FontWeight.w600,
+                            //                             height: 0,
+                            //                           ),
+                            //                         ),
+                            //                 ),
+                            //               )
+                            //             ],
+                            //           ),
+                            //         )
+                            //       : Container();
+                            // }),
                             Obx(() {
                               return landController.landData.value.result
                                           ?.isLandPhotoAdded ==
@@ -3210,7 +3871,8 @@ class _InfoViewState extends State<InfoView> {
                                               Future.delayed(
                                                   const Duration(seconds: 1),
                                                   () {
-                                                landController.landDetails();
+                                                landController
+                                                    .landDetails(widget.landId);
                                               });
                                               print(
                                                   "Uploaded IDs: ${imageController.uploadedIds.value}");

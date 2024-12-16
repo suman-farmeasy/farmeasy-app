@@ -1,4 +1,4 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/View/login_page.dart';
 import 'package:farm_easy/Screens/OnboardingScreen/controller/intro_page_controller.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../Utils/Constants/image_constant.dart';
+import '../../../Constants/image_constant.dart';
 
 class IntroductionScreen extends StatefulWidget {
   @override
@@ -53,7 +53,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     children: List.generate(controller.titles.length, (index) {
                       bool isActive = controller.dotPage == index.obs;
                       return AnimatedContainer(
-                        duration: Duration(milliseconds: 500),
+                        duration: Duration(milliseconds: 1),
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         width: isActive ? 10 * 2.5 : 10,
                         height: 10,

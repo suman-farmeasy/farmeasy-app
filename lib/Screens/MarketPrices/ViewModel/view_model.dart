@@ -1,9 +1,9 @@
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/MarketPrices/Model/market_List_model.dart';
 import 'package:farm_easy/Screens/MarketPrices/Model/market_crop_img_data.dart';
 import 'package:farm_easy/Screens/MarketPrices/Model/market_data_response_model.dart';
 import 'package:farm_easy/Screens/MarketPrices/Model/search_comodity_response_model.dart';
-import 'package:farm_easy/API/Services/network/network_api_services.dart';
+import 'package:farm_easy/Services/network/network_api_services.dart';
 
 class MarketPriceViewModel {
   final _api = NetworkApiServices();

@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Controller/add_product_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Controller/product_img_controller.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,8 @@ class _AddProductState extends State<AddProduct> {
                         visible: imageController.photos.length < 3,
                         child: InkWell(
                           onTap: () {
-                            imageController.getImage(ImageSource.gallery);
+                            imageController
+                                .pickMultipleImages(ImageSource.gallery);
                           },
                           child: DottedBorder(
                             borderType: BorderType.RRect,
@@ -230,7 +232,7 @@ class _AddProductState extends State<AddProduct> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Select Crops",
+                                          "Select currency",
                                           style: GoogleFonts.poppins(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -332,11 +334,13 @@ class _AddProductState extends State<AddProduct> {
                               style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF757575CC)),
+                                  color: controller.currency.value == ""
+                                      ? Colors.grey.shade600
+                                      : Colors.black),
                             ),
                           ),
                           Icon(Icons.keyboard_arrow_down_rounded,
-                              color: Color(0xFF757575CC))
+                              color: Colors.grey.shade600)
                         ],
                       ),
                     ),
@@ -362,7 +366,7 @@ class _AddProductState extends State<AddProduct> {
                           hintStyle: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF757575CC)),
+                              color: Colors.grey.shade600),
                           // suffixIcon: Icon(Icons.keyboard_arrow_down_rounded,
                           //     color: Color(0xFF757575CC)),
                           border: InputBorder.none,
@@ -413,7 +417,7 @@ class _AddProductState extends State<AddProduct> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Select Crops",
+                                            "Select Unit",
                                             style: GoogleFonts.poppins(
                                                 color: Colors.white,
                                                 fontSize: 16,
@@ -515,7 +519,9 @@ class _AddProductState extends State<AddProduct> {
                               style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF757575CC)),
+                                  color: controller.unit.value == ""
+                                      ? Colors.grey.shade600
+                                      : Colors.black),
                             ),
                             Icon(Icons.keyboard_arrow_down_rounded,
                                 color: Color(0xFF757575CC))
@@ -543,7 +549,7 @@ class _AddProductState extends State<AddProduct> {
                             hintStyle: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF757575CC)),
+                                color: Colors.grey.shade600),
                             // suffixIcon: Icon(Icons.keyboard_arrow_down_rounded,
                             //     color: Color(0xFF757575CC)),
                             border: InputBorder.none,
@@ -569,51 +575,56 @@ class _AddProductState extends State<AddProduct> {
                   color: AppColor.BROWN_TEXT,
                 ),
               ),
+              SizedBox(
+                height: AppDimension.h * 0.12,
+              ),
+              Obx(() {
+                return GestureDetector(
+                  onTap: () {
+                    controller.productUpload();
+                  },
+                  child: controller.loading.value
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 10),
+                          height: Get.height * 0.06,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColor.DARK_GREEN),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 10),
+                          height: Get.height * 0.06,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColor.DARK_GREEN),
+                          child: Center(
+                            child: Text(
+                              'Add Product/Service',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        ),
+                );
+              })
             ]),
           ),
         ),
-        bottomNavigationBar: Obx(() {
-          return InkWell(
-            onTap: () {
-              controller.productUpload();
-            },
-            child: controller.loading.value
-                ? Container(
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    height: Get.height * 0.06,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColor.DARK_GREEN),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : Container(
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    height: Get.height * 0.06,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColor.DARK_GREEN),
-                    child: Center(
-                      child: Text(
-                        'Add Product/Service',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-          );
-        }),
       ),
     );
   }

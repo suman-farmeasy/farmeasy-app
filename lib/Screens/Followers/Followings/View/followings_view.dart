@@ -1,14 +1,11 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Followers/Followings/Controller/follow_unfollow_controller.dart';
 import 'package:farm_easy/Screens/Followers/Followings/Controller/following_controller.dart';
-import 'package:farm_easy/Screens/Threads/View/threads.dart';
 import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FollowingView extends StatefulWidget {
@@ -36,7 +33,7 @@ class _FollowingViewState extends State<FollowingView> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
-          title: 'Followers',
+          title: 'Following',
         ),
       ),
       body: SingleChildScrollView(
@@ -70,11 +67,23 @@ class _FollowingViewState extends State<FollowingView> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  //
-                                  // Get.to(() => UserProfileScreen(
-                                  //   id: controller.followerslist.value.result?.data![index].followingUserId ?? 0,
-                                  //   userType: controller.followerslist.value.result?.data![index].followingUserType ?? "",
-                                  // ));
+                                  print("CALLED");
+                                  Get.to(() => UserProfileScreen(
+                                        id: controller
+                                                .followerslist
+                                                .value
+                                                .result
+                                                ?.data![index]
+                                                .followingUserId ??
+                                            0,
+                                        userType: controller
+                                                .followerslist
+                                                .value
+                                                .result
+                                                ?.data![index]
+                                                .followingUserType ??
+                                            "",
+                                      ));
                                 },
                                 child: Container(
                                   height:
@@ -83,7 +92,7 @@ class _FollowingViewState extends State<FollowingView> {
                                       MediaQuery.of(context).size.width * 0.17,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.blueGrey,
+                                    color: AppColor.DARK_GREEN.withOpacity(0.2),
                                     image: DecorationImage(
                                       image: NetworkImage(controller
                                               .followerslist
@@ -94,6 +103,30 @@ class _FollowingViewState extends State<FollowingView> {
                                           ""),
                                     ),
                                   ),
+                                  child: controller
+                                              .followerslist
+                                              .value
+                                              .result
+                                              ?.data?[index]
+                                              .followingUserImage ==
+                                          ""
+                                      ? Center(
+                                          child: Text(
+                                            controller
+                                                    .followerslist
+                                                    .value
+                                                    .result
+                                                    ?.data?[index]
+                                                    .followingUserName![0]
+                                                    .toUpperCase() ??
+                                                "",
+                                            style: TextStyle(
+                                              fontSize: 26,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
                                 ),
                               ),
                               Container(

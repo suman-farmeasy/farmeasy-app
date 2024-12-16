@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/AllEnquiries/Model/AllEnquiriesResponseModel.dart';
 import 'package:farm_easy/Screens/AllEnquiries/ViewModel/all_enquireis_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class AllEnquiriesController extends GetxController {
@@ -10,9 +10,10 @@ class AllEnquiriesController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     allEnquiries();
+    print("addff");
   }
 
-  RxList allEnquiriesList = [].obs;
+  RxList<Data> allEnquiriesList = <Data>[].obs;
   RxInt enquiryId = 0.obs;
   RxInt totalPages = 0.obs;
   RxInt currentPage = 1.obs;

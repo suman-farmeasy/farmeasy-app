@@ -1,12 +1,12 @@
 import 'package:farm_easy/Screens/Partners/Model/nearby_partner_view_mdoel.dart';
 import 'package:farm_easy/Screens/Partners/Model/services_model.dart';
 import 'package:farm_easy/Screens/Partners/ViewModel/view_model.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../../../API/Services/network/status.dart';
+import '../../../Services/network/status.dart';
 
 class PartnerServicesController extends GetxController {
   @override
@@ -53,6 +53,12 @@ class PartnerServicesController extends GetxController {
   }
 
   ///Near by
+  var currentDistance = 100.obs; // Initial distance
+
+// Update distance based on slider value
+  void updateDistance(double value) {
+    currentDistance.value = value.toInt();
+  }
 
   final _apiNearby = NearbyPartnerServicesViewModel();
   final nearbyPartner = NearbyPartnersResponseModel().obs;
@@ -63,16 +69,13 @@ class PartnerServicesController extends GetxController {
       rxRequestStatus.value = _value;
   void setRxRequestDataNearby(NearbyPartnersResponseModel _value) =>
       nearbyPartner.value = _value;
-  Future<void> nearbyPartnerServices(int index) async {
+  Future<void> nearbyPartnerServices(
+      int index, String search, int distance) async {
     nearbyLoading.value = true;
-    _apiNearby.nearbyPartner(
-      {
-        "Authorization": 'Bearer ${await prefs.getUserAccessToken()}',
-        "Content-Type": "application/json"
-      },
-      index,
-      searchKeyword.value.text,
-    ).then((value) {
+    _apiNearby.nearbyPartner({
+      "Authorization": 'Bearer ${await prefs.getUserAccessToken()}',
+      "Content-Type": "application/json"
+    }, index, search, distance).then((value) {
       nearbyLoading.value = false;
       setRxRequestDataNearby(value);
       // if (landData.value.result?.data != null) {

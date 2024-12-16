@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/ChatSection/Model/ChatsResponseModel.dart';
 import 'package:farm_easy/Screens/ChatSection/ViewModel/chat_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -73,8 +73,30 @@ class ChatController extends GetxController {
     });
   }
 
+  Future<void> reloadChatsData() async {
+    loading.value = true;
+    _api.chatData(
+      {
+        "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
+        "Content-Type": "application/json"
+      },
+      enquiryId.value,
+      currentPage.value,
+    ).then((value) {
+      loading.value = false;
+      setRxRequestData(value);
+    }).onError((error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    });
+  }
+
   Future<void> fetchChatDataAndUpdateList() async {
     try {
+      // Get the initial scroll offset
+      double initialScrollOffset = scrollController.position.pixels;
+
+      // Fetch new chat data
       final value = await _api.chatData(
         {
           "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
@@ -83,8 +105,17 @@ class ChatController extends GetxController {
         enquiryId.value,
         currentPage.value,
       );
+
+      // Update the chat data list with the new page of messages
       chatData.update((val) {
         val!.result!.data!.addAll(value.result!.data!);
+      });
+
+      // Use a post frame callback to set the scroll position back
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(initialScrollOffset);
+        }
       });
     } catch (error) {
       print(error);

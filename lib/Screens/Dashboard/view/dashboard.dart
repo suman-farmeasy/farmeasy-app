@@ -1,20 +1,22 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/string_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/AllEnquiries/View/all_enquiries.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Directory/View/directory_screen.dart';
 import 'package:farm_easy/Screens/HomeScreen/View/home_screen.dart';
+import 'package:farm_easy/Screens/LandSection/MyLands/View/my_land.dart';
 import 'package:farm_easy/Screens/MoreSection/View/more_section.dart';
-import 'package:farm_easy/Screens/MyLands/View/my_land.dart';
 import 'package:farm_easy/Screens/Partners/View/partner_services.dart';
 import 'package:farm_easy/Screens/Threads/View/threads.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DashBoard extends StatelessWidget {
+  // final int initialIndex;
+  // DashBoard({this.initialIndex = 0});
   final controller = Get.put(DashboardController());
   final prefs = AppPreferences();
   final List<Widget> contentWidgets = [
@@ -29,6 +31,7 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // controller.selectedIndex.value = initialIndex;
     return WillPopScope(
       onWillPop: () async {
         if (controller.selectedIndex.value == 0) {

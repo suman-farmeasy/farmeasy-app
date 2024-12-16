@@ -1,13 +1,20 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/Model/PhonenumberResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/View/otp_screen.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/ViewModel/phonenumber_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    focusNode.requestFocus();
+  }
+
+  FocusNode focusNode = FocusNode();
   final Rx<Country?> selectedCountry = Rx<Country?>(null);
   final phoneController = TextEditingController().obs;
   final RxString displayCountryName = ''.obs;
@@ -47,16 +54,16 @@ class AuthController extends GetxController {
       loading.value = false;
       setRxRequestStatus(Status.SUCCESS);
       setAuthData(value);
-      Get.snackbar(
-        'Message',
-        '${value.result.obs}',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
-      );
+      // Get.snackbar(
+      //   'Message',
+      //   '${value.result.obs}',
+      //   snackPosition: SnackPosition.TOP,
+      //   duration: Duration(seconds: 3),
+      //   colorText: Colors.black,
+      //   instantInit: true,
+      //   backgroundGradient: AppColor.PRIMARY_GRADIENT,
+      //   maxWidth: double.infinity,
+      // );
       Get.to(OtpScreen(
         phoneNumber: '${phoneController.value.text}',
         countryCode: '${countryCode.value}',

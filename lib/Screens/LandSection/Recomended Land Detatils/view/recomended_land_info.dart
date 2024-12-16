@@ -1,10 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
-import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
-import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/View/pdf_viwer.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/Controller/recommended_land_deails_controller.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/Controller/recommended_land_weather.dart';
@@ -50,7 +48,8 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Get.to(() => DashBoard());
+                    Get.back();
+                    // Get.to(() => DashBoard());
                     // final dashboardControllers = Get.find<DashboardController>();
                     // if (dashboardControllers != null) {
                     //   dashboardControllers.homecontroller.landListData();
@@ -126,7 +125,7 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${currentWeather.currentWeatherData.value.main?.temp?.toInt() ?? 0}º',
+                                  '${currentWeather.currentWeatherData.value.main?.feelsLike?.toInt() ?? 0}º',
                                   style: GoogleFonts.poppins(
                                     color: AppColor.BROWN_TEXT,
                                     fontSize: 40,
@@ -232,24 +231,34 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                               margin: EdgeInsets.symmetric(vertical: 20),
                               height: Get.height * 0.25,
                               child: ListView.builder(
-                                  itemCount: controller.landDetails.value.result
-                                          ?.landImages?.length ??
-                                      0,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, img) {
-                                    return Container(
+                                itemCount: controller.landDetails.value.result
+                                        ?.landImages?.length ??
+                                    0,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, img) {
+                                  String imageUrl = controller.landDetails.value
+                                          .result?.landImages?[img].image ??
+                                      "";
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.to(() =>
+                                          ImageViewPage(imageUrl: imageUrl));
+                                    },
+                                    child: Container(
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 10),
                                       width: Get.width * 0.5,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${controller.landDetails.value.result?.landImages?[img].image ?? ""}"),
-                                              fit: BoxFit.cover)),
-                                    );
-                                  }),
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          image: NetworkImage(imageUrl),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             )
                           : Container();
                     }),
@@ -786,7 +795,11 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    '${controller.landDetails.value.result?.landType?.name ?? ""}',
+                                    controller.landDetails.value.result
+                                                ?.landType?.name ==
+                                            ""
+                                        ? "------"
+                                        : '${controller.landDetails.value.result?.landType?.name ?? "-----"}',
                                     style: GoogleFonts.poppins(
                                       color: Color(0xA3044D3A),
                                       fontSize: 10,
@@ -1027,11 +1040,14 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    subtitle: controller.landDetails.value
-                                                .result?.organicCertification ==
-                                            false
+                                    subtitle: controller
+                                                .landDetails
+                                                .value
+                                                .result
+                                                ?.certificationDocumnet ==
+                                            null
                                         ? Text(
-                                            "Not Uploaded",
+                                            "------",
                                             style: GoogleFonts.poppins(
                                               color: Color(0xA3044D3A),
                                               fontSize: 10,
@@ -1047,13 +1063,12 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                                                   ));
                                             },
                                             child: Text(
-                                              "view",
+                                              "View",
                                               style: GoogleFonts.poppins(
-                                                color: Color(0xA3044D3A),
+                                                color: Colors.blue,
                                                 fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                                decoration:
-                                                    TextDecoration.underline,
+                                                fontWeight: FontWeight.bold,
+                                                // decoration: TextDecoration.underline,
                                                 height: 0,
                                               ),
                                             ),
@@ -1068,44 +1083,61 @@ class _RecommendedLandInfoState extends State<RecommendedLandInfo> {
                 );
         }),
       ),
-      bottomNavigationBar: Container(
-        height: Get.height * 0.06,
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        decoration: BoxDecoration(
-          color: AppColor.DARK_GREEN,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: InkWell(
-          onTap: () {
-            Get.to(() => ChatScreen(
-                landId: widget.id,
-                enquiryId: controller.landDetails.value.result?.enquiryId ?? 0,
-                userId: controller.landDetails.value.result?.landOwnerUserId
-                        ?.toInt() ??
-                    0,
-                userName:
-                    controller.landDetails.value.result?.landOwnerName ?? "",
-                userFrom:
-                    controller.landDetails.value.result?.landOwnerLocation ??
-                        "",
-                userType:
-                    controller.landDetails.value.result?.landOwnerUserType ??
-                        "",
-                image:
-                    controller.landDetails.value.result?.landOwnerImage ?? "",
-                enquiryData: "",
-                isEnquiryCreatedByMe: false,
-                isEnquiryDisplay: false));
-          },
-          child: Center(
-            child: Text(
-              'Contact Land Owner',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                height: 0,
-              ),
+      // bottomNavigationBar: Container(
+      //   height: Get.height*0.06,
+      //   margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+      //   decoration: BoxDecoration(
+      //     color: AppColor.DARK_GREEN,
+      //         borderRadius: BorderRadius.circular(10),
+      //   ),
+      //   child: InkWell(
+      //     onTap:(){
+      // Get.to(()=>ChatScreen(
+      // landId: widget.id,
+      // enquiryId: controller.landDetails.value.result?.enquiryId??0,
+      // userId: controller.landDetails.value.result?.landOwnerUserId?.toInt()??0,
+      // userName: controller.landDetails.value.result?.landOwnerName??"",
+      // userFrom: controller.landDetails.value.result?.landOwnerLocation??"",
+      // userType: controller.landDetails.value.result?.landOwnerUserType??"",
+      // image: controller.landDetails.value.result?.landOwnerImage??"",
+      // enquiryData: "",
+      // isEnquiryCreatedByMe: false,
+      // isEnquiryDisplay: false)
+      // );
+      // },
+      //     child: Center(child: Text(
+      //       'Contact Land Owner',
+      //       style: GoogleFonts.poppins(
+      //         color: Colors.white,
+      //         fontSize: 14,
+      //         fontWeight: FontWeight.w600,
+      //         height: 0,
+      //       ),
+      //     ),),
+      //   ),
+      // ),
+    );
+  }
+}
+
+class ImageViewPage extends StatelessWidget {
+  final String imageUrl;
+
+  ImageViewPage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Image View")),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Center(
+          child: SafeArea(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
             ),
           ),
         ),

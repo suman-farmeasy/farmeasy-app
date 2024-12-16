@@ -1,4 +1,4 @@
-import 'package:farm_easy/API/ApiUrls/api_urls.dart';
+import 'package:farm_easy/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/FCMTokenResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/FarmerListResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/LandListResponseModel.dart';
@@ -7,7 +7,8 @@ import 'package:farm_easy/Screens/HomeScreen/Model/crop_details_model.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_fertilizer_data_model.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_search.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/recomended_lands.dart';
-import 'package:farm_easy/API/Services/network/network_api_services.dart';
+import 'package:farm_easy/Screens/HomeScreen/Model/recommended_landowners.dart';
+import 'package:farm_easy/Services/network/network_api_services.dart';
 
 class LandListViewModel {
   final _apiServices = NetworkApiServices();
@@ -20,9 +21,10 @@ class LandListViewModel {
 
 class RecomendedLandViewModel {
   final _apiServices = NetworkApiServices();
-  Future<RecomendedLandResponseModel> landList(var headerMap) async {
-    dynamic response =
-        await _apiServices.getApi(ApiUrls.RECOMENDED_LANDS, true, headerMap);
+  Future<RecomendedLandResponseModel> landList(
+      var headerMap, int distance) async {
+    dynamic response = await _apiServices.getApi(
+        ApiUrls.RECOMENDED_LANDS + '?&distance=$distance', true, headerMap);
     return RecomendedLandResponseModel.fromJson(response);
   }
 }
@@ -49,6 +51,18 @@ class ListFarmerViewModel {
     dynamic response = await _apiServices.getApi(
         ApiUrls.LIST_FARMER + '$currentPage&search=$search', true, headerMap);
     return FarmerListResponseModel.fromJson(response);
+  }
+}
+
+class ListRecommendedLandownersViewModel {
+  final _apiServices = NetworkApiServices();
+  Future<RecommendedLandownersResponseModel> recommendedLandonwers(
+      var headerMap, int currentPage, String search, int distance) async {
+    dynamic response = await _apiServices.getApi(
+        ApiUrls.RECOMMENDED_LANDOWNERS + '?&distance=$distance',
+        true,
+        headerMap);
+    return RecommendedLandownersResponseModel.fromJson(response);
   }
 }
 

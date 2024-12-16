@@ -1,16 +1,19 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/Constants/image_constant.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
+import 'package:farm_easy/Screens/Auth/CompleteProfile/View/complete_profile.dart';
 import 'package:farm_easy/Screens/ChatGpt/View/chat_gpt_start_Screen.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Followers/Followers/view/followers_view.dart';
 import 'package:farm_easy/Screens/Followers/Followings/View/followings_view.dart';
 import 'package:farm_easy/Screens/HomeScreen/Controller/home_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/View/land_details.dart';
-import 'package:farm_easy/Screens/MyLands/View/my_land.dart';
+import 'package:farm_easy/Screens/LandSection/MyLands/View/my_land.dart';
 import 'package:farm_easy/Screens/MyProfile/Controller/review_controller.dart';
+import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -19,7 +22,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({super.key});
-
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
 }
@@ -95,21 +97,51 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   child: Container(
                                     height: Get.height * 0.15,
                                     width: Get.width * 0.32,
-                                    margin:
-                                        EdgeInsets.only(top: 10, bottom: 20),
+                                    margin: EdgeInsets.only(
+                                        top: 10, bottom: 20, left: 20),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.black,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color:
+                                          AppColor.DARK_GREEN.withOpacity(0.2),
+                                    ),
+                                    child: getProfileController.getProfileData
+                                                    .value.result?.image !=
+                                                null &&
+                                            getProfileController.getProfileData
+                                                    .value.result?.image !=
+                                                ""
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
                                               getProfileController
                                                       .getProfileData
                                                       .value
                                                       .result
                                                       ?.image ??
                                                   "",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
                                             ),
-                                            fit: BoxFit.cover)),
+                                          )
+                                        : Center(
+                                            child: Text(
+                                              getProfileController
+                                                      .getProfileData
+                                                      .value
+                                                      .result
+                                                      ?.fullName
+                                                      ?.substring(0, 1)
+                                                      .toUpperCase() ??
+                                                  "",
+                                              style: TextStyle(
+                                                fontSize: 40,
+                                                color: AppColor.DARK_GREEN,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
                                   ),
                                 );
                               }),
@@ -541,75 +573,220 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'Available On',
-                                          style: GoogleFonts.poppins(
-                                            color: Color(0xFF483C32),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            height: 0,
+                                        InkWell(
+                                          onTap: () {
+                                            print("PRINTURL ${instagramUrl}");
+                                          },
+                                          child: Text(
+                                            'Available On',
+                                            style: GoogleFonts.poppins(
+                                              color: Color(0xFF483C32),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              height: 0,
+                                            ),
                                           ),
                                         ),
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            if (instagramUrl != "")
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  final url = instagramUrl;
-                                                  if (await canLaunch(url!)) {
-                                                    await launch(url!);
-                                                  } else {
-                                                    throw 'Could not launch $url';
-                                                  }
-                                                },
-                                                child: SvgPicture.asset(
-                                                  "assets/logos/insta.svg",
-                                                ),
-                                              ),
-                                            if (twitterUrl != null)
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  final url = twitterUrl;
-                                                  if (await canLaunch(url)) {
-                                                    await launch(url);
-                                                  } else {
-                                                    throw 'Could not launch $url';
-                                                  }
-                                                },
-                                                child: SvgPicture.asset(
-                                                  "assets/logos/twitter.svg",
-                                                ),
-                                              ),
-                                            if (facebookUrl != "")
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  final url = facebookUrl;
-                                                  if (await canLaunch(url!)) {
-                                                    await launch(url!);
-                                                  } else {
-                                                    throw 'Could not launch $url';
-                                                  }
-                                                },
-                                                child: SvgPicture.asset(
-                                                  "assets/logos/fb.svg",
-                                                ),
-                                              ),
-                                            if (linkedinUrl != "")
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  final url = linkedinUrl;
-                                                  if (await canLaunch(url!)) {
-                                                    await launch(url);
-                                                  } else {
-                                                    throw 'Could not launch $url';
-                                                  }
-                                                },
-                                                child: SvgPicture.asset(
-                                                  "assets/logos/linkdin.svg",
-                                                ),
-                                              ),
+                                            instagramUrl == null
+                                                ? Container()
+                                                : GestureDetector(
+                                                    onTap: () async {
+                                                      final url = instagramUrl;
+                                                      if (await canLaunch(
+                                                          url!)) {
+                                                        await launch(url!);
+                                                      } else {
+                                                        throw 'Could not launch $url';
+                                                      }
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                      "assets/logos/insta.svg",
+                                                    ),
+                                                  ),
+
+                                            twitterUrl == null
+                                                ? Container()
+                                                : GestureDetector(
+                                                    onTap: () async {
+                                                      final url = twitterUrl;
+                                                      if (await canLaunch(
+                                                          url!)) {
+                                                        await launch(url);
+                                                      } else {
+                                                        throw 'Could not launch $url';
+                                                      }
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                      "assets/logos/twitter.svg",
+                                                    ),
+                                                  ),
+                                            facebookUrl == null
+                                                ? Container()
+                                                : GestureDetector(
+                                                    onTap: () async {
+                                                      final url = facebookUrl;
+                                                      if (await canLaunch(
+                                                          url!)) {
+                                                        await launch(url!);
+                                                      } else {
+                                                        throw 'Could not launch $url';
+                                                      }
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                      "assets/logos/fb.svg",
+                                                    ),
+                                                  ),
+                                            linkedinUrl == null
+                                                ? Container()
+                                                : GestureDetector(
+                                                    onTap: () async {
+                                                      final url = linkedinUrl;
+                                                      if (await canLaunch(
+                                                          url!)) {
+                                                        await launch(url);
+                                                      } else {
+                                                        throw 'Could not launch $url';
+                                                      }
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                      "assets/logos/linkdin.svg",
+                                                    ),
+                                                  ),
+                                            // Obx(() {
+                                            //   return instagramUrl == ""
+                                            //       ? Container()
+                                            //       : GestureDetector(
+                                            //           onTap: () async {
+                                            //             final url =
+                                            //                 instagramUrl;
+                                            //             if (await canLaunch(
+                                            //                 url!)) {
+                                            //               await launch(url!);
+                                            //             } else {
+                                            //               throw 'Could not launch $url';
+                                            //             }
+                                            //           },
+                                            //           child: SvgPicture.asset(
+                                            //             "assets/logos/insta.svg",
+                                            //           ),
+                                            //         );
+                                            // }),
+                                            // Obx(() {
+                                            //   return twitterUrl == ""
+                                            //       ? Container()
+                                            //       : GestureDetector(
+                                            //           onTap: () async {
+                                            //             final url = twitterUrl;
+                                            //             if (await canLaunch(
+                                            //                 url!)) {
+                                            //               await launch(url);
+                                            //             } else {
+                                            //               throw 'Could not launch $url';
+                                            //             }
+                                            //           },
+                                            //           child: SvgPicture.asset(
+                                            //             "assets/logos/twitter.svg",
+                                            //           ),
+                                            //         );
+                                            // }),
+                                            // Obx(() {
+                                            //   return facebookUrl == ""
+                                            //       ? Container()
+                                            //       : GestureDetector(
+                                            //           onTap: () async {
+                                            //             final url = facebookUrl;
+                                            //             if (await canLaunch(
+                                            //                 url!)) {
+                                            //               await launch(url!);
+                                            //             } else {
+                                            //               throw 'Could not launch $url';
+                                            //             }
+                                            //           },
+                                            //           child: SvgPicture.asset(
+                                            //             "assets/logos/fb.svg",
+                                            //           ),
+                                            //         )
+                                            //   ;
+                                            // }),
+                                            // Obx(() {
+                                            //   return linkedinUrl == ""
+                                            //       ? Container()
+                                            //       : GestureDetector(
+                                            //           onTap: () async {
+                                            //             final url = linkedinUrl;
+                                            //             if (await canLaunch(
+                                            //                 url!)) {
+                                            //               await launch(url);
+                                            //             } else {
+                                            //               throw 'Could not launch $url';
+                                            //             }
+                                            //           },
+                                            //           child: SvgPicture.asset(
+                                            //             "assets/logos/linkdin.svg",
+                                            //           ),
+                                            //         );
+                                            // }),
+
+                                            // if (instagramUrl != "")
+                                            //   GestureDetector(
+                                            //     onTap: () async {
+                                            //       final url = instagramUrl;
+                                            //       if (await canLaunch(url!)) {
+                                            //         await launch(url!);
+                                            //       } else {
+                                            //         throw 'Could not launch $url';
+                                            //       }
+                                            //     },
+                                            //     child: SvgPicture.asset(
+                                            //       "assets/logos/insta.svg",
+                                            //     ),
+                                            //   ),
+                                            // if (twitterUrl != "")
+                                            //   GestureDetector(
+                                            //     onTap: () async {
+                                            //       final url = twitterUrl;
+                                            //       if (await canLaunch(url!)) {
+                                            //         await launch(url);
+                                            //       } else {
+                                            //         throw 'Could not launch $url';
+                                            //       }
+                                            //     },
+                                            //     child: SvgPicture.asset(
+                                            //       "assets/logos/twitter.svg",
+                                            //     ),
+                                            //   ),
+                                            // if (facebookUrl != "")
+                                            //   GestureDetector(
+                                            //     onTap: () async {
+                                            //       final url = facebookUrl;
+                                            //       if (await canLaunch(url!)) {
+                                            //         await launch(url!);
+                                            //       } else {
+                                            //         throw 'Could not launch $url';
+                                            //       }
+                                            //     },
+                                            //     child: SvgPicture.asset(
+                                            //       "assets/logos/fb.svg",
+                                            //     ),
+                                            //   ),
+                                            // if (linkedinUrl != "")
+                                            //   GestureDetector(
+                                            //     onTap: () async {
+                                            //       final url = linkedinUrl;
+                                            //       if (await canLaunch(url!)) {
+                                            //         await launch(url);
+                                            //       } else {
+                                            //         throw 'Could not launch $url';
+                                            //       }
+                                            //     },
+                                            //     child: SvgPicture.asset(
+                                            //       "assets/logos/linkdin.svg",
+                                            //     ),
+                                            //   ),
                                           ],
                                         )
                                       ],
@@ -678,642 +855,662 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 }
                               },
                             ),
-                            Obx(() {
-                              return homecontroller.loading.value
-                                  ? Center(child: CircularProgressIndicator())
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: homecontroller.landData.value
-                                              .result?.data?.length ??
-                                          0,
-                                      itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap: () {
-                                            Get.to(() => LandDetails(
-                                                id: homecontroller
-                                                        .landData
-                                                        .value
-                                                        .result
-                                                        ?.data?[index]
-                                                        .id
-                                                        ?.toInt() ??
-                                                    0));
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 20),
-                                            margin: EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            width: double.infinity,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFFFFFF7),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              shadows: [
-                                                BoxShadow(
-                                                  color: Color(0x19000000),
-                                                  blurRadius: 24,
-                                                  offset: Offset(0, 2),
-                                                  spreadRadius: 0,
-                                                )
-                                              ],
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 15),
-                                                  child: Row(
+                            homecontroller
+                                        .landData.value.result?.data?.length ==
+                                    0
+                                ? Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0, vertical: 30),
+                                    child: Text(
+                                      textAlign: TextAlign.center,
+                                      'Currently there are no lands, you can surely see those here, once posted.',
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Color(0xFF777777)),
+                                    ),
+                                  ))
+                                : Obx(() {
+                                    return homecontroller.loading.value
+                                        ? Center(
+                                            child: CircularProgressIndicator())
+                                        : ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount: homecontroller
+                                                    .landData
+                                                    .value
+                                                    .result
+                                                    ?.data
+                                                    ?.length ??
+                                                0,
+                                            itemBuilder: (context, index) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  Get.to(() => LandDetails(
+                                                      id: homecontroller
+                                                              .landData
+                                                              .value
+                                                              .result
+                                                              ?.data?[index]
+                                                              .id
+                                                              ?.toInt() ??
+                                                          0));
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 20),
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  width: double.infinity,
+                                                  decoration: ShapeDecoration(
+                                                    color: Color(0xFFFFFFF7),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    shadows: [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x19000000),
+                                                        blurRadius: 24,
+                                                        offset: Offset(0, 2),
+                                                        spreadRadius: 0,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                            .start,
                                                     children: [
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.4,
-                                                        child: Column(
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 15),
+                                                        child: Row(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
-                                                                  .start,
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Text(
-                                                              homecontroller
-                                                                      .landData
-                                                                      .value
-                                                                      .result
-                                                                      ?.data?[
-                                                                          index]
-                                                                      .landTitle ??
-                                                                  "",
-                                                              style: GoogleFonts.poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: AppColor
-                                                                      .BROWN_TEXT,
-                                                                  fontSize: 14),
-                                                            ),
-                                                            Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  "${homecontroller.landData.value.result?.data?[index].weatherDetails?.temperature?.toInt() ?? ""}º",
-                                                                  style: GoogleFonts.poppins(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: AppColor
-                                                                          .BROWN_TEXT,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                                Container(
-                                                                  height: 20,
-                                                                  width: 20,
-                                                                  decoration: BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                          image: NetworkImage(
-                                                                              "http://openweathermap.org/img/wn/${homecontroller.landData.value.result?.data?[index].weatherDetails?.imgIcon}.png"),
-                                                                          fit: BoxFit
-                                                                              .fill)),
-                                                                ),
-                                                                Container(
-                                                                  width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.26,
-                                                                  child: Text(
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.4,
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
                                                                     homecontroller
                                                                             .landData
                                                                             .value
                                                                             .result
                                                                             ?.data?[index]
-                                                                            .weatherDetails
-                                                                            ?.description ??
+                                                                            .landTitle ??
                                                                         "",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: AppColor
+                                                                            .BROWN_TEXT,
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "${homecontroller.landData.value.result?.data?[index].weatherDetails?.temperature?.toInt() ?? ""}º",
+                                                                        style: GoogleFonts.poppins(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: AppColor.BROWN_TEXT,
+                                                                            fontSize: 15),
+                                                                      ),
+                                                                      Container(
+                                                                        height:
+                                                                            20,
+                                                                        width:
+                                                                            20,
+                                                                        decoration:
+                                                                            BoxDecoration(image: DecorationImage(image: NetworkImage("http://openweathermap.org/img/wn/${homecontroller.landData.value.result?.data?[index].weatherDetails?.imgIcon}.png"), fit: BoxFit.fill)),
+                                                                      ),
+                                                                      Container(
+                                                                        width: MediaQuery.of(context).size.width *
+                                                                            0.26,
+                                                                        child:
+                                                                            Text(
+                                                                          homecontroller.landData.value.result?.data?[index].weatherDetails?.description ??
+                                                                              "",
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: AppColor.BROWN_TEXT,
+                                                                              fontSize: 15),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    "Min: ${homecontroller.landData.value.result?.data?[index].weatherDetails?.minTemp?.toInt() ?? ""}º / Max: ${homecontroller.landData.value.result?.data?[index].weatherDetails?.maxTemp?.toInt() ?? ""}º",
                                                                     style: GoogleFonts.poppins(
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w500,
-                                                                        color: AppColor
-                                                                            .BROWN_TEXT,
+                                                                        color: Color(
+                                                                            0xFF61646B),
                                                                         fontSize:
-                                                                            15),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                                            10),
+                                                                  )
+                                                                ],
+                                                              ),
                                                             ),
-                                                            Text(
-                                                              "Min: ${homecontroller.landData.value.result?.data?[index].weatherDetails?.minTemp?.toInt() ?? ""}º / Max: ${homecontroller.landData.value.result?.data?[index].weatherDetails?.maxTemp?.toInt() ?? ""}º",
-                                                              style: GoogleFonts.poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: Color(
-                                                                      0xFF61646B),
-                                                                  fontSize: 10),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Get.to(() =>
-                                                              ChatGptStartScreen());
-                                                        },
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              gradient: AppColor
-                                                                  .BLUE_GREEN_GRADIENT,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 8,
-                                                                    horizontal:
-                                                                        15),
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                SvgPicture
-                                                                    .asset(
-                                                                  ImageConstants
-                                                                      .CHATGPT,
-                                                                  height: 20,
-                                                                  width: 20,
-                                                                ),
-                                                                Container(
-                                                                  child: Text(
-                                                                    ' AI Agri-assistant',
-                                                                    textAlign:
-                                                                        TextAlign
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Get.to(() =>
+                                                                    ChatGptStartScreen());
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    gradient:
+                                                                        AppColor
+                                                                            .BLUE_GREEN_GRADIENT,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              15),
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
                                                                             .center,
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                      color: AppColor
-                                                                          .BROWN_TEXT,
-                                                                      fontSize:
-                                                                          10,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      height: 0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                Row(
-                                                  children: List.generate(
-                                                      450 ~/ 4,
-                                                      (index) => Expanded(
-                                                            child: Container(
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          12),
-                                                              color: index %
-                                                                          2 ==
-                                                                      0
-                                                                  ? Colors
-                                                                      .transparent
-                                                                  : AppColor
-                                                                      .GREY_BORDER,
-                                                              height: 1,
-                                                            ),
-                                                          )),
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Container(
-                                                      width:
-                                                          AppDimension.w * 0.3,
-                                                      child: Center(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                              ImageConstants
-                                                                  .LAND,
-                                                              height: 28,
-                                                              width: 28,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(top: 8),
-                                                              child: Text(
-                                                                'Land #${homecontroller.landData.value.result?.data?[index].id?.toInt() ?? ""}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: AppColor
-                                                                      .DARK_GREEN,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height: 2.5,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 80,
-                                                              child: Text(
-                                                                "${homecontroller.landData.value.result?.data?[index].city ?? ""} ${homecontroller.landData.value.result?.data?[index].state ?? ""} ${homecontroller.landData.value.result?.data?[index].country ?? ""}",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: AppColor
-                                                                      .GREEN_SUBTEXT,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height:
-                                                          AppDimension.h * 0.13,
-                                                      width:
-                                                          AppDimension.w * 0.3,
-                                                      child: Center(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                              ImageConstants
-                                                                  .AREA,
-                                                              height: 28,
-                                                              width: 28,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(top: 8),
-                                                              child: Text(
-                                                                'Area',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: AppColor
-                                                                      .DARK_GREEN,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height: 2.5,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width:
-                                                                  AppDimension
-                                                                          .w *
-                                                                      0.5,
-                                                              child: Text(
-                                                                '${homecontroller.landData.value.result?.data?[index].landSize ?? ""}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: AppColor
-                                                                      .GREEN_SUBTEXT,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width:
-                                                          AppDimension.w * 0.3,
-                                                      child: Center(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            SvgPicture.asset(
-                                                              ImageConstants
-                                                                  .CROP,
-                                                              height: 28,
-                                                              width: 28,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .only(top: 8),
-                                                              child: Text(
-                                                                'Crop Preferences',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  color: AppColor
-                                                                      .DARK_GREEN,
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height: 2.5,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 40,
-                                                              width: Get.width *
-                                                                  0.2,
-                                                              child: ListView
-                                                                  .builder(
-                                                                      itemCount: homecontroller
-                                                                              .landData
-                                                                              .value
-                                                                              .result
-                                                                              ?.data?[
-                                                                                  index]
-                                                                              .cropToGrow
-                                                                              ?.length ??
-                                                                          0,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              landdata) {
-                                                                        return Text(
-                                                                          '${homecontroller.landData.value.result?.data?[index].cropToGrow?[landdata]?.name ?? ""}',
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceEvenly,
+                                                                    children: [
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                        ImageConstants
+                                                                            .CHATGPT,
+                                                                        height:
+                                                                            20,
+                                                                        width:
+                                                                            20,
+                                                                      ),
+                                                                      Container(
+                                                                        child:
+                                                                            Text(
+                                                                          ' AI Agri-assistant',
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                             color:
-                                                                                AppColor.GREEN_SUBTEXT,
+                                                                                AppColor.BROWN_TEXT,
                                                                             fontSize:
                                                                                 10,
                                                                             fontWeight:
                                                                                 FontWeight.w500,
+                                                                            height:
+                                                                                0,
                                                                           ),
-                                                                        );
-                                                                      }),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             )
                                                           ],
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                homecontroller
-                                                            .landData
-                                                            .value
-                                                            .result
-                                                            ?.data?[index]
-                                                            .images
-                                                            ?.length !=
-                                                        0
-                                                    ? Container(
-                                                        margin: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 10),
-                                                        height: AppDimension.h *
-                                                            0.16,
-                                                        child: ListView.builder(
-                                                          itemCount:
-                                                              homecontroller
-                                                                      .landData
-                                                                      .value
-                                                                      .result
-                                                                      ?.data?[
-                                                                          index]
-                                                                      .images
-                                                                      ?.length ??
-                                                                  0,
-                                                          scrollDirection:
-                                                              Axis.horizontal,
-                                                          itemBuilder: (context,
-                                                              imgIndex) {
-                                                            final images =
-                                                                homecontroller
-                                                                    .landData
-                                                                    .value
-                                                                    .result
-                                                                    ?.data?[
-                                                                        index]
-                                                                    .images?[
-                                                                        imgIndex]
-                                                                    .image;
-                                                            return Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical:
-                                                                          10,
+                                                      Row(
+                                                        children: List.generate(
+                                                            450 ~/ 4,
+                                                            (index) => Expanded(
+                                                                  child:
+                                                                      Container(
+                                                                    margin: EdgeInsets.symmetric(
+                                                                        vertical:
+                                                                            12),
+                                                                    color: index %
+                                                                                2 ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .transparent
+                                                                        : AppColor
+                                                                            .GREY_BORDER,
+                                                                    height: 1,
+                                                                  ),
+                                                                )),
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          Container(
+                                                            width:
+                                                                AppDimension.w *
+                                                                    0.3,
+                                                            child: Center(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                    ImageConstants
+                                                                        .LAND,
+                                                                    height: 28,
+                                                                    width: 28,
+                                                                  ),
+                                                                  Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                8),
+                                                                    child: Text(
+                                                                      'Land #${homecontroller.landData.value.result?.data?[index].id?.toInt() ?? ""}',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height:
+                                                                            2.5,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 80,
+                                                                    child: Text(
+                                                                      "${homecontroller.landData.value.result?.data?[index].city ?? ""} ${homecontroller.landData.value.result?.data?[index].state ?? ""} ${homecontroller.landData.value.result?.data?[index].country ?? ""}",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: AppColor
+                                                                            .GREEN_SUBTEXT,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height:
+                                                                AppDimension.h *
+                                                                    0.13,
+                                                            width:
+                                                                AppDimension.w *
+                                                                    0.3,
+                                                            child: Center(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                    ImageConstants
+                                                                        .AREA,
+                                                                    height: 28,
+                                                                    width: 28,
+                                                                  ),
+                                                                  Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                8),
+                                                                    child: Text(
+                                                                      'Area',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height:
+                                                                            2.5,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: AppDimension
+                                                                            .w *
+                                                                        0.5,
+                                                                    child: Text(
+                                                                      '${homecontroller.landData.value.result?.data?[index].landSize ?? ""}',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: AppColor
+                                                                            .GREEN_SUBTEXT,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            width:
+                                                                AppDimension.w *
+                                                                    0.3,
+                                                            child: Center(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceEvenly,
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                    ImageConstants
+                                                                        .CROP,
+                                                                    height: 28,
+                                                                    width: 28,
+                                                                  ),
+                                                                  Container(
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                8),
+                                                                    child: Text(
+                                                                      'Crop Preferences',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height:
+                                                                            2.5,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 40,
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.2,
+                                                                    child: ListView
+                                                                        .builder(
+                                                                            itemCount: homecontroller.landData.value.result?.data?[index].cropToGrow?.length ??
+                                                                                0,
+                                                                            itemBuilder:
+                                                                                (context, landdata) {
+                                                                              return Text(
+                                                                                '${homecontroller.landData.value.result?.data?[index].cropToGrow?[landdata]?.name ?? ""}',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: AppColor.GREEN_SUBTEXT,
+                                                                                  fontSize: 10,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              );
+                                                                            }),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      homecontroller
+                                                                  .landData
+                                                                  .value
+                                                                  .result
+                                                                  ?.data?[index]
+                                                                  .images
+                                                                  ?.length !=
+                                                              0
+                                                          ? Container(
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
                                                                       horizontal:
                                                                           10),
                                                               height:
                                                                   AppDimension
                                                                           .h *
-                                                                      0.14,
-                                                              width:
-                                                                  AppDimension
-                                                                          .w *
-                                                                      0.28,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                                      0.16,
+                                                              child: ListView
+                                                                  .builder(
+                                                                itemCount: homecontroller
+                                                                        .landData
+                                                                        .value
+                                                                        .result
+                                                                        ?.data?[
+                                                                            index]
+                                                                        .images
+                                                                        ?.length ??
+                                                                    0,
+                                                                scrollDirection:
+                                                                    Axis.horizontal,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        imgIndex) {
+                                                                  final images = homecontroller
+                                                                      .landData
+                                                                      .value
+                                                                      .result
+                                                                      ?.data?[
+                                                                          index]
+                                                                      .images?[
+                                                                          imgIndex]
+                                                                      .image;
+                                                                  return Container(
+                                                                    margin: const EdgeInsets
+                                                                        .symmetric(
+                                                                        vertical:
+                                                                            10,
+                                                                        horizontal:
                                                                             10),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      images ??
-                                                                          ""),
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                                    height: AppDimension
+                                                                            .h *
+                                                                        0.14,
+                                                                    width: AppDimension
+                                                                            .w *
+                                                                        0.28,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image: NetworkImage(images ??
+                                                                            ""),
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      Divider(),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                ImageConstants
+                                                                    .ENQUIRIES,
+                                                                height: 30,
+                                                              ),
+                                                              Text(
+                                                                '  Enquiries',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0.15,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'Partners  ',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0.15,
                                                                 ),
                                                               ),
-                                                            );
-                                                          },
-                                                        ),
+                                                              CircleAvatar(
+                                                                radius: 16,
+                                                                backgroundColor:
+                                                                    AppColor
+                                                                        .DARK_GREEN,
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    '${homecontroller.landData.value.result?.data?[index].totalAgriServiceProvider ?? "0"}',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height:
+                                                                          0.10,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'Farmers  ',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: AppColor
+                                                                      .DARK_GREEN,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0.15,
+                                                                ),
+                                                              ),
+                                                              CircleAvatar(
+                                                                radius: 16,
+                                                                backgroundColor:
+                                                                    AppColor
+                                                                        .DARK_GREEN,
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    '${homecontroller.landData.value.result?.data?[index].totalMatchingFarmer ?? "0"}',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height:
+                                                                          0.10,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
                                                       )
-                                                    : Container(),
-                                                Divider(),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          ImageConstants
-                                                              .ENQUIRIES,
-                                                          height: 30,
-                                                        ),
-                                                        Text(
-                                                          '  Enquiries',
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: AppColor
-                                                                .DARK_GREEN,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            height: 0.15,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Partners  ',
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: AppColor
-                                                                .DARK_GREEN,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            height: 0.15,
-                                                          ),
-                                                        ),
-                                                        CircleAvatar(
-                                                          radius: 16,
-                                                          backgroundColor:
-                                                              AppColor
-                                                                  .DARK_GREEN,
-                                                          child: Center(
-                                                            child: Text(
-                                                              '${homecontroller.landData.value.result?.data?[index].totalAgriServiceProvider ?? "0"}',
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                height: 0.10,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Farmers  ',
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: AppColor
-                                                                .DARK_GREEN,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            height: 0.15,
-                                                          ),
-                                                        ),
-                                                        CircleAvatar(
-                                                          radius: 16,
-                                                          backgroundColor:
-                                                              AppColor
-                                                                  .DARK_GREEN,
-                                                          child: Center(
-                                                            child: Text(
-                                                              '${homecontroller.landData.value.result?.data?[index].totalMatchingFarmer ?? "0"}',
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                height: 0.10,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      });
-                            }),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                  }),
                           ],
                         ),
                       ),
@@ -1367,167 +1564,243 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ],
                               ),
                             ),
-                            Container(
-                              height: Get.height * 0.2,
-                              child: ListView.builder(
-                                  itemCount: reviewController.reviewData.value
-                                          .result?.data?.length ??
-                                      0,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, reviews) {
-                                    return Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      width: Get.width * 0.9,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            width: 0.8,
-                                            color: AppColor.GREY_BORDER),
-                                        color: Colors.transparent,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              ListTile(
-                                                titleAlignment:
-                                                    ListTileTitleAlignment.top,
-                                                leading: Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color:
-                                                          AppColor.DARK_GREEN,
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              reviewController
-                                                                      .reviewData
-                                                                      .value
-                                                                      .result
-                                                                      ?.data?[
-                                                                          reviews]
-                                                                      .reviewerImage ??
-                                                                  ""))),
-                                                ),
-                                                title: Obx(() => Text(
-                                                      reviewController
-                                                              .reviewData
-                                                              .value
-                                                              .result
-                                                              ?.data?[reviews]
-                                                              .reviewerName ??
-                                                          "",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF333333),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 0,
-                                                      ),
-                                                    )),
-                                                subtitle: Container(
-                                                  child: Text(
-                                                    '1 hour ago',
+                            Obx(() {
+                              if (reviewController.loading.value) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (reviewController
+                                      .rxRequestStatus.value ==
+                                  Status.ERROR) {
+                                return Center(
+                                    child: Text('Error fetching data'));
+                              } else if (reviewController
+                                          .reviewData.value.result?.data ==
+                                      null ||
+                                  reviewController.reviewData.value.result?.data
+                                          ?.isEmpty ==
+                                      true) {
+                                return Center(
+                                    child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 20),
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    'Currently there are no reviews, you can surely see those here, once posted.',
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        color: Color(0xFF777777)),
+                                  ),
+                                ));
+                              } else {
+                                return Container(
+                                  height: Get.height * 0.2,
+                                  margin: EdgeInsets.only(bottom: 60),
+                                  child: ListView.builder(
+                                    itemCount: reviewController.reviewData.value
+                                            .result?.data?.length ??
+                                        0,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, reviews) {
+                                      final review = reviewController.reviewData
+                                          .value.result?.data?[reviews];
+
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        width: Get.width * 0.9,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          border: Border.all(
+                                              width: 0.8,
+                                              color: AppColor.GREY_BORDER),
+                                          color: Color(0xFFFFFFF7),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                ListTile(
+                                                  onTap: () {
+                                                    Get.to(
+                                                        () => UserProfileScreen(
+                                                              id: review
+                                                                      ?.reviewerUserId
+                                                                      ?.toInt() ??
+                                                                  0,
+                                                              userType: review
+                                                                      ?.reviewerUserType ??
+                                                                  "",
+                                                            ));
+                                                    print("tapped");
+                                                  },
+                                                  leading: Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: AppColor.DARK_GREEN
+                                                          .withOpacity(0.2),
+                                                      image: review?.reviewerImage !=
+                                                                  null &&
+                                                              review?.reviewerImage !=
+                                                                  ""
+                                                          ? DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                  review?.reviewerImage ??
+                                                                      ""))
+                                                          : null,
+                                                    ),
+                                                    child: (review?.reviewerImage ==
+                                                                null ||
+                                                            review?.reviewerImage ==
+                                                                "")
+                                                        ? Center(
+                                                            child: Text(
+                                                              review?.reviewerName?[
+                                                                      0] ??
+                                                                  "",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: AppColor
+                                                                    .DARK_GREEN,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                  ),
+                                                  title: Text(
+                                                    review?.reviewerName ?? "",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Color(0xFF333333),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 1.2,
+                                                    ),
+                                                  ),
+                                                  subtitle: Text(
+                                                    review?.date ?? "",
                                                     style: GoogleFonts.poppins(
                                                       color: Color(0xFF909090),
                                                       fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      height: 0,
+                                                      height: 1.2,
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 20,
-                                                    top: 10,
-                                                    right: 20),
-                                                child: Text(
-                                                  reviewController
-                                                          .reviewData
-                                                          .value
-                                                          .result
-                                                          ?.data?[reviews]
-                                                          .description ??
-                                                      "",
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF777777),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15.0),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/farm/locationbrown.svg",
+                                                        width: 14,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Expanded(
+                                                        child: Text(
+                                                          review?.reviewerLocation ??
+                                                              "",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Color(
+                                                                0xFF777777),
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            height: 1.2,
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 5,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Container(
-                                          //   margin: EdgeInsets.symmetric(vertical: 8,horizontal: 20),
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Text(
-                                          //         'Show more',
-                                          //         style: GoogleFonts.poppins(
-                                          //           color: Color(0xFF333333),
-                                          //           fontSize: 14,
-                                          //
-                                          //           fontWeight: FontWeight.w500,
-                                          //           decoration: TextDecoration.underline,
-                                          //           height: 0,
-                                          //         ),
-                                          //       ),
-                                          //       Icon(CupertinoIcons.right_chevron,color: AppColor.BROWN_TEXT,size: 18,)
-                                          //     ],
-                                          //   ),
-                                          // )
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            ),
-                            Divider(
-                              color: AppColor.GREY_BORDER,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 18, bottom: 30),
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColor.DARK_GREEN,
-                                  )),
-                              child: Center(
-                                child: Text(
-                                  "Edit Profile",
-                                  style: GoogleFonts.poppins(
-                                    color: AppColor.DARK_GREEN,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 12,
+                                                      top: 10,
+                                                      right: 20),
+                                                  child: Text(
+                                                    review?.description ?? "",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.black,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      height: 1.2,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 5,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                ),
-                              ),
-                            )
+                                );
+                              }
+                            }),
                           ],
                         ),
                       )
                     ],
                   );
           }),
+        ),
+      ),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          Get.to(CompleteProfile());
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.06,
+          margin: EdgeInsets.only(top: 18, bottom: 30, left: 10, right: 10),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColor.DARK_GREEN,
+              )),
+          child: Center(
+            child: Text(
+              "Edit Profile",
+              style: GoogleFonts.poppins(
+                color: AppColor.DARK_GREEN,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
       ),
     );

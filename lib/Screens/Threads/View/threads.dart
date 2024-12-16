@@ -1,12 +1,13 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:farm_easy/Screens/Threads/Controller/like_unlike_controller.dart';
+import 'package:farm_easy/Screens/Threads/Controller/list_new_tags.dart';
 import 'package:farm_easy/Screens/Threads/Controller/threads_controller.dart';
-import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/list_tags_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/View/create_threads.dart';
 import 'package:farm_easy/Screens/Threads/Replies/View/replies.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,8 +23,9 @@ class Threads extends StatefulWidget {
 
 class _ThreadsState extends State<Threads> {
   final controller = Get.put(ThreadsController());
-  final tagsController = Get.put(ListTagsController());
+  final tagsController = Get.put(ListNewTagsController());
   final isLikedController = Get.put(LikeUnlikeController());
+
   final ScrollController _threadScroller = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class _ThreadsState extends State<Threads> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
+          isbackButton: false,
           title: '  Community',
         ),
       ),
@@ -69,7 +72,7 @@ class _ThreadsState extends State<Threads> {
                                   final isSelected = controller.tags.contains(
                                       tagsController
                                           .tagsData.value.result?[index].id);
-                                  return InkWell(
+                                  return GestureDetector(
                                     onTap: () {
                                       final id = tagsController.tagsData.value
                                               .result?[index].id ??
@@ -81,7 +84,7 @@ class _ThreadsState extends State<Threads> {
                                         } else {
                                           controller.tags.add(id.toInt());
                                         }
-                                        controller.resetPageToFirst();
+                                        //controller.resetPageToFirst();
                                         controller.threadList(clearList: true);
                                         print(
                                             "Selected Values: ${controller.tags.where((id) => id != 0).toList()}");
@@ -134,20 +137,46 @@ class _ThreadsState extends State<Threads> {
                               controller.refreshAllThread();
                             },
                             child: Container(
-                              height: Get.height * 0.72,
+                              height: Get.height * 0.7,
                               child: ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   controller: _threadScroller,
                                   shrinkWrap: true,
-                                  itemCount: controller.threadDataList.length,
+                                  itemCount:
+                                      controller.threadDataList.length + 1,
                                   itemBuilder: (context, threads) {
+                                    if (threads ==
+                                        controller.threadDataList.length) {
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 25.0, top: 5),
+                                          child: Text(
+                                            'FarmEasy.ai',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColor.DARK_GREEN,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
                                     return Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 12),
                                       child: Column(
                                         children: [
-                                          InkWell(
+                                          GestureDetector(
                                             onTap: () {
+                                              Get.to(() => Replies(
+                                                    threadId: controller
+                                                            .threadDataList[
+                                                                threads]
+                                                            .id
+                                                            ?.toInt() ??
+                                                        0,
+                                                  ));
                                               // Get.to(() => ParticularThread(
                                               //     threadId: controller
                                               //             .threadDataList[
@@ -175,18 +204,57 @@ class _ThreadsState extends State<Threads> {
                                                                           threads]
                                                                       .userImage ==
                                                                   ""
-                                                              ? SvgPicture
-                                                                  .asset(
-                                                                  "assets/img/Vector.svg",
-                                                                  width:
-                                                                      Get.width *
-                                                                          0.11,
+                                                              ? Container(
+                                                                  width: 40,
+                                                                  height: 40,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(8),
+                                                                    color: AppColor
+                                                                        .DARK_GREEN
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      controller
+                                                                          .threadDataList[
+                                                                              threads]
+                                                                          .userName![
+                                                                              0]
+                                                                          .toUpperCase(),
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        fontSize:
+                                                                            20,
+                                                                        color: AppColor
+                                                                            .DARK_GREEN, // Text color contrasting the background
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 )
-                                                              : CircleAvatar(
-                                                                  radius: 23,
-                                                                  backgroundImage:
-                                                                      NetworkImage(
-                                                                          "${controller.threadDataList[threads].userImage ?? ""}"),
+                                                              : Container(
+                                                                  width: 40,
+                                                                  height: 40,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(
+                                                                            "${controller.threadDataList[threads].userImage ?? ""}"),
+                                                                        fit: BoxFit
+                                                                            .cover),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(8),
+                                                                    color: AppColor
+                                                                        .DARK_GREEN
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                                  ),
                                                                 ),
                                                           Text(
                                                             '   ${controller.threadDataList[threads].userName ?? ""}',
@@ -206,7 +274,7 @@ class _ThreadsState extends State<Threads> {
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            '${controller.threadDataList[threads].createdOn ?? ""}',
+                                                            '${controller.threadDataList[threads].createdOn ?? ""}  ',
                                                             style: GoogleFonts
                                                                 .poppins(
                                                               color: Color(
@@ -218,12 +286,34 @@ class _ThreadsState extends State<Threads> {
                                                               height: 0,
                                                             ),
                                                           ),
-                                                          IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons
-                                                                    .more_vert_rounded,
-                                                              ))
+                                                          GestureDetector(
+                                                            onTapDown:
+                                                                (TapDownDetails
+                                                                    details) {
+                                                              _showPopupMenu(
+                                                                context,
+                                                                threads,
+                                                                controller
+                                                                        .threadDataList[
+                                                                            threads]
+                                                                        .isPostedByMe ??
+                                                                    true,
+                                                                details,
+                                                                controller
+                                                                        .threadDataList[
+                                                                            threads]
+                                                                        .title ??
+                                                                    "",
+                                                                controller
+                                                                    .threadDataList[
+                                                                        threads]
+                                                                    .id!
+                                                                    .toInt(),
+                                                              );
+                                                            },
+                                                            child: Icon(Icons
+                                                                .more_vert_rounded),
+                                                          )
                                                         ],
                                                       ),
                                                     ],
@@ -232,13 +322,13 @@ class _ThreadsState extends State<Threads> {
                                                     margin:
                                                         EdgeInsets.symmetric(
                                                             vertical: 10,
-                                                            horizontal: 10),
+                                                            horizontal: 0),
                                                     child: Text(
                                                       '${controller.threadDataList[threads].title ?? ""}',
                                                       style: TextStyle(
                                                         color:
                                                             AppColor.BROWN_TEXT,
-                                                        fontSize: 14,
+                                                        fontSize: 15,
                                                         fontFamily: 'Poppins',
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -269,48 +359,61 @@ class _ThreadsState extends State<Threads> {
                                                                   itemBuilder:
                                                                       (context,
                                                                           img) {
-                                                                    return Container(
-                                                                      margin: EdgeInsets.only(
-                                                                          bottom:
-                                                                              10,
-                                                                          right:
-                                                                              8),
-                                                                      height: Get
-                                                                              .height *
-                                                                          0.14,
-                                                                      width: Get
-                                                                              .width *
-                                                                          0.3,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10),
-                                                                          image: DecorationImage(
-                                                                              image: NetworkImage(controller.threadDataList[threads].images?[img].image ?? ""),
-                                                                              fit: BoxFit.cover)),
+                                                                    return GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        Get.to(() =>
+                                                                            ImageViewPage(
+                                                                              imageUrl: controller.threadDataList[threads].images?[img].image ?? "",
+                                                                            ));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        margin: EdgeInsets.only(
+                                                                            bottom:
+                                                                                10,
+                                                                            right:
+                                                                                8),
+                                                                        height: Get.height *
+                                                                            0.14,
+                                                                        width: Get.width *
+                                                                            0.3,
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                            image: DecorationImage(image: NetworkImage(controller.threadDataList[threads].images?[img].image ?? ""), fit: BoxFit.cover)),
+                                                                      ),
                                                                     );
                                                                   }),
                                                         )
                                                       : Container(),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 15,
-                                                        left: 10,
-                                                        right: 10),
-                                                    child: Text(
-                                                      '${controller.threadDataList[threads].description ?? ""}',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF61646B),
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        height: 0,
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  controller
+                                                              .threadDataList[
+                                                                  threads]
+                                                              .description !=
+                                                          ""
+                                                      ? Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  bottom: 15,
+                                                                  left: 0,
+                                                                  right: 0),
+                                                          child: Text(
+                                                            '${controller.threadDataList[threads].description ?? ""}',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: Color(
+                                                                  0xFF61646B),
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
                                                   Wrap(
                                                     spacing: 8,
                                                     runSpacing: 5,
@@ -352,7 +455,7 @@ class _ThreadsState extends State<Threads> {
                                                     margin:
                                                         EdgeInsets.symmetric(
                                                             vertical: 15,
-                                                            horizontal: 10),
+                                                            horizontal: 0),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -361,44 +464,52 @@ class _ThreadsState extends State<Threads> {
                                                         Container(
                                                           width:
                                                               AppDimension.w *
-                                                                  0.25,
+                                                                  0.2,
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              InkWell(
+                                                              GestureDetector(
                                                                 onTap: () {
                                                                   int currentIndex =
                                                                       threads;
-                                                                  print(
-                                                                      "isLiked Status : ${controller.isLiked.value}");
+
                                                                   // Toggle the like status of the thread
+                                                                  bool isLiked =
+                                                                      controller
+                                                                              .threadDataList[currentIndex]
+                                                                              .isLiked ??
+                                                                          false;
                                                                   controller
                                                                       .threadDataList[
                                                                           currentIndex]
-                                                                      .isLiked = !(controller
-                                                                          .threadDataList[
-                                                                              currentIndex]
-                                                                          .isLiked ??
-                                                                      false);
-                                                                  // Update the like count based on the like status
-                                                                  if (controller
-                                                                          .threadDataList[
-                                                                              currentIndex]
-                                                                          .isLiked ==
-                                                                      true) {
+                                                                      .isLiked = !isLiked;
+
+                                                                  // Ensure totalLikes is not null and update accordingly
+                                                                  int totalLikes =
+                                                                      controller
+                                                                              .threadDataList[currentIndex]
+                                                                              .totalLikes ??
+                                                                          0;
+
+                                                                  if (!isLiked) {
+                                                                    // Increment likes when the post is liked
                                                                     controller
                                                                         .threadDataList[
                                                                             currentIndex]
-                                                                        .totalLikes++;
+                                                                        .totalLikes = totalLikes + 1;
                                                                   } else {
+                                                                    // Decrement likes when the post is unliked, ensuring it doesn't go below 0
                                                                     controller
                                                                         .threadDataList[
                                                                             currentIndex]
-                                                                        .totalLikes--;
+                                                                        .totalLikes = totalLikes >
+                                                                            0
+                                                                        ? totalLikes -
+                                                                            1
+                                                                        : 0;
                                                                   }
-                                                                  // Call the function to handle like/unlike functionality
                                                                   isLikedController
                                                                           .threadId
                                                                           .value =
@@ -409,6 +520,12 @@ class _ThreadsState extends State<Threads> {
                                                                           .toInt();
                                                                   isLikedController
                                                                       .likeUnlikeFunc();
+
+                                                                  // Use update() to notify GetX of changes
+                                                                  controller
+                                                                      .update();
+
+                                                                  // Optionally call setState to trigger UI updates if necessary
                                                                   setState(
                                                                       () {});
                                                                 },
@@ -433,7 +550,7 @@ class _ThreadsState extends State<Threads> {
                                                                             28,
                                                                       ),
                                                               ),
-                                                              InkWell(
+                                                              GestureDetector(
                                                                 onTap: () {
                                                                   Get.to(() =>
                                                                       Replies(
@@ -449,10 +566,10 @@ class _ThreadsState extends State<Threads> {
                                                                   width: 22,
                                                                 ),
                                                               ),
-                                                              SvgPicture.asset(
-                                                                "assets/more/send.svg",
-                                                                width: 22,
-                                                              ),
+                                                              // SvgPicture.asset(
+                                                              //   "assets/more/send.svg",
+                                                              //   width: 22,
+                                                              // ),
                                                             ],
                                                           ),
                                                         ),
@@ -460,7 +577,8 @@ class _ThreadsState extends State<Threads> {
                                                           width:
                                                               AppDimension.w *
                                                                   0.25,
-                                                          child: InkWell(
+                                                          child:
+                                                              GestureDetector(
                                                             onTap: () {
                                                               Get.to(
                                                                   () => Replies(
@@ -502,23 +620,12 @@ class _ThreadsState extends State<Threads> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        '    200 Views   ',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF9A9A9A),
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      CircleAvatar(
-                                                        radius: 2,
-                                                        backgroundColor:
-                                                            Colors.grey,
-                                                      ),
-                                                      Text(
-                                                        '   ${controller.threadDataList[threads].totalLikes} Likes   ',
+                                                        (controller.threadDataList[threads]
+                                                                        .totalLikes ??
+                                                                    0) <=
+                                                                1
+                                                            ? '${controller.threadDataList[threads].totalLikes} Like   '
+                                                            : '${controller.threadDataList[threads].totalLikes} Likes   ',
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color:
@@ -565,7 +672,7 @@ class _ThreadsState extends State<Threads> {
                   ),
                 )));
       }),
-      floatingActionButton: InkWell(
+      floatingActionButton: GestureDetector(
         onTap: () {
           Get.to(() => CreateThreads());
         },
@@ -575,5 +682,39 @@ class _ThreadsState extends State<Threads> {
         ),
       ),
     );
+  }
+
+  void _showPopupMenu(BuildContext context, int index, bool isDeleted,
+      TapDownDetails details, String title, int id) async {
+    final tapPosition = details.globalPosition;
+
+    final result = await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        tapPosition.dx,
+        tapPosition.dy,
+        tapPosition.dx + 1,
+        tapPosition.dy + 1,
+      ),
+      items: [
+        if (isDeleted)
+          PopupMenuItem<String>(
+            value: 'Delete',
+            child: Text('Delete Post'),
+          )
+        else
+          PopupMenuItem<String>(
+            value: 'Report',
+            child: Text('Report'),
+          ),
+      ],
+    );
+
+    if (result == 'Delete') {
+      controller.showDeleteDialog(index, title, id);
+    } else if (result == 'Report') {
+      // Handle repost logic here
+      print('Repost action triggered for index $index');
+    }
   }
 }

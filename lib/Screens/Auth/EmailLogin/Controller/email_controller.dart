@@ -1,8 +1,8 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/custom_snackbar.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/Model/EmailResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/OTP/View/otp_screen.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/ViewModel/email_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,16 +34,11 @@ class EmailController extends GetxController {
       loading.value = false;
       setRxRequestStatus(Status.SUCCESS);
       setAuthData(value);
-      Get.snackbar(
-        'Message',
-        '${value.result.obs}',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-        colorText: Colors.black,
-        instantInit: true,
-        backgroundGradient: AppColor.PRIMARY_GRADIENT,
-        maxWidth: double.infinity,
+      showSuccessCustomSnackbar(
+        title: 'Message',
+        message: '${value.result.obs}',
       );
+
       Get.to(() => EmailOtpScreen(email: lowerCaseEmail));
     }).onError((error, stackTrace) {
       loading.value = false;

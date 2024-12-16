@@ -1,17 +1,15 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/create_thread_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/list_tags_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/thread_image_controller.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -58,7 +56,27 @@ class _CreateThreadsState extends State<CreateThreads> {
                     ),
                   ),
                 ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Title",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.BROWN_TEXT,
+                          fontSize: 12),
+                    ),
+                    Text(
+                      " *",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          fontSize: 12),
+                    ),
+                  ],
+                ),
                 Container(
+                  margin: EdgeInsets.only(top: 5),
                   height: Get.height * 0.065,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -80,13 +98,32 @@ class _CreateThreadsState extends State<CreateThreads> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
+                  margin: EdgeInsets.only(top: 20),
                   height: Get.height * 0.17,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       border: Border.all(color: AppColor.GREY_BORDER),
                       borderRadius: BorderRadius.circular(5)),
                   child: TextFormField(
+                    textInputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      if (value.length > 200) {
+                        controller.descriptionController.value.text =
+                            value.substring(0, 200);
+                        controller.descriptionController.value.selection =
+                            TextSelection.fromPosition(
+                          TextPosition(
+                              offset: controller
+                                  .descriptionController.value.text.length),
+                        );
+                      }
+                      controller.wordCount.value =
+                          controller.descriptionController.value.text.length;
+                    },
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context)
+                          .unfocus(); // Dismiss the keyboard when "Done" is pressed
+                    },
                     controller: controller.descriptionController.value,
                     maxLines: 5,
                     decoration: InputDecoration(
@@ -100,6 +137,30 @@ class _CreateThreadsState extends State<CreateThreads> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0, bottom: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "   ",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.BROWN_TEXT,
+                            fontSize: 14),
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${controller.wordCount.value}/200",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.BROWN_TEXT,
+                              fontSize: 14),
+                        );
+                      })
+                    ],
                   ),
                 ),
                 Obx(() {
@@ -215,14 +276,26 @@ class _CreateThreadsState extends State<CreateThreads> {
                 }),
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Select Tags',
-                    style: GoogleFonts.poppins(
-                      color: Color(0xFF333333),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Select Tags',
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFF333333),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
+                      ),
+                      Text(
+                        " *",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
                 Obx(() {
@@ -293,48 +366,52 @@ class _CreateThreadsState extends State<CreateThreads> {
             ),
           ),
         ),
-        bottomNavigationBar: Obx(() {
-          return InkWell(
-            onTap: () {
-              controller.threadDataUpload();
-            },
-            child: controller.loading.value
-                ? Container(
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    height: Get.height * 0.06,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColor.DARK_GREEN),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : Container(
-                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    height: Get.height * 0.06,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColor.DARK_GREEN),
-                    child: Center(
-                      child: Text(
-                        'Post',
-                        style: GoogleFonts.poppins(
+        bottomNavigationBar: SafeArea(
+          child: Obx(() {
+            return InkWell(
+              onTap: () {
+                controller.threadDataUpload();
+              },
+              child: controller.loading.value
+                  ? Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColor.DARK_GREEN),
+                      child: Center(
+                        child: CircularProgressIndicator(
                           color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColor.DARK_GREEN),
+                      child: Center(
+                        child: Text(
+                          'Post',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            height: 0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

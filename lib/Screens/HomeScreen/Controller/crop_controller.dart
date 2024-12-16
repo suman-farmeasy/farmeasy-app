@@ -5,8 +5,8 @@ import 'package:farm_easy/Screens/HomeScreen/Controller/crop_grid_calculator.dar
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_details_model.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/crop_search.dart';
 import 'package:farm_easy/Screens/HomeScreen/ViewModel/land_list_viewmodel.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -86,43 +86,51 @@ class CropController extends GetxController {
 
   void updateSelectedValue(String? newValue) {
     selectedValue.value = newValue;
-    // Reset slider value to a valid value within the new range
+
+    // Reset slider value to a valid starting point
     if (newValue == "SQFT") {
-      sliderValue.value = sliderValue.value.clamp(100.0, 10000000.0);
+      sliderValue.value = 100.0; // Start from 100 for SQFT
     } else {
-      sliderValue.value = sliderValue.value.clamp(0.0, 100.0);
+      sliderValue.value = 1.0; // Start from 0 for other units
     }
   }
 
   void updateSliderValue(double value) {
-    double minValue = selectedValue.value == "SQFT" ? 100.0 : 0.0;
+    double minValue = selectedValue.value == "SQFT" ? 100.0 : 1.0;
     double maxValue = selectedValue.value == "SQFT" ? 10000000.0 : 100.0;
     sliderValue.value = value.clamp(minValue, maxValue);
   }
 
-  ///DROP DOWN FERTILIZER;
-  var selectedValuefertilizer = Rx<String?>('Acre');
+// Controller for Fertilizer
+  var selectedValuefertilizer = Rx<String?>('Acre'); // Default value is Acre
 
-  // List of dropdown items
-  final dropdownItemsfertilizer = ['Acre', 'Hectare'];
+// List of dropdown items
+  final dropdownItemsfertilizer = [
+    'Acre',
+    'Hectare',
+  ];
 
-  // Function to update the selected value
-  var sliderValuefertilizer = Rx<double>(100.0);
+// Initial slider value
+  var sliderValuefertilizer = Rx<double>(1.0);
 
+// Function to update the selected value and adjust slider range accordingly
   void updateSelectedValuefertilizer(String? newValue) {
     selectedValuefertilizer.value = newValue;
-    // Reset slider value to a valid value within the new range
+
     if (newValue == "SQFT") {
+      // Set slider within the SQFT range
       sliderValuefertilizer.value =
           sliderValuefertilizer.value.clamp(100.0, 10000000.0);
     } else {
+      // For "Acre" and "Hectare", set slider within the 0.0 to 100.0 range
       sliderValuefertilizer.value =
-          sliderValuefertilizer.value.clamp(0.0, 100.0);
+          sliderValuefertilizer.value.clamp(1.0, 100.0);
     }
   }
 
+// Function to update the slider value dynamically based on min and max
   void updateSliderValuefertilizer(double value) {
-    double minValue = selectedValuefertilizer.value == "SQFT" ? 100.0 : 0.0;
+    double minValue = selectedValuefertilizer.value == "SQFT" ? 100.0 : 1.0;
     double maxValue =
         selectedValuefertilizer.value == "SQFT" ? 10000000.0 : 100.0;
     sliderValuefertilizer.value = value.clamp(minValue, maxValue);

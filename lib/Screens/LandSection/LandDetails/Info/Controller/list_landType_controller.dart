@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/LandTypeResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/ViewModel/land_info_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class ListLandTypeController extends GetxController {
@@ -17,7 +17,7 @@ class ListLandTypeController extends GetxController {
   final loading = false.obs;
   final rxRequestStatus = Status.LOADING.obs;
   RxInt selectedId = RxInt(-1);
-  RxString selectedid = "".obs;
+
   final _prefs = AppPreferences();
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void setRxRequestData(LandTypeResponseModel _value) =>

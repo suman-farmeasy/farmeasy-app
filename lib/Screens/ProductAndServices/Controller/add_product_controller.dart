@@ -1,19 +1,22 @@
 import 'dart:convert';
 
+import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Controller/product_img_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/Controller/product_view_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/ViewModel/product_view_model.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ThreadCreatedResponseModel.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddProductController extends GetxController {
   // final dahboardController= Get.put(DashboardController());
   // final threadController = Get.put(ThreadsController());
+  final getProfileController = Get.find<GetProfileController>();
   final productController = Get.put(ProductViewController());
   final _api = CreateProductViewModel();
+  final _apiUpdate = UpdateProductViewModel();
   final productData = ThreadCreatedResponseModel().obs;
   final productName = TextEditingController().obs;
   final descriptionController = TextEditingController().obs;
@@ -40,6 +43,11 @@ class AddProductController extends GetxController {
     "Hour(s)",
     "Day(s)",
     "Month(s)",
+    "Acre",
+    "Sq. m",
+    "Bigha",
+    "Sq. ft",
+    "Hectare"
   ].obs;
   RxList<String> currencyList = <String>["Dollar", "Rupees"].obs;
   RxList<String> currencySymbol = <String>['\$', "INR"].obs;
@@ -64,7 +72,40 @@ class AddProductController extends GetxController {
       setRxRequestData(value);
       Get.back();
       productController.productDataList.clear();
-      productController.productList();
+      productController.productList(
+          userId:
+              getProfileController.getProfileData.value.result?.userId ?? 0);
+    }).onError((error, stackTrace) {
+      loading.value = false;
+      print(error);
+      print(stackTrace);
+    });
+  }
+
+  Future updateProduct(int productId) async {
+    loading.value = true;
+    _apiUpdate.updateProduct(
+        productId,
+        jsonEncode({
+          "name": "${productName.value.text}",
+          "description": "${descriptionController.value.text}",
+          "currency": currencySym.value,
+          "image_ids": imageController.uploadedIds.toList(),
+          "unit_price": unitPrice.value.text,
+          "unit_value": unitValue.value.text,
+          "unit": unit.value,
+        }),
+        {
+          "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
+          "Content-Type": "application/json"
+        }).then((value) {
+      loading.value = false;
+      setRxRequestData(value);
+      Get.back();
+      productController.productDataList.clear();
+      productController.productList(
+          userId:
+              getProfileController.getProfileData.value.result?.userId ?? 0);
     }).onError((error, stackTrace) {
       loading.value = false;
       print(error);

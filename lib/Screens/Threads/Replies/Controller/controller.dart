@@ -1,11 +1,10 @@
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Threads/Replies/Model/RepliesListResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/Replies/ViewModel/thread_section_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class RespliesController extends GetxController {
   final getProfileController = Get.put(GetProfileController());
@@ -36,6 +35,7 @@ class RespliesController extends GetxController {
     }
   }
 
+  RxBool isScrollable = false.obs;
   void loadMoreData() {
     if (!loading.value &&
         currentPage.value <

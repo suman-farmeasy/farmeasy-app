@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/Model/MatchingFarmerResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/ViewModel/matching_farmer_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class HomeScreenMatchingFarmerController extends GetxController {
@@ -30,7 +30,7 @@ class HomeScreenMatchingFarmerController extends GetxController {
     _matchingApi.matchingFarmerData({
       "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
       "Content-Type": "application/json"
-    }, landId).then((value) {
+    }, landId, 100).then((value) {
       farmerLoading.value = false;
       setRxRequestData(value);
     }).onError((error, stackTrace) {

@@ -1,10 +1,9 @@
 import 'package:farm_easy/Screens/Directory/Model/ListLandOwnerResponseModel.dart';
 import 'package:farm_easy/Screens/Directory/ViewModel/directory_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ListLandOwnerController extends GetxController {
   final searchController = TextEditingController();
@@ -12,7 +11,7 @@ class ListLandOwnerController extends GetxController {
   final prefs = AppPreferences();
   final landowner = ListLandOwnerResponseModel().obs;
   RxString searchLandowner = "".obs;
-  RxList landOwnerData = [].obs;
+  RxList<Data> landOwnerData = <Data>[].obs;
   RxBool loading = false.obs;
   Rx<Status> rxRequestStatus = Status.LOADING.obs;
   RxInt currentPage = 1.obs;
@@ -41,9 +40,13 @@ class ListLandOwnerController extends GetxController {
     searchLandOwner("");
   }
 
-  Future<void> landOwnerList() async {
+  Future<void> landOwnerList({bool isPagination = false}) async {
+    if (isPagination) {
+      landOwnerData.clear();
+    }
     loading.value = true;
     rxRequestStatus.value = Status.LOADING;
+
     _api.listLandOwner(currentPage.value, searchLandowner.value, {
       "Authorization": 'Bearer ${await prefs.getUserAccessToken()}',
       "Content-Type": "application/json"
@@ -51,13 +54,13 @@ class ListLandOwnerController extends GetxController {
       setRxRequestData(value);
       setRxRequestStatus(Status.SUCCESS);
       loading.value = false;
-      if (landowner.value.result?.data != null) {
+      if (landowner.value.result!.data != null) {
         totalPages.value = landowner.value.result!.pageInfo!.totalPage!.toInt();
         landOwnerData.addAll(landowner.value.result!.data!);
       }
     }).onError((error, stackTrace) {
       loading.value = false;
-      Status.ERROR;
+      setRxRequestStatus(Status.ERROR);
     });
   }
 

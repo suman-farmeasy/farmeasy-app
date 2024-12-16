@@ -1,12 +1,10 @@
-import 'package:farm_easy/Utils/Constants/color_constants.dart';
-import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/chat_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/message_seen_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/sendmessage_controller.dart';
 import 'package:farm_easy/Screens/UserProfile/View/profile_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,12 +44,20 @@ class _ChatScreenState extends State<ChatScreen> {
   final ismsgseenController = Get.put(MessageSeenController());
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    chatController.reloadChatsData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     chatController.enquiryId.value = widget.enquiryId;
     messageController.userId.value = widget.userId;
     messageController.landId.value = widget.landId;
     ismsgseenController.enquiryId.value = widget.enquiryId;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppColor.BACKGROUND,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.22),
@@ -116,13 +122,27 @@ class _ChatScreenState extends State<ChatScreen> {
                           ));
                     },
                     child: Container(
-                      height: Get.height * 0.1,
-                      width: Get.width * 0.23,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage(widget.image))),
-                    ),
+                        height: Get.height * 0.1,
+                        width: Get.width * 0.22,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.DARK_GREEN.withOpacity(0.2),
+                            image: DecorationImage(
+                                image: NetworkImage(widget.image),
+                                fit: BoxFit.cover)),
+                        child: widget.image == ""
+                            ? Center(
+                                child: Text(
+                                  widget.userName[0].toUpperCase(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 35,
+                                    color: AppColor
+                                        .DARK_GREEN, // Text color contrasting the background
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              )
+                            : Container()),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,11 +207,11 @@ class _ChatScreenState extends State<ChatScreen> {
             Column(
               children: [
                 Container(
-                  height: Get.height * 0.65,
+                  height: Get.height * 0.6,
                   child: Obx(() => ListView.builder(
                         controller: chatController.scrollController,
                         shrinkWrap: true,
-                        reverse: true,
+                        // reverse: true,
                         scrollDirection: Axis.vertical,
                         itemCount: chatController
                                 .chatData.value.result?.data?.length ??
@@ -227,90 +247,91 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                       )),
                 ),
-              ],
-            )
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 15),
-        height: Get.height * 0.06,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkWell(
-              onTap: () {
-                messageController.getImage(ImageSource.gallery);
-              },
-              child: Container(
-                width: Get.width * 0.13,
-                padding: const EdgeInsets.all(8),
-                decoration: ShapeDecoration(
-                  color: Color(0x23044D3A),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0x66044D3A)),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-                child: Center(
-                  child: SvgPicture.asset("assets/logos/chatgallary.svg"),
-                ),
-              ),
-            ),
-            Stack(
-              children: [
                 Container(
-                    width: Get.width * 0.7,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: AppColor.GREEN_SUBTEXT),
-                        borderRadius: BorderRadius.circular(48)),
-                    child: TextFormField(
-                        controller:
-                            messageController.sendMessageController.value,
-                        style: GoogleFonts.poppins(
-                          color: Colors.black.withOpacity(0.41999998688697815),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  margin: EdgeInsets.only(top: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          messageController.getImage(ImageSource.gallery);
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.13,
+                          padding: const EdgeInsets.all(8),
+                          decoration: ShapeDecoration(
+                            color: Color(0x23044D3A),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0x66044D3A)),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                "assets/logos/chatgallary.svg"),
+                          ),
                         ),
-                        decoration: InputDecoration(
-                          suffix: CircleAvatar(
-                            radius: 10,
-                            backgroundColor: Colors.black,
+                      ),
+                      Stack(
+                        children: [
+                          Container(
+                            width: Get.width * 0.7,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.GREEN_SUBTEXT),
+                              borderRadius: BorderRadius.circular(48),
+                            ),
+                            child: TextFormField(
+                              maxLines: null,
+                              controller:
+                                  messageController.sendMessageController.value,
+                              style: GoogleFonts.poppins(
+                                color: Colors.black.withOpacity(0.42),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              minLines: 1,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Write message",
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                hintStyle: GoogleFonts.poppins(
+                                  color: Colors.black.withOpacity(0.42),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
                           ),
-                          border: InputBorder.none,
-                          hintText: "Write message",
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
-                          hintStyle: GoogleFonts.poppins(
-                            color:
-                                Colors.black.withOpacity(0.41999998688697815),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            height: 0.17,
-                            letterSpacing: 0.15,
-                          ),
-                        ))),
-                Positioned(
-                  left: Get.width * 0.57,
-                  top: 1,
-                  right: 0,
-                  child: InkWell(
-                    onTap: () {
-                      print(
-                          "===========${chatController.chatController.value.text}");
-                      messageController.sendmessage();
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: CircleAvatar(
-                      radius: 23,
-                      backgroundColor: AppColor.DARK_GREEN,
-                      child: SvgPicture.asset("assets/logos/send.svg"),
-                    ),
+                          Positioned(
+                            left: Get.width * 0.57,
+                            top: 1,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () {
+                                print(
+                                    "===========${chatController.chatController.value.text}");
+                                messageController.sendmessage();
+                                // FocusScope.of(context).unfocus();
+                              },
+                              child: CircleAvatar(
+                                radius: 23,
+                                backgroundColor: AppColor.DARK_GREEN,
+                                child:
+                                    SvgPicture.asset("assets/logos/send.svg"),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

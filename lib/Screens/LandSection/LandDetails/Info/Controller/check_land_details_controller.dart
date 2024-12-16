@@ -1,16 +1,12 @@
+import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Model/CheckLandDetailsResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/ViewModel/land_info_view_model.dart';
-import 'package:farm_easy/API/Services/network/status.dart';
-import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class ChecklandDetailsController extends GetxController {
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    landDetails();
-  }
+  final controller = Get.put(LandInfoController());
 
   final _api = CheckLandDetailsViewMOdel();
   final landData = CheckLandDetailsResponseModel().obs;
@@ -22,12 +18,13 @@ class ChecklandDetailsController extends GetxController {
   void setRxRequestData(CheckLandDetailsResponseModel _value) =>
       landData.value = _value;
 
-  Future landDetails() async {
+  Future landDetails(int landId) async {
     loading.value = true;
     _api.landDetails({
       "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
       "Content-Type": "application/json"
-    }, landId.value).then((value) {
+    }, landId).then((value) {
+      controller.getLandDetails(landId);
       loading.value = false;
       setRxRequestData(value);
     }).onError((error, stackTrace) {});
