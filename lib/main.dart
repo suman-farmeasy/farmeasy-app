@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'utils/firebase_options.dart';
-import 'utils/localization/apptranslations.dart';
+import 'utils/localization/apptranslations/apptranslations.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {

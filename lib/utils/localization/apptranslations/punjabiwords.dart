@@ -1,0 +1,33 @@
+get punjabiWords => {
+      'hi': 'ਹੈਲੋ',
+      'What is FarmEasy?': 'FarmEasy ਕੀ ਹੈ?',
+      'FarmEasyDescModel':
+          'FarmEasy ਕਿਸਾਨਾਂ ਨੂੰ ਜ਼ਮੀਨ ਮਾਲਕਾਂ ਨਾਲ ਜੋੜ ਕੇ ਖੇਤੀਬਾੜੀ ਨੂੰ ਬਦਲਣ ਵਾਲਾ ਇੱਕ ਨਵੀਨਤਾਕਾਰੀ ਪਲੇਟਫਾਰਮ ਹੈ। ਇਹ ਖੇਤੀ ਲਈ ਜ਼ਮੀਨ ਦੀ ਲੋੜ ਵਾਲੇ ਕਿਸਾਨਾਂ ਅਤੇ ਖੇਤੀਬਾੜੀ ਲਈ ਜਗ੍ਹਾ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਨ ਵਾਲੇ ਜ਼ਮੀਨ ਮਾਲਕਾਂ ਵਿਚਕਾਰ ਇੱਕ ਸਹਿਜ ਆਦਾਨ-ਪ੍ਰਦਾਨ ਦੀ ਸਹੂਲਤ ਦਿੰਦਾ ਹੈ।',
+      'How to use FarmEasy?': 'FarmEasy ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ?',
+      'useFarmEasyThisWay':
+          "1. ਲੀਜ਼ 'ਤੇ ਜ਼ਮੀਨ ਲੱਭੋ/ਪਾਓ\n2. ਖੇਤੀ ਸੰਬੰਧੀ ਨੌਕਰੀਆਂ ਲੱਭੋ।\n3. ਕਿਸਾਨ ਲੱਭੋ",
+      'Back': 'ਪਿੱਛੇ',
+      'Partner': 'ਸਾਥੇ',
+      'Agri Service Provider': 'ਕਿਸਾਨਾਂ ਸਰਵਿਸਿਆਸ ਪਾਰਟੀਆਰ',
+      'completed': 'ਪ੍ਰਕਾਰਨ ਕਰਦਾ',
+      'Provide more information': 'ਅਤੇ ਜਾਣਕਾਰ ਦੀ ਹਾਨ',
+      'Complete your profile to receive better recommendations.':
+          'ਅਤੇ ਤਾਪਮਾਨ ਦੀ ਹਾਨ ਤੋਂ ਅਤੇ ਸਾਥੇ ਦੀ ਜਾਣਕਾਰ ਦੀ ਹਾਨ।',
+      'Complete Profile': 'ਪੂਰਾ ਪ੍ਰੋਫਾਈਲ',
+      'Add New Product': 'ਨਵੀਨ ਉਤਪਾਨ ਜਾਣਾਂ',
+      'To find relevant product and services': 'ਉਤਪਾਨ ਔਰ ਸਰਵਿਸਿਆਸ ਖੇਤੀ ਦੀ ਹਾਨ',
+      'Recommended landowners': 'ਸਾਯਿਕੇਤ ਭੀਜ਼',
+      'View all': 'ਸਾਰੇ ਦੇਖੋ',
+      'Farmers': 'ਕਿਸਾਨਾਂ',
+      'Calculate Crop Earning Yield': 'ਫਸਲ ਦੀ ਕਮਾਈ ਦੀ ਉਪਜ ਦੀ ਗਣਨਾ ਕਰੋ',
+      'Select crops(upto 3)': 'ਫਸਲਾਂ ਦੀ ਚੋਣ ਕਰੋ (3 ਤੱਕ)',
+      'Select Crops': 'ਫਸਲਾਂ ਦੀ ਚੋਣ ਕਰੋ',
+      'Select crops': 'ਫਸਲਾਂ ਦੀ ਚੋਣ ਕਰੋ',
+      'Land Size': 'ਜ਼ਮੀਨ ਦਾ ਆਕਾਰ',
+      'Calculate': 'ਗਣਨਾ ਕਰੋ',
+      'Calculate Fertiliser Requirements': 'ਖਾਦ ਦੀਆਂ ਲੋੜਾਂ ਦੀ ਗਣਨਾ ਕਰੋ',
+      'Search': 'ਖੋਜੋ',
+      'Nitrogen Fertiliser': 'ਨਾਈਟ੍ਰੋਜਨ ਖਾਦ',
+      'Phosphorus Fertiliser': 'ਪਾਸਸਟ੍ਰੋਜਨ ਖਾਦ',
+      'Potassium Fertiliser': 'ਪੋਟਾਂਸਾਸਿਟਾਨ ਖਾਦ',
+    };

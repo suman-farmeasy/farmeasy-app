@@ -1,0 +1,33 @@
+get hindiWords => {
+      'hi': 'नमस्ते',
+      'What is FarmEasy?': 'FarmEasy क्या है?',
+      'FarmEasyDescModel':
+          'FarmEasy किसानों को भूमि मालिकों से जोड़कर कृषि में बदलाव लाने वाला एक अभिनव मंच है। यह खेती के लिए भूमि की आवश्यकता वाले किसानों और कृषि स्थान की पेशकश करने वाले भूमि मालिकों के बीच निर्बाध आदान-प्रदान की सुविधा प्रदान करता है।',
+      'How to use FarmEasy?': 'FarmEasy का उपयोग कैसे करें?',
+      'useFarmEasyThisWay':
+          '1. जमीन ढूंढ़ें/पट्टे पर रखें\n2. खेती की नौकरियाँ खोजें।\n3. किसानों को खोजें',
+      'Back': 'वापस',
+      'Partner': 'साथी',
+      'Agri Service Provider': 'कृषि सेवा प्रदाता',
+      'completed': 'पूरा हो गया',
+      'Provide more information': 'और जानकारी दें',
+      'Complete your profile to receive better recommendations.':
+          'बेहतर अनुशंसाएँ प्राप्त करने के लिए अपनी प्रोफ़ाइल पूर्ण करें।',
+      'Complete Profile': 'संपूर्ण प्रोफ़ाइल',
+      'Add New Product': 'नया उत्पाद जोड़े',
+      'To find relevant product and services': 'उत्पाद और सेवा को खोजने के लिए',
+      'Recommended landowners': 'संयोजित भूमि दाता',
+      'View all': 'सबीदेखें',
+      'Farmers': 'किसानों',
+      'Calculate Crop Earning Yield': 'फसल उपार्जन उपज की गणना करें',
+      'Select crops(upto 3)': 'फसलें चुनें (3 तक)',
+      'Select Crops': 'फसलें चुनें',
+      'Select crops': 'फसलें चुनें',
+      'Land Size': 'भूमि का आकार',
+      'Calculate': 'कामिते',
+      'Calculate Fertiliser Requirements': 'उर्वरक आवश्यकताओं की गणना करें',
+      'Search': 'खोजें',
+      'Nitrogen Fertiliser': 'नाइट्रोजन उर्वरक',
+      'Phosphorus Fertiliser': 'प्वास्ट्रोजन उर्वरक',
+      'Potassium Fertiliser': 'पोटांसँस उर्वरक',
+    };
