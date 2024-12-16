@@ -274,7 +274,7 @@ class _MoreSectionState extends State<MoreSection> {
             ),
             // ListTilesWidget(
             //   img: "assets/more/guarantee.svg",
-            //   title: "Subscription",
+            //   title: "Subscription".tr,
             // ),
             InkWell(
               onTap: () {
