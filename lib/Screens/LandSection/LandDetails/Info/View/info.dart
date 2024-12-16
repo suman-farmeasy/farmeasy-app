@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Enquiries/Controller/enquiries_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Controller/check_land_details_controller.dart';

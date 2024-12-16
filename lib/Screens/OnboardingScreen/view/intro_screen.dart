@@ -1,4 +1,4 @@
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/View/login_page.dart';
 import 'package:farm_easy/Screens/OnboardingScreen/controller/intro_page_controller.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../Constants/image_constant.dart';
+import '../../../Utils/Constants/image_constant.dart';
 
 class IntroductionScreen extends StatefulWidget {
   @override

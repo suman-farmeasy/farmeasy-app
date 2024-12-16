@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/View/all_enquiries.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/EmailLogin/View/email_login.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../Constants/dimensions_constatnts.dart';
+import '../../../Utils/Constants/dimensions_constatnts.dart';
 
 class MoreSection extends StatefulWidget {
   const MoreSection({super.key});

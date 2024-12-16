@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/ChatGpt/View/chat_gpt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,60 +21,62 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
       backgroundColor: Color(0xfff343541),
       body: Center(
         child: Column(
-          crossAxisAlignment:CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: Get.height*0.08,),
+            SizedBox(
+              height: Get.height * 0.08,
+            ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 20),
-                child: SvgPicture.asset(ImageConstants.CHATGPT,color: Colors.white,)),
-            SizedBox(height: Get.height*0.23,),
-       Column(
-         children: [
-           Container(
-             margin: EdgeInsets.symmetric(vertical: 15),
-             child: Text(
-               'Welcome to\nFarm Assistant',
-               textAlign: TextAlign.center,
-               style: TextStyle(
-                 color: Colors.white,
-                 fontSize: 32,
-
-                 fontWeight: FontWeight.w700,
-                 height: 0,
-               ),
-             ),
-           ),
-           Text(
-             'Ask anything, get yout answer',
-             textAlign: TextAlign.center,
-             style: GoogleFonts.raleway(
-               color: Colors.white,
-               fontSize: 15,
-
-               fontWeight: FontWeight.w400,
-               height: 0,
-             ),
-           ),
-         ],
-       )
-
-
+                child: SvgPicture.asset(
+                  ImageConstants.CHATGPT,
+                  color: Colors.white,
+                )),
+            SizedBox(
+              height: Get.height * 0.23,
+            ),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    'Welcome to\nFarm Assistant',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Ask anything, get yout answer',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.raleway(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    height: 0,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
-      bottomNavigationBar:  InkWell(
-        onTap: (){
-          Get.to(()=>ChatGptScreen());
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          Get.to(() => ChatGptScreen());
         },
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 18,horizontal: 10),
-          margin: EdgeInsets.symmetric(vertical: 25,horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+          margin: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: AppColor.CHATGPTSENDCOLOR,
-
           ),
           child: Text(
             'New Query',
@@ -82,7 +84,6 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
             style: GoogleFonts.raleway(
               color: Colors.white,
               fontSize: 18,
-
               fontWeight: FontWeight.w700,
               height: 0,
             ),

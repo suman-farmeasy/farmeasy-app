@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Controller/select_corp.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/AgriProviderResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/CreateUserResponseModel.dart';
@@ -12,8 +12,8 @@ import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/create_user_view_
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/farmer_experties_view_model.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
 import 'package:farm_easy/Screens/Partners/Controller/partner_services_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

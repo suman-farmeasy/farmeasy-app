@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/update_profile_controller.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,12 +31,14 @@ class ProfileController extends GetxController {
         if (userRole == StringConstatnt.FARMER) {
           final updateProfileController = Get.find<UpdateProfileController>();
           await updateProfileController.updateFarmerProfileImage(croppedFile);
-        }else if(userRole == StringConstatnt.AGRI_PROVIDER){
+        } else if (userRole == StringConstatnt.AGRI_PROVIDER) {
           final updateProfileController = Get.find<UpdateProfileController>();
-          await updateProfileController.updateAgriProviderProfileImage(croppedFile);
-        }else if(userRole == StringConstatnt.LANDOWNER){
+          await updateProfileController
+              .updateAgriProviderProfileImage(croppedFile);
+        } else if (userRole == StringConstatnt.LANDOWNER) {
           final updateProfileController = Get.find<UpdateProfileController>();
-          await updateProfileController.updateLandOwnerProfileImage(croppedFile);
+          await updateProfileController
+              .updateLandOwnerProfileImage(croppedFile);
         }
 
         Get.back();

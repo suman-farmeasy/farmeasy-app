@@ -1,6 +1,6 @@
 import 'package:farm_easy/Screens/Auth/UserResgister/Model/crops_model.dart';
 import 'package:farm_easy/Screens/Auth/UserResgister/ViewModel/farmer_experties_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:get/get.dart';
 
 class CropGridCalculator extends GetxController {

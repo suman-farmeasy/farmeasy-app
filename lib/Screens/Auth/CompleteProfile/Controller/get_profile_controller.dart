@@ -2,8 +2,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/update_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Model/GetProfileResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/VIewModel/complete_profile_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

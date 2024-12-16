@@ -1,8 +1,8 @@
 import 'package:farm_easy/Screens/FertilizerCalculator/Model/fertilizer_calculated_model.dart';
 import 'package:farm_easy/Screens/FertilizerCalculator/View/fertilizer_calculator.dart';
 import 'package:farm_easy/Screens/FertilizerCalculator/ViewModel/fertilizer_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class FertilizerCalculatedController extends GetxController {

@@ -4,8 +4,8 @@ import 'package:farm_easy/Screens/ProductAndServices/Controller/product_img_cont
 import 'package:farm_easy/Screens/ProductAndServices/Controller/product_view_controller.dart';
 import 'package:farm_easy/Screens/ProductAndServices/ViewModel/product_view_model.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Model/ThreadCreatedResponseModel.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

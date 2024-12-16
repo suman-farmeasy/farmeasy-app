@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/create_thread_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/list_tags_controller.dart';
 import 'package:farm_easy/Screens/Threads/CreateThreads/Controller/thread_image_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -29,15 +29,16 @@ class _CreateThreadsState extends State<CreateThreads> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         backgroundColor: AppColor.BACKGROUND,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(Get.width * 0.16),
-          child: CommonAppBar(title:  'New Post',),
-
+          child: CommonAppBar(
+            title: 'New Post',
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -105,12 +106,15 @@ class _CreateThreadsState extends State<CreateThreads> {
                   return GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                     ),
-                    itemCount: imageController.photos.length < 3 ? imageController.photos.length + 1 : 3,
+                    itemCount: imageController.photos.length < 3
+                        ? imageController.photos.length + 1
+                        : 3,
                     itemBuilder: (context, index) {
                       if (index < imageController.photos.length) {
                         return Stack(
@@ -118,7 +122,8 @@ class _CreateThreadsState extends State<CreateThreads> {
                             Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: FileImage(File(imageController.photos[index])),
+                                  image: FileImage(
+                                      File(imageController.photos[index])),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
@@ -149,7 +154,8 @@ class _CreateThreadsState extends State<CreateThreads> {
                             ),
                           ],
                         );
-                      } else if (index == imageController.photos.length && index < 3) {
+                      } else if (index == imageController.photos.length &&
+                          index < 3) {
                         return Visibility(
                           visible: imageController.photos.length < 3,
                           child: InkWell(
@@ -162,21 +168,21 @@ class _CreateThreadsState extends State<CreateThreads> {
                               dashPattern: [9, 4],
                               radius: Radius.circular(12),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
                                 child: Container(
                                   color: Color(0x1E044D3A),
                                   child: Center(
                                     child: Column(
                                       children: [
-
                                         Container(
-                                          margin:EdgeInsets.only(top: 25,bottom: 15),
+                                          margin: EdgeInsets.only(
+                                              top: 25, bottom: 15),
                                           child: SvgPicture.asset(
                                             'assets/logos/gallary.svg',
                                             height: 24,
                                           ),
                                         ),
-
                                         Text(
                                           "Add",
                                           style: GoogleFonts.poppins(
@@ -255,22 +261,25 @@ class _CreateThreadsState extends State<CreateThreads> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 10),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: isSelected
-                                      ? Border.all(color: AppColor.DARK_GREEN)
-                                      : Border.all(color: AppColor.GREY_BORDER),
-                                  color: isSelected
-                                      ? Color(0xFFECF5DE)
-                                      : Color(0x19828282),
+                                borderRadius: BorderRadius.circular(40),
+                                border: isSelected
+                                    ? Border.all(color: AppColor.DARK_GREEN)
+                                    : Border.all(color: AppColor.GREY_BORDER),
+                                color: isSelected
+                                    ? Color(0xFFECF5DE)
+                                    : Color(0x19828282),
                               ),
                               duration: Duration(milliseconds: 10),
                               child: Text(
-                                  "${tagsController.tagsData.value.result![index].name.toString()}",style: GoogleFonts.poppins(
-                                color: isSelected?AppColor.DARK_GREEN:Color(0xFF4F4F4F),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-
-                              ),),
+                                "${tagsController.tagsData.value.result![index].name.toString()}",
+                                style: GoogleFonts.poppins(
+                                  color: isSelected
+                                      ? AppColor.DARK_GREEN
+                                      : Color(0xFF4F4F4F),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           );
                         }),
@@ -280,52 +289,50 @@ class _CreateThreadsState extends State<CreateThreads> {
                     return Container();
                   }
                 }),
-
               ],
             ),
           ),
         ),
-        bottomNavigationBar:  Obx(() {
+        bottomNavigationBar: Obx(() {
           return InkWell(
-            onTap: (){
+            onTap: () {
               controller.threadDataUpload();
-
             },
-            child:controller.loading.value?Container(
-              margin: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
-              height: Get.height*0.06,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.DARK_GREEN
-              ),
-              child: Center(
-                child: CircularProgressIndicator(
-
-                  color: Colors.white,
-                ),
-              ),
-            ): Container(
-              margin: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
-              height: Get.height*0.06,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.DARK_GREEN
-              ),
-              child: Center(child: Text(
-                'Post',
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 16,
-
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),),
-            ),
+            child: controller.loading.value
+                ? Container(
+                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                    height: Get.height * 0.06,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColor.DARK_GREEN),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : Container(
+                    margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                    height: Get.height * 0.06,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColor.DARK_GREEN),
+                    child: Center(
+                      child: Text(
+                        'Post',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
           );
         }),
       ),

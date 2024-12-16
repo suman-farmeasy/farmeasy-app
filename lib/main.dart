@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:device_preview/device_preview.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/SplashScreen/View/splash_screen.dart';
 import 'package:farm_easy/Screens/notification_controller.dart';
@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'firebase_options.dart';
+import 'Utils/firebase_options.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {

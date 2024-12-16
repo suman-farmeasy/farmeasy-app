@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Model/UpdateProfileResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/VIewModel/complete_profile_view_model.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

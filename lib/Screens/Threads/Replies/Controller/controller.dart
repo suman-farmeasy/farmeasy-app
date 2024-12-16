@@ -1,15 +1,14 @@
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/Threads/Replies/Model/RepliesListResponseModel.dart';
 import 'package:farm_easy/Screens/Threads/Replies/ViewModel/thread_section_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 
 class RespliesController extends GetxController {
-
- final getProfileController = Get.put(GetProfileController());
+  final getProfileController = Get.put(GetProfileController());
 
   @override
   void onInit() {
@@ -38,13 +37,13 @@ class RespliesController extends GetxController {
   }
 
   void loadMoreData() {
-    if (!loading.value && currentPage.value <
-        repliesData.value.result!.pageInfo!.totalPage!.toInt()) {
+    if (!loading.value &&
+        currentPage.value <
+            repliesData.value.result!.pageInfo!.totalPage!.toInt()) {
       currentPage.value++;
       fetchRepliesDataAndUpdateList();
     }
   }
-
 
   RxDouble opacity = 1.0.obs;
   final replyController = TextEditingController().obs;
@@ -64,12 +63,10 @@ class RespliesController extends GetxController {
 
   Future<void> repliesList() async {
     loading.value = true;
-    _api.repliesList(
-        {
-          "Authorization": 'Bearer ${ await _prefs.getUserAccessToken()}',
-          "Content-Type": "application/json"
-        }
-        , threadId.value, currentPage.value).then((value) {
+    _api.repliesList({
+      "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
+      "Content-Type": "application/json"
+    }, threadId.value, currentPage.value).then((value) {
       loading.value = false;
       setRxRequestData(value);
       WidgetsBinding.instance.addPostFrameCallback((_) {

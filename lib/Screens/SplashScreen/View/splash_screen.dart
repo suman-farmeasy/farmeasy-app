@@ -1,5 +1,5 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/current_location_controller.dart';
 import 'package:farm_easy/Screens/SplashScreen/Controller/splashscreen_controller.dart';
 import 'package:flutter/material.dart';

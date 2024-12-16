@@ -1,10 +1,11 @@
-import 'package:farm_easy/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Threads/Controller/like_unlike_controller.dart';
 import 'package:farm_easy/Screens/Threads/ParticularThread/Controller/particular_thread_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../Utils/Constants/color_constants.dart';
 
 class ParticularThread extends StatefulWidget {
   ParticularThread({super.key, required this.threadId});

@@ -1,40 +1,40 @@
 import 'dart:convert';
 
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:farm_easy/Screens/ChatSection/Controller/chat_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:farm_easy/Screens/ChatSection/Model/SendMessageResponseModel.dart';
 import 'package:farm_easy/Screens/ChatSection/ViewModel/chat_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class SendMessageController extends GetxController{
+class SendMessageController extends GetxController {
   final sendMessageController = TextEditingController().obs;
   final _api = SendMessageViewModel();
-  final sendMessage= SendMessageResponseModel().obs;
-  RxInt landId= 0.obs;
-  RxInt userId= 0.obs;
+  final sendMessage = SendMessageResponseModel().obs;
+  RxInt landId = 0.obs;
+  RxInt userId = 0.obs;
 
-
-  final loading= false.obs;
+  final loading = false.obs;
   final _prefs = AppPreferences();
   final chatList = Get.put(ChatController());
   RxList messages = [].obs;
-  FocusNode ?focusController ;
+  FocusNode? focusController;
 
   final rxRequestStatus = Status.LOADING.obs;
-  void setRxRequestStatus(Status _value)=>rxRequestStatus.value=_value;
-  void setRxRequestData(SendMessageResponseModel _value)=>sendMessage.value=_value;
-  void sendmessage()async{
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  void setRxRequestData(SendMessageResponseModel _value) =>
+      sendMessage.value = _value;
+  void sendmessage() async {
     await sendMsg();
     sendMessageController.value.clear();
 
-   print("=====================${chatList.enquiryId.value}");
-
+    print("=====================${chatList.enquiryId.value}");
   }
+
   Future getImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
     final image = await picker.pickImage(source: source);
@@ -80,25 +80,26 @@ class SendMessageController extends GetxController{
       }
     } catch (e) {
       print('Error uploading image: $e');
-
     }
   }
+
   Future<void> sendMsg() async {
-    loading.value= true;
+    loading.value = true;
     _api.sendMessage(
-    {"Authorization":'Bearer ${ await _prefs.getUserAccessToken()}',"Content-Type": "application/json"},
-       jsonEncode( {
-         "content":sendMessageController.value.text,
-         "land_id":landId.value,
-         "user_id":userId.value,
-       })
-    ).then((value) {
-      loading.value=false;
+        {
+          "Authorization": 'Bearer ${await _prefs.getUserAccessToken()}',
+          "Content-Type": "application/json"
+        },
+        jsonEncode({
+          "content": sendMessageController.value.text,
+          "land_id": landId.value,
+          "user_id": userId.value,
+        })).then((value) {
+      loading.value = false;
       setRxRequestData(value);
-      chatList.enquiryId.value=sendMessage.value.result?.enquiryId?.toInt()??0;
+      chatList.enquiryId.value =
+          sendMessage.value.result?.enquiryId?.toInt() ?? 0;
       chatList.chatsData();
     }).onError((error, stackTrace) {});
-
   }
-
 }

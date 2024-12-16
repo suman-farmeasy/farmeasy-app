@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:farm_easy/ApiUrls/api_urls.dart';
+import 'package:farm_easy/API/ApiUrls/api_urls.dart';
 import 'package:http/http.dart' as http;
-
-
-
 
 class ThreadsImageController extends GetxController {
   RxList<String> photos = <String>[].obs;
@@ -59,11 +56,12 @@ class ThreadsImageController extends GetxController {
       print('Error uploading image: $e');
     }
   }
+
   Future<void> deleteImage(int index) async {
     try {
       String? accessToken = await _prefs.getUserAccessToken();
       int id = uploadedIds[index];
-      final url = Uri.parse(ApiUrls.DELETE_THREAD_IMAGE+'$id');
+      final url = Uri.parse(ApiUrls.DELETE_THREAD_IMAGE + '$id');
       final response = await http.delete(
         url,
         headers: {'Authorization': 'Bearer $accessToken'},
@@ -71,7 +69,6 @@ class ThreadsImageController extends GetxController {
       if (response.statusCode == 200) {
         print('Image deleted successfully. ID: $id');
         uploadedIds.removeAt(index);
-
       } else {
         print('Error deleting image: ${response.reasonPhrase}');
       }
@@ -80,6 +77,3 @@ class ThreadsImageController extends GetxController {
     }
   }
 }
-
-
-

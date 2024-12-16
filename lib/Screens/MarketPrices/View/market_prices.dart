@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/MarketPrices/Controller/district_filter.dart';
 import 'package:farm_easy/Screens/MarketPrices/Controller/filter_controller.dart';
 import 'package:farm_easy/Screens/MarketPrices/Controller/market_controller.dart';

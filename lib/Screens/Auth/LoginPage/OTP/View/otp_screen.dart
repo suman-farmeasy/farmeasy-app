@@ -1,7 +1,7 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Constants/string_constant.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/Constants/string_constant.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/Controller/auth_controller.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/controller/controller.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/View/login_page.dart';

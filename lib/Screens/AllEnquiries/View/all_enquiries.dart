@@ -1,8 +1,8 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/Controller/all_enquiries_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -32,15 +32,16 @@ class _AllEnquiriesState extends State<AllEnquiries> {
         backgroundColor: AppColor.BACKGROUND,
         appBar: PreferredSize(
             preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-            child: CommonAppBar(title: 'All Enquiries',)),
+                Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+            child: CommonAppBar(
+              title: 'All Enquiries',
+            )),
         body: LayoutBuilder(builder: (context, constraints) {
           return RefreshIndicator(
             onRefresh: () async {
               await controller.refreshAllEnquiries();
             },
             child: SingleChildScrollView(
-
               physics: AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
@@ -73,7 +74,8 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                     onTap: () {
                                       Get.to(() => ChatScreen(
                                             landId: controller
-                                                    .allEnquiriesList[index].land
+                                                    .allEnquiriesList[index]
+                                                    .land
                                                     ?.toInt() ??
                                                 0,
                                             enquiryId: controller
@@ -117,15 +119,16 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                           vertical: 10, horizontal: 15),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        border:
-                                            Border.all(color: AppColor.GREY_BORDER),
+                                        border: Border.all(
+                                            color: AppColor.GREY_BORDER),
                                         boxShadow: [AppColor.BOX_SHADOW],
                                         borderRadius: BorderRadius.circular(18),
                                       ),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Container(
                                             margin: EdgeInsets.only(right: 10),
@@ -136,7 +139,8 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                     BorderRadius.circular(10),
                                                 image: DecorationImage(
                                                     image: NetworkImage(controller
-                                                            .allEnquiriesList[index]
+                                                            .allEnquiriesList[
+                                                                index]
                                                             .connectedPersonImage ??
                                                         ""),
                                                     fit: BoxFit.cover)),
@@ -159,10 +163,12 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                     Text(
                                                       'Enquiry #${controller.allEnquiriesList[index].id ?? ""}',
                                                       style: TextStyle(
-                                                        color: Color(0x7F484848),
+                                                        color:
+                                                            Color(0x7F484848),
                                                         fontSize: 10,
                                                         fontFamily: 'Poppins',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         height: 0,
                                                       ),
                                                     ),
@@ -176,10 +182,11 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                         Text(
                                                           '  ${controller.allEnquiriesList[index].lastMessageDate ?? ""}',
                                                           style: TextStyle(
-                                                            color:
-                                                                Color(0x7F484848),
+                                                            color: Color(
+                                                                0x7F484848),
                                                             fontSize: 10,
-                                                            fontFamily: 'Poppins',
+                                                            fontFamily:
+                                                                'Poppins',
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             height: 0,
@@ -191,7 +198,8 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                 ),
                                               ),
                                               Text(
-                                                controller.allEnquiriesList[index]
+                                                controller
+                                                        .allEnquiriesList[index]
                                                         .connectedPersonName ??
                                                     "",
                                                 style: GoogleFonts.poppins(
@@ -214,11 +222,13 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                     fontWeight: FontWeight.w400,
                                                     height: 0,
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               Text(
-                                                controller.allEnquiriesList[index]
+                                                controller
+                                                        .allEnquiriesList[index]
                                                         .lastMessage ??
                                                     "",
                                                 style: GoogleFonts.poppins(

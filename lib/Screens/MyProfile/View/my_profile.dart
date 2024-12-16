@@ -1,7 +1,7 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/Auth/CompleteProfile/Controller/get_profile_controller.dart';
 import 'package:farm_easy/Screens/ChatGpt/View/chat_gpt_start_Screen.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';

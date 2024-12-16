@@ -1,9 +1,9 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/Model/PhonenumberResponseModel.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/OTP/View/otp_screen.dart';
 import 'package:farm_easy/Screens/Auth/LoginPage/ViewModel/phonenumber_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

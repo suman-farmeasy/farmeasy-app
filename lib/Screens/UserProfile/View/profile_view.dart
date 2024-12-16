@@ -1,6 +1,6 @@
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
 import 'package:farm_easy/Screens/Followers/Followers/view/followers_view.dart';
 import 'package:farm_easy/Screens/Followers/Followings/Controller/follow_unfollow_controller.dart';

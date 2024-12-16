@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Controller/map_controller.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/AddLandResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/CropResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/Model/LandPurposeResponse.dart';
 import 'package:farm_easy/Screens/LandSection/LandAdd/ViewModel/land_view_model.dart';
 import 'package:farm_easy/Screens/LandSection/LandDetails/View/land_details.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';

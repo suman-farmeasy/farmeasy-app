@@ -1,13 +1,13 @@
-
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/Model/MatchingFarmerResponseModel.dart';
 import 'package:farm_easy/Screens/LandSection/MatchingFarmer/ViewModel/matching_farmer_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class HomeScreenMatchingFarmerController extends GetxController {
   final MatchingFarmerViewModel _matchingApi = MatchingFarmerViewModel();
-  final Rx<MatchingFarmerResponseModel> matchingFarmerData = MatchingFarmerResponseModel().obs;
+  final Rx<MatchingFarmerResponseModel> matchingFarmerData =
+      MatchingFarmerResponseModel().obs;
   final RxBool farmerLoading = false.obs;
   final Rx<Status> rxRequestStatus = Status.LOADING.obs;
   final AppPreferences _prefs = AppPreferences();
@@ -22,7 +22,8 @@ class HomeScreenMatchingFarmerController extends GetxController {
   }
 
   void setRxRequestValue(Status value) => rxRequestStatus.value = value;
-  void setRxRequestData(MatchingFarmerResponseModel value) => matchingFarmerData.value = value;
+  void setRxRequestData(MatchingFarmerResponseModel value) =>
+      matchingFarmerData.value = value;
 
   Future<void> matchingFarmer(int landId) async {
     farmerLoading.value = true;
@@ -38,5 +39,3 @@ class HomeScreenMatchingFarmerController extends GetxController {
     });
   }
 }
-
-

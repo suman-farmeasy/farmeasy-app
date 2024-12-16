@@ -1,7 +1,7 @@
 import 'package:farm_easy/Screens/ProductAndServices/Model/product_services_model.dart';
 import 'package:farm_easy/Screens/ProductAndServices/ViewModel/product_view_model.dart';
-import 'package:farm_easy/Services/network/status.dart';
-import 'package:farm_easy/SharedPreferences/shared_preferences.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Utils/SharedPreferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class ProductViewController extends GetxController {

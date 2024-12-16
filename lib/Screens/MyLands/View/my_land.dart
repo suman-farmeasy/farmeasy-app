@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:farm_easy/Constants/color_constants.dart';
-import 'package:farm_easy/Constants/dimensions_constatnts.dart';
-import 'package:farm_easy/Constants/image_constant.dart';
-import 'package:farm_easy/Res/CommonWidget/App_AppBar.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/Utils/Constants/image_constant.dart';
+import 'package:farm_easy/Utils/CustomWidgets/Res/CommonWidget/app_appbar.dart';
 import 'package:farm_easy/Screens/HomeScreen/Controller/home_controller.dart';
 import 'package:farm_easy/Screens/HomeScreen/Model/LandListResponseModel.dart';
 import 'package:farm_easy/Screens/HomeScreen/View/home_screen.dart';
@@ -31,8 +31,8 @@ class _MyLandsState extends State<MyLands> {
   final homecontroller = Get.put(MyLandController());
   final ScrollController _landController = ScrollController();
   // final landController = Get.put(LandInfoController());
-  final imageController= Get.put(ImageController());
-  final addimageController= Get.put(AddImageController());
+  final imageController = Get.put(ImageController());
+  final addimageController = Get.put(AddImageController());
   final Set<int> processedIndices = {};
   @override
   Widget build(BuildContext context) {
@@ -71,20 +71,21 @@ class _MyLandsState extends State<MyLands> {
                             color: AppColor.DARK_GREEN),
                       );
                     } else {
-
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: homecontroller.alllandListData.length,
                           itemBuilder: (context, landIndex) {
                             if (!processedIndices.contains(landIndex)) {
-                              homecontroller.alllandListData[landIndex].images?.add(Images(image: ""));
+                              homecontroller.alllandListData[landIndex].images
+                                  ?.add(Images(image: ""));
                               processedIndices.add(landIndex);
                             }
                             return InkWell(
                               onTap: () {
                                 Get.to(() => LandDetails(
-                                    id: homecontroller.alllandListData[landIndex].id
+                                    id: homecontroller
+                                            .alllandListData[landIndex].id
                                             ?.toInt() ??
                                         0));
                               },
@@ -168,11 +169,12 @@ class _MyLandsState extends State<MyLands> {
                                                       child: Text(
                                                         homecontroller
                                                                 .alllandListData[
-                                                        landIndex]
+                                                                    landIndex]
                                                                 .weatherDetails
                                                                 ?.description ??
                                                             "",
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style:
                                                             GoogleFonts.poppins(
                                                                 fontWeight:
@@ -390,7 +392,7 @@ class _MyLandsState extends State<MyLands> {
                                                     child: ListView.builder(
                                                         itemCount: homecontroller
                                                                 .alllandListData[
-                                                        landIndex]
+                                                                    landIndex]
                                                                 .cropToGrow
                                                                 ?.length ??
                                                             0,
@@ -419,115 +421,158 @@ class _MyLandsState extends State<MyLands> {
                                         ],
                                       ),
                                       Row(
-                                              children: List.generate(
-                                                  450 ~/ 4,
-                                                  (index) => Expanded(
-                                                        child: Container(
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  vertical: 12),
-                                                          color: index % 2 == 0
-                                                              ? Colors
-                                                                  .transparent
-                                                              : AppColor
-                                                                  .GREY_BORDER,
-                                                          height: 1,
-                                                        ),
-                                                      )),
-                                            ),
+                                        children: List.generate(
+                                            450 ~/ 4,
+                                            (index) => Expanded(
+                                                  child: Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 12),
+                                                    color: index % 2 == 0
+                                                        ? Colors.transparent
+                                                        : AppColor.GREY_BORDER,
+                                                    height: 1,
+                                                  ),
+                                                )),
+                                      ),
                                       Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 10),
-                                        height: AppDimension.h * 0.16,
-                                        child:
-                                       // homecontroller.allImages.value = [...?homecontroller.alllandListData[index].images?.map((img) => img.image).toList(), ...addimageController.images];
-                                        Obx(() {
-                                          return ListView.builder(
-                                            itemCount: homecontroller.alllandListData[landIndex].images!.length ,
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (context, imgIndex) {
-                                              final imageUrl = homecontroller.alllandListData[landIndex].images![imgIndex].image;
-                                              Widget imageWidget;
-                                              if(imageUrl?.trim().isEmpty == true){
-                                                return GestureDetector(
-                                                    onTap: () {
-                                                      homecontroller.pickImage(landIndex, homecontroller.alllandListData[landIndex].id!.toInt());
-                                                    },
-                                                    child:Container(
-                                                      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                                                      child: DottedBorder(
-                                                          borderType: BorderType.RRect,
-                                                          color: AppColor.DARK_GREEN,
-                                                          dashPattern: [9, 4],
-                                                          radius: Radius.circular(12),
-                                                          child: ClipRRect(
-                                                              borderRadius: BorderRadius.all(Radius.circular(12)),child:  Container(
-                                                            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-
-                                                            child: Center(
-                                                              child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  Icon(Icons.add, size: 20, color: AppColor.BROWN_TEXT),
-                                                                  Text(
-                                                                    "Add Land\nImages",
-                                                                    textAlign: TextAlign.center,
-                                                                    style: TextStyle(
-                                                                      fontSize: 13,
-                                                                      fontWeight: FontWeight.w600,
-                                                                      color: Color(0xFF333333),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          height: AppDimension.h * 0.16,
+                                          child:
+                                              // homecontroller.allImages.value = [...?homecontroller.alllandListData[index].images?.map((img) => img.image).toList(), ...addimageController.images];
+                                              Obx(() {
+                                            return ListView.builder(
+                                              itemCount: homecontroller
+                                                  .alllandListData[landIndex]
+                                                  .images!
+                                                  .length,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, imgIndex) {
+                                                final imageUrl = homecontroller
+                                                    .alllandListData[landIndex]
+                                                    .images![imgIndex]
+                                                    .image;
+                                                Widget imageWidget;
+                                                if (imageUrl?.trim().isEmpty ==
+                                                    true) {
+                                                  return GestureDetector(
+                                                      onTap: () {
+                                                        homecontroller.pickImage(
+                                                            landIndex,
+                                                            homecontroller
+                                                                .alllandListData[
+                                                                    landIndex]
+                                                                .id!
+                                                                .toInt());
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 10,
+                                                                horizontal: 10),
+                                                        child: DottedBorder(
+                                                            borderType:
+                                                                BorderType
+                                                                    .RRect,
+                                                            color: AppColor
+                                                                .DARK_GREEN,
+                                                            dashPattern: [9, 4],
+                                                            radius: Radius
+                                                                .circular(12),
+                                                            child: ClipRRect(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            12)),
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          0,
+                                                                      horizontal:
+                                                                          20),
+                                                                  child: Center(
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                            Icons
+                                                                                .add,
+                                                                            size:
+                                                                                20,
+                                                                            color:
+                                                                                AppColor.BROWN_TEXT),
+                                                                        Text(
+                                                                          "Add Land\nImages",
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color:
+                                                                                Color(0xFF333333),
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ))),
-                                                    ));
-                                              }else {
-                                                if (imageUrl is String &&
-                                                    imageUrl.startsWith(
-                                                        'http')) {
-                                                  imageWidget = Image.network(
-                                                    imageUrl,
-                                                    fit: BoxFit.cover,
-                                                    height: AppDimension.h *
-                                                        0.14,
-                                                    width: AppDimension.w *
-                                                        0.28,
-                                                  );
-                                                } else
-                                                if (imageUrl is String) {
-                                                  imageWidget = Image.file(
-                                                    File(imageUrl),
-                                                    fit: BoxFit.cover,
-                                                    height: AppDimension.h *
-                                                        0.14,
-                                                    width: AppDimension.w *
-                                                        0.28,
-                                                  );
+                                                                ))),
+                                                      ));
                                                 } else {
-                                                  imageWidget =
-                                                      SizedBox.shrink();
+                                                  if (imageUrl is String &&
+                                                      imageUrl
+                                                          .startsWith('http')) {
+                                                    imageWidget = Image.network(
+                                                      imageUrl,
+                                                      fit: BoxFit.cover,
+                                                      height:
+                                                          AppDimension.h * 0.14,
+                                                      width:
+                                                          AppDimension.w * 0.28,
+                                                    );
+                                                  } else if (imageUrl
+                                                      is String) {
+                                                    imageWidget = Image.file(
+                                                      File(imageUrl),
+                                                      fit: BoxFit.cover,
+                                                      height:
+                                                          AppDimension.h * 0.14,
+                                                      width:
+                                                          AppDimension.w * 0.28,
+                                                    );
+                                                  } else {
+                                                    imageWidget =
+                                                        SizedBox.shrink();
+                                                  }
+                                                  return Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: imageWidget,
+                                                    ),
+                                                  );
                                                 }
-                                                return Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(vertical: 10,
-                                                      horizontal: 10),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius
-                                                        .circular(10),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius
-                                                        .circular(10),
-                                                    child: imageWidget,
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                          );
-                                        })
-
-                                      ),
+                                              },
+                                            );
+                                          })),
                                       Divider(),
                                       Row(
                                         mainAxisAlignment:
@@ -553,9 +598,7 @@ class _MyLandsState extends State<MyLands> {
                                           Row(
                                             children: [
                                               InkWell(
-                                                onTap: (){
-
-                                                },
+                                                onTap: () {},
                                                 child: Text(
                                                   'Partners  ',
                                                   style: GoogleFonts.poppins(

@@ -1,10 +1,11 @@
-import 'package:farm_easy/Constants/color_constants.dart';
+import 'package:farm_easy/Utils/Constants/color_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class CommonAppBar extends StatefulWidget {
   CommonAppBar({super.key, required this.title});
   String title = "";
@@ -13,7 +14,6 @@ class CommonAppBar extends StatefulWidget {
 }
 
 class _CommonAppBarState extends State<CommonAppBar> {
-
   @override
   Widget build(BuildContext context) {
     final bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
@@ -21,7 +21,8 @@ class _CommonAppBarState extends State<CommonAppBar> {
       automaticallyImplyLeading: false,
       backgroundColor: AppColor.DARK_GREEN,
       flexibleSpace: Padding(
-        padding: EdgeInsets.only(top: isIOS ? 65 : 40, left: 10, right: 30, bottom: 0),
+        padding: EdgeInsets.only(
+            top: isIOS ? 65 : 40, left: 10, right: 30, bottom: 0),
         child: Row(
           children: [
             IconButton(
@@ -55,6 +56,5 @@ class _CommonAppBarState extends State<CommonAppBar> {
         ),
       ),
     );
-
   }
 }
