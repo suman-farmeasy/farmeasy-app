@@ -69,7 +69,7 @@ class _MoreSectionState extends State<MoreSection> {
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
           isbackButton: false,
-          title: 'More',
+          title: 'More'.tr,
         ),
       ),
       body: SingleChildScrollView(
@@ -182,7 +182,7 @@ class _MoreSectionState extends State<MoreSection> {
                             ),
                           ),
                           title: Text(
-                            'Farmeasy Rating',
+                            'Farmeasy ${"Rating".tr}',
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 14,
@@ -190,7 +190,8 @@ class _MoreSectionState extends State<MoreSection> {
                             ),
                           ),
                           subtitle: Text(
-                            'This score is automatically calculated based on the information provided by you',
+                            'This score is automatically calculated based on the information provided by you'
+                                .tr,
                             style: GoogleFonts.poppins(
                               color: const Color(0xFF62666E),
                               fontSize: 9,
@@ -212,7 +213,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/user.svg",
-                title: "My Profile",
+                title: "My Profile".tr,
               ),
             ),
             FutureBuilder<String>(
@@ -227,7 +228,7 @@ class _MoreSectionState extends State<MoreSection> {
                       child: ListTilesWidget(
                         img: "assets/img/land.svg",
                         color: const Color(0xFF484848),
-                        title: "My Lands",
+                        title: "My Lands".tr,
                       ),
                     );
                   } else if (snapshot.hasData &&
@@ -239,7 +240,7 @@ class _MoreSectionState extends State<MoreSection> {
                       child: ListTilesWidget(
                         img: "assets/img/categoryP.svg",
                         color: const Color(0xFF484848),
-                        title: "Products/Services",
+                        title: "Products/Services".tr,
                       ),
                     );
                   } else {
@@ -257,7 +258,7 @@ class _MoreSectionState extends State<MoreSection> {
               child: ListTilesWidget(
                 img: "assets/logos/app_translate.svg",
                 title:
-                    "App Language : ${db.get('selectedLanguage') ?? 'English'}",
+                    "${'App Language'.tr} : ${db.get('selectedLanguage') ?? 'English'}",
               ),
             ),
             InkWell(
@@ -268,7 +269,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/logos/chat 1.svg",
-                title: "My Conversation",
+                title: "My Conversation".tr,
               ),
             ),
             // ListTilesWidget(
@@ -281,7 +282,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/calculator.svg",
-                title: "Crop Yield Calculator",
+                title: "Crop Yield Calculator".tr,
               ),
             ),
             InkWell(
@@ -290,7 +291,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/calculator.svg",
-                title: "Crop Fertilizer Calculator",
+                title: "Crop Fertilizer Calculator".tr,
               ),
             ),
             InkWell(
@@ -299,7 +300,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/Vector.svg",
-                title: "AI Assistant",
+                title: "AI ${'Assistant'.tr}",
               ),
             ),
             InkWell(
@@ -308,16 +309,16 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/price.svg",
-                title: "Market Prices",
+                title: "Market Prices".tr,
               ),
             ),
             ListTilesWidget(
               img: "assets/more/customer.svg",
-              title: "Contact Us",
+              title: "Contact Us".tr,
             ),
             ListTilesWidget(
               img: "assets/more/about.svg",
-              title: "About Us",
+              title: "About Us".tr,
             ),
             InkWell(
               onTap: () {
@@ -325,7 +326,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/img/feedback.svg",
-                title: "Feedback",
+                title: "Feedback".tr,
               ),
             ),
             InkWell(
@@ -334,7 +335,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/sop.svg",
-                title: "Standard Operating Procedure",
+                title: "Standard Operating Procedure".tr,
               ),
             ),
             InkWell(
@@ -369,7 +370,7 @@ class _MoreSectionState extends State<MoreSection> {
                         onPressed: () =>
                             Get.back(result: true), // Confirm dialog with true
                         child: Text(
-                          'Yes',
+                          'Yes'.tr,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 15,
@@ -386,7 +387,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/deactivate.svg",
-                title: "Delete your account",
+                title: "Delete your account".tr,
                 color: const Color(0xFF484848),
               ),
             ),
@@ -396,7 +397,7 @@ class _MoreSectionState extends State<MoreSection> {
               },
               child: ListTilesWidget(
                 img: "assets/more/power.svg",
-                title: "Logout",
+                title: "Logout".tr,
               ),
             ),
           ],

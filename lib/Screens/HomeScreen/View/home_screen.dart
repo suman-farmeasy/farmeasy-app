@@ -97,14 +97,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void transLateApp() {
-    log(db.get('selectedLanguage'));
-    db.get('selectedLanguage') == 'Hindi'
-        ? selectedLang = 'hi'
-        : db.get('selectedLanguage') == 'English'
-            ? selectedLang = 'en'
-            : db.get('selectedLanguage') == 'Punjabi'
-                ? selectedLang = 'pa'
-                : selectedLang = 'en';
+    db.get('selectedLanguage') == null
+        ? selectedLang = 'en'
+        : db.get('selectedLanguage') == 'Hindi'
+            ? selectedLang = 'hi'
+            : db.get('selectedLanguage') == 'English'
+                ? selectedLang = 'en'
+                : db.get('selectedLanguage') == 'Punjabi'
+                    ? selectedLang = 'pa'
+                    : selectedLang = 'en';
   }
 
   @override
