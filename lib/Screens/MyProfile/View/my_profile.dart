@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/utils/Constants/image_constant.dart';
@@ -68,7 +71,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         child: SingleChildScrollView(
           child: Obx(() {
             return getProfileController.loading.value
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Column(
@@ -76,9 +79,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     children: [
                       Center(
                         child: Container(
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 20),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 30, horizontal: 20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -97,7 +100,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   child: Container(
                                     height: Get.height * 0.15,
                                     width: Get.width * 0.32,
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         top: 10, bottom: 20, left: 20),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
@@ -135,7 +138,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                       ?.substring(0, 1)
                                                       .toUpperCase() ??
                                                   "",
-                                              style: TextStyle(
+                                              style: GoogleFonts.poppins(
                                                 fontSize: 40,
                                                 color: AppColor.DARK_GREEN,
                                                 fontWeight: FontWeight.bold,
@@ -146,12 +149,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 );
                               }),
                               Obx(() {
+                                final fullName = getProfileController
+                                        .getProfileData
+                                        .value
+                                        .result
+                                        ?.fullName ??
+                                    '';
                                 return Text(
-                                  getProfileController.getProfileData.value
-                                          .result?.fullName ??
-                                      "",
-                                  style: GoogleFonts.poppins(
-                                    color: Color(0xFF483C32),
+                                  utf8.decode(utf8.encode(fullName)),
+                                  // utf8.decode(utf8.encode(fullName)),
+                                  style: GoogleFonts.notoSans(
+                                    color: const Color(0xFF483C32),
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     height: 0,
@@ -160,7 +168,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               }),
                               Obx(() {
                                 return Container(
-                                  margin: EdgeInsets.symmetric(vertical: 15),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 15),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -191,7 +200,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   "",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
-                                                color: Color(0xFF483C32),
+                                                color: const Color(0xFF483C32),
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -200,7 +209,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               'Total Followers',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
-                                                color: Color(0xFF483C32),
+                                                color: const Color(0xFF483C32),
                                                 fontSize: 8,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -239,7 +248,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                             .toString() ??
                                                         "",
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF483C32),
+                                                      color: const Color(
+                                                          0xFF483C32),
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -263,7 +273,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               'Following',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
-                                                color: Color(0xFF483C32),
+                                                color: const Color(0xFF483C32),
                                                 fontSize: 8,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -300,8 +310,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                             "",
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF483C32),
+                                                          color: const Color(
+                                                              0xFF483C32),
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w600,
@@ -315,7 +325,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   'Total Lands',
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.poppins(
-                                                    color: Color(0xFF483C32),
+                                                    color:
+                                                        const Color(0xFF483C32),
                                                     fontSize: 8,
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -344,13 +355,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ),
                       ),
                       Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Color(0xFFFFFFF7),
+                            color: const Color(0xFFFFFFF7),
                             boxShadow: [AppColor.BOX_SHADOW]),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,14 +369,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             Text(
                               'Bio',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF483C32),
+                                color: const Color(0xFF483C32),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 height: 0,
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
+                              margin: const EdgeInsets.symmetric(vertical: 5),
                               width: Get.width * 0.9,
                               child: Obx(() => Text(
                                     getProfileController.getProfileData.value
@@ -374,40 +385,41 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         ? "${getProfileController.getProfileData.value.result?.bio}"
                                         : "-----",
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF777777),
+                                      color: const Color(0xFF777777),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       height: 0,
                                     ),
                                   )),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             Text(
                               'City',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF483C32),
+                                color: const Color(0xFF483C32),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 height: 0,
                               ),
                             ),
                             Obx(() => Container(
-                                  margin: EdgeInsets.symmetric(vertical: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
                                     getProfileController.getProfileData.value
                                             .result?.livesIn ??
                                         "",
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF909090),
+                                      color: const Color(0xFF909090),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       height: 0,
                                     ),
                                   ),
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             Obx(() {
@@ -415,11 +427,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       .getProfileData.value.result?.userType ==
                                   "Land Owner") {
                                 return Container(
-                                  margin: EdgeInsets.only(bottom: 5),
+                                  margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
                                     'Profile',
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF333333),
+                                      color: const Color(0xFF333333),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -429,11 +441,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       .getProfileData.value.result?.userType ==
                                   "Farmer") {
                                 return Container(
-                                  margin: EdgeInsets.only(bottom: 5),
+                                  margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
                                     'Expertise',
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF333333),
+                                      color: const Color(0xFF333333),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -443,11 +455,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       .getProfileData.value.result?.userType ==
                                   "Agri Service Provider") {
                                 return Container(
-                                  margin: EdgeInsets.only(bottom: 5),
+                                  margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
                                     'Roles',
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF333333),
+                                      color: const Color(0xFF333333),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -466,7 +478,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                           .result?.profileType ??
                                       "",
                                   style: GoogleFonts.poppins(
-                                    color: Color(0xFF909090),
+                                    color: const Color(0xFF909090),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -484,11 +496,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                             ?.expertise ??
                                         [])
                                       Container(
-                                        margin: EdgeInsets.only(bottom: 2),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 2),
                                         child: Text(
                                           role.name ?? "",
                                           style: GoogleFonts.poppins(
-                                            color: Color(0xFF909090),
+                                            color: const Color(0xFF909090),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -512,7 +525,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         child: Text(
                                           role.name ?? "",
                                           style: GoogleFonts.poppins(
-                                            color: Color(0xFF909090),
+                                            color: const Color(0xFF909090),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -524,20 +537,20 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 return Container();
                               }
                             }),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             Text(
                               'Education',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF483C32),
+                                color: const Color(0xFF483C32),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 height: 0,
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
+                              margin: const EdgeInsets.symmetric(vertical: 5),
                               width: Get.width * 0.9,
                               child: Obx(() => Text(
                                     getProfileController.getProfileData.value
@@ -546,7 +559,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         ? "${getProfileController.getProfileData.value.result?.education}"
                                         : "-----",
                                     style: GoogleFonts.poppins(
-                                      color: Color(0xFF777777),
+                                      color: const Color(0xFF777777),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       height: 0,
@@ -575,12 +588,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            print("PRINTURL ${instagramUrl}");
+                                            print("PRINTURL $instagramUrl");
                                           },
                                           child: Text(
                                             'Available On',
                                             style: GoogleFonts.poppins(
-                                              color: Color(0xFF483C32),
+                                              color: const Color(0xFF483C32),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               height: 0,
@@ -597,8 +610,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     onTap: () async {
                                                       final url = instagramUrl;
                                                       if (await canLaunch(
-                                                          url!)) {
-                                                        await launch(url!);
+                                                          url)) {
+                                                        await launch(url);
                                                       } else {
                                                         throw 'Could not launch $url';
                                                       }
@@ -614,7 +627,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     onTap: () async {
                                                       final url = twitterUrl;
                                                       if (await canLaunch(
-                                                          url!)) {
+                                                          url)) {
                                                         await launch(url);
                                                       } else {
                                                         throw 'Could not launch $url';
@@ -630,8 +643,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     onTap: () async {
                                                       final url = facebookUrl;
                                                       if (await canLaunch(
-                                                          url!)) {
-                                                        await launch(url!);
+                                                          url)) {
+                                                        await launch(url);
                                                       } else {
                                                         throw 'Could not launch $url';
                                                       }
@@ -646,7 +659,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     onTap: () async {
                                                       final url = linkedinUrl;
                                                       if (await canLaunch(
-                                                          url!)) {
+                                                          url)) {
                                                         await launch(url);
                                                       } else {
                                                         throw 'Could not launch $url';
@@ -824,19 +837,22 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                 Text(
                                                   'My Lands',
                                                   style: GoogleFonts.poppins(
-                                                    color: Color(0xFF483C32),
+                                                    color:
+                                                        const Color(0xFF483C32),
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Get.to(() => MyLands());
+                                                    Get.to(
+                                                        () => const MyLands());
                                                   },
                                                   child: Text(
                                                     'View all (${homecontroller.landData.value.result?.pageInfo?.totalObject?.toInt() ?? "No land added"}) >',
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF044D3A),
+                                                      color: const Color(
+                                                          0xFF044D3A),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -851,7 +867,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     return Container(); // Return an empty container if user role is not "Land Owner"
                                   }
                                 } else {
-                                  return CircularProgressIndicator(); // Return a loading indicator while fetching user role
+                                  return const CircularProgressIndicator(); // Return a loading indicator while fetching user role
                                 }
                               },
                             ),
@@ -868,17 +884,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
-                                          color: Color(0xFF777777)),
+                                          color: const Color(0xFF777777)),
                                     ),
                                   ))
                                 : Obx(() {
                                     return homecontroller.loading.value
-                                        ? Center(
+                                        ? const Center(
                                             child: CircularProgressIndicator())
                                         : ListView.builder(
                                             shrinkWrap: true,
                                             physics:
-                                                NeverScrollableScrollPhysics(),
+                                                const NeverScrollableScrollPhysics(),
                                             itemCount: homecontroller
                                                     .landData
                                                     .value
@@ -900,20 +916,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                           0));
                                                 },
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 20),
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 20),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 10),
                                                   width: double.infinity,
                                                   decoration: ShapeDecoration(
-                                                    color: Color(0xFFFFFFF7),
+                                                    color:
+                                                        const Color(0xFFFFFFF7),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    shadows: [
+                                                    shadows: const [
                                                       BoxShadow(
                                                         color:
                                                             Color(0x19000000),
@@ -941,7 +958,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
@@ -990,7 +1007,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         decoration:
                                                                             BoxDecoration(image: DecorationImage(image: NetworkImage("http://openweathermap.org/img/wn/${homecontroller.landData.value.result?.data?[index].weatherDetails?.imgIcon}.png"), fit: BoxFit.fill)),
                                                                       ),
-                                                                      Container(
+                                                                      SizedBox(
                                                                         width: MediaQuery.of(context).size.width *
                                                                             0.26,
                                                                         child:
@@ -1013,7 +1030,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w500,
-                                                                        color: Color(
+                                                                        color: const Color(
                                                                             0xFF61646B),
                                                                         fontSize:
                                                                             10),
@@ -1024,7 +1041,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                             InkWell(
                                                               onTap: () {
                                                                 Get.to(() =>
-                                                                    ChatGptStartScreen());
+                                                                    const ChatGptStartScreen());
                                                               },
                                                               child: Container(
                                                                 decoration: BoxDecoration(
@@ -1035,12 +1052,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         BorderRadius.circular(
                                                                             10)),
                                                                 child: Padding(
-                                                                  padding: EdgeInsets
+                                                                  padding: const EdgeInsets
                                                                       .symmetric(
-                                                                          vertical:
-                                                                              8,
-                                                                          horizontal:
-                                                                              15),
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          15),
                                                                   child: Row(
                                                                     crossAxisAlignment:
                                                                         CrossAxisAlignment
@@ -1091,7 +1108,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                             (index) => Expanded(
                                                                   child:
                                                                       Container(
-                                                                    margin: EdgeInsets.symmetric(
+                                                                    margin: const EdgeInsets
+                                                                        .symmetric(
                                                                         vertical:
                                                                             12),
                                                                     color: index %
@@ -1113,7 +1131,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                             MainAxisAlignment
                                                                 .spaceEvenly,
                                                         children: [
-                                                          Container(
+                                                          SizedBox(
                                                             width:
                                                                 AppDimension.w *
                                                                     0.3,
@@ -1134,10 +1152,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                     width: 28,
                                                                   ),
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .only(
-                                                                            top:
-                                                                                8),
+                                                                        top: 8),
                                                                     child: Text(
                                                                       'Land #${homecontroller.landData.value.result?.data?[index].id?.toInt() ?? ""}',
                                                                       textAlign:
@@ -1178,7 +1195,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             height:
                                                                 AppDimension.h *
                                                                     0.13,
@@ -1202,10 +1219,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                     width: 28,
                                                                   ),
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .only(
-                                                                            top:
-                                                                                8),
+                                                                        top: 8),
                                                                     child: Text(
                                                                       'Area',
                                                                       textAlign:
@@ -1229,7 +1245,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                             .w *
                                                                         0.5,
                                                                     child: Text(
-                                                                      '${homecontroller.landData.value.result?.data?[index].landSize ?? ""}',
+                                                                      homecontroller
+                                                                              .landData
+                                                                              .value
+                                                                              .result
+                                                                              ?.data?[index]
+                                                                              .landSize ??
+                                                                          "",
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1248,7 +1270,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             width:
                                                                 AppDimension.w *
                                                                     0.3,
@@ -1269,10 +1291,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                     width: 28,
                                                                   ),
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .only(
-                                                                            top:
-                                                                                8),
+                                                                        top: 8),
                                                                     child: Text(
                                                                       'Crop Preferences',
                                                                       textAlign:
@@ -1303,7 +1324,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                             itemBuilder:
                                                                                 (context, landdata) {
                                                                               return Text(
-                                                                                '${homecontroller.landData.value.result?.data?[index].cropToGrow?[landdata]?.name ?? ""}',
+                                                                                homecontroller.landData.value.result?.data?[index].cropToGrow?[landdata].name ?? "",
                                                                                 textAlign: TextAlign.center,
                                                                                 style: GoogleFonts.poppins(
                                                                                   color: AppColor.GREEN_SUBTEXT,
@@ -1328,8 +1349,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                   ?.length !=
                                                               0
                                                           ? Container(
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           10),
                                                               height:
@@ -1392,7 +1414,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                               ),
                                                             )
                                                           : Container(),
-                                                      Divider(),
+                                                      const Divider(),
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -1519,11 +1541,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Divider(
+                            const Divider(
                               color: AppColor.GREY_BORDER,
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 10),
+                              margin: const EdgeInsets.symmetric(vertical: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -1536,7 +1558,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       '${(reviewController.reviewData.value.result?.averageRating ?? 0).toStringAsFixed(1)}  ',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF483C32),
+                                        color: const Color(0xFF483C32),
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -1546,7 +1568,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     width: 4,
                                     height: 4,
                                     decoration: ShapeDecoration(
-                                      color: Color(0xFF483C32),
+                                      color: const Color(0xFF483C32),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -1556,7 +1578,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         '  ${reviewController.reviewData.value.result?.pageInfo?.totalObject ?? ""} Reviews',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.poppins(
-                                          color: Color(0xFF483C32),
+                                          color: const Color(0xFF483C32),
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -1566,12 +1588,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             ),
                             Obx(() {
                               if (reviewController.loading.value) {
-                                return Center(
+                                return const Center(
                                     child: CircularProgressIndicator());
                               } else if (reviewController
                                       .rxRequestStatus.value ==
                                   Status.ERROR) {
-                                return Center(
+                                return const Center(
                                     child: Text('Error fetching data'));
                               } else if (reviewController
                                           .reviewData.value.result?.data ==
@@ -1589,13 +1611,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
-                                        color: Color(0xFF777777)),
+                                        color: const Color(0xFF777777)),
                                   ),
                                 ));
                               } else {
                                 return Container(
                                   height: Get.height * 0.2,
-                                  margin: EdgeInsets.only(bottom: 60),
+                                  margin: const EdgeInsets.only(bottom: 60),
                                   child: ListView.builder(
                                     itemCount: reviewController.reviewData.value
                                             .result?.data?.length ??
@@ -1606,10 +1628,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                           .value.result?.data?[reviews];
 
                                       return Container(
-                                        margin: EdgeInsets.symmetric(
+                                        margin: const EdgeInsets.symmetric(
                                             horizontal: 10),
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
                                         width: Get.width * 0.9,
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -1617,7 +1639,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                           border: Border.all(
                                               width: 0.8,
                                               color: AppColor.GREY_BORDER),
-                                          color: Color(0xFFFFFFF7),
+                                          color: const Color(0xFFFFFFF7),
                                         ),
                                         child: Column(
                                           crossAxisAlignment:
@@ -1688,7 +1710,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   title: Text(
                                                     review?.reviewerName ?? "",
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF333333),
+                                                      color: const Color(
+                                                          0xFF333333),
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -1698,7 +1721,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   subtitle: Text(
                                                     review?.date ?? "",
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF909090),
+                                                      color: const Color(
+                                                          0xFF909090),
                                                       fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -1719,14 +1743,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                         "assets/farm/locationbrown.svg",
                                                         width: 14,
                                                       ),
-                                                      SizedBox(width: 8),
+                                                      const SizedBox(width: 8),
                                                       Expanded(
                                                         child: Text(
                                                           review?.reviewerLocation ??
                                                               "",
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFF777777),
                                                             fontSize: 12,
                                                             fontWeight:
@@ -1742,7 +1766,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 12,
                                                       top: 10,
                                                       right: 20),
@@ -1780,12 +1804,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          Get.to(CompleteProfile());
+          Get.to(const CompleteProfile());
         },
         child: Container(
           height: MediaQuery.of(context).size.height * 0.06,
-          margin: EdgeInsets.only(top: 18, bottom: 30, left: 10, right: 10),
-          padding: EdgeInsets.symmetric(vertical: 10),
+          margin:
+              const EdgeInsets.only(top: 18, bottom: 30, left: 10, right: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(

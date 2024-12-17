@@ -27,7 +27,7 @@ class EducationListViewModel {
   final _api = NetworkApiServices();
   Future<EducationListResponseModel> getEducationData(String search) async {
     dynamic response =
-        await _api.getApi(ApiUrls.EDUCATION_LIST + '$search', false, {});
+        await _api.getApi('${ApiUrls.EDUCATION_LIST}$search', false, {});
     return EducationListResponseModel.fromJson(response);
   }
 }

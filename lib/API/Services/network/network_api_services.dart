@@ -101,7 +101,7 @@ class NetworkApiServices extends BaseApiServices {
   Future postApi(String url, var data, bool sendHeaders, var headerMap) async {
     if (kDebugMode) {
       print(
-          "-----------------------------${data}-------------------------------------");
+          "-----------------------------$data-------------------------------------");
 
       print(
           "-----------------------------API URL-------------------------------------");
@@ -133,7 +133,7 @@ class NetworkApiServices extends BaseApiServices {
   Future patchApi(String url, var data, bool sendHeaders, var headerMap) async {
     if (kDebugMode) {
       print(
-          "-----------------------------${data}-------------------------------------");
+          "-----------------------------$data-------------------------------------");
 
       print(
           "-----------------------------API URL-------------------------------------");
@@ -147,6 +147,8 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response = await http.patch(Uri.parse(url),
           body: data, headers: sendHeaders ? headerMap : {});
+      // body: jsonEncode(data),
+      // headers: sendHeaders ? headerMap : {});
       if (kDebugMode) {
         print(
             "-------------------------------Raw Response-----------------------------------");

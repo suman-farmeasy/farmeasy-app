@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:farm_easy/Screens/HomeScreen/Widgets/show_roleswitch_dialog.dart';
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/utils/Constants/image_constant.dart';
@@ -206,20 +207,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return InkWell(
                                   onTap: () {
                                     HapticFeedback.heavyImpact();
+                                    displayText == 'Partner'
+                                        ? null
+                                        : showRoleDialog(
+                                            context, snapshot.data!);
                                   },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        displayText,
-                                        style: const TextStyle(
-                                            color: AppColor.DARK_GREEN,
-                                            fontSize: 16,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.bold,
-                                            decorationColor:
-                                                AppColor.DARK_GREEN),
-                                      ),
-                                    ],
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color:
+                                          AppColor.DARK_GREEN.withOpacity(0.1),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    child: Text(
+                                      displayText,
+                                      style: const TextStyle(
+                                          color: AppColor.DARK_GREEN,
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.bold,
+                                          decorationColor: AppColor.DARK_GREEN),
+                                    ),
                                   ),
                                 );
                               }
