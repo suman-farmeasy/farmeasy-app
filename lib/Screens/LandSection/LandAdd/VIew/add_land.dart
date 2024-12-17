@@ -230,7 +230,7 @@ class _AddLandState extends State<AddLand> {
                                                         String streetName =
                                                             "${placemark.thoroughfare} ${placemark.subThoroughfare}";
                                                         String address =
-                                                            "$streetName, ${placemark.subLocality}, ${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
+                                                            "${placemark.subLocality}, ${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
 
                                                         // Save full address and location
                                                         mapcontroller
@@ -244,7 +244,8 @@ class _AddLandState extends State<AddLand> {
                                                         controller
                                                             .addressLine
                                                             .value
-                                                            .text = streetName;
+                                                            .text = address;
+
                                                         controller.state.value
                                                                 .text =
                                                             placemark
@@ -267,6 +268,10 @@ class _AddLandState extends State<AddLand> {
                                                         // Print logs
                                                         print(
                                                             "Full address: ${mapcontroller.fullAddress.value}");
+
+                                                        print(
+                                                            "Full address2: ${controller.addressLine.value}");
+
                                                         print(
                                                             "Latitude: ${controller.latiTude.value}");
                                                         print(
@@ -455,8 +460,8 @@ class _AddLandState extends State<AddLand> {
                                                       .fullAddress.value;
                                               // controller.addAddress();
                                               controller.isAdded.value = true;
-                                              controller
-                                                  .addressLine.value.text = "";
+                                              // controller
+                                              //     .addressLine.value.text = "";
                                               chatgptCropController
                                                   .cropSuggestion(
                                                       controller
