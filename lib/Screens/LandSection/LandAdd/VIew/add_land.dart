@@ -590,100 +590,108 @@ class _AddLandState extends State<AddLand> {
                   Obx(() {
                     return controller.isAdded.value
                         ? controller.isaddressAdded.value
-                            ? Container(
-                                margin: const EdgeInsets.only(bottom: 20),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Full Address',
-                                                  style: GoogleFonts.poppins(
-                                                    color:
-                                                        const Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isaddressAdded.value = false;
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Full Address',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                const TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width * 0.5,
-                                          child: Text(
-                                            controller.displayedAddress.value,
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          SizedBox(
+                                            width: Get.width * 0.5,
+                                            child: Text(
+                                              controller.displayedAddress.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isaddressAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isaddressAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
@@ -945,7 +953,9 @@ class _AddLandState extends State<AddLand> {
                                 ),
                               )
                         : InkWell(
-                            onTap: controller.add,
+                            onTap: () {
+                              controller.add;
+                            },
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 20),
                               padding: const EdgeInsets.symmetric(
@@ -1006,100 +1016,108 @@ class _AddLandState extends State<AddLand> {
                   Obx(() {
                     return controller.landtitleValue.value
                         ? controller.isTitleAdded.value
-                            ? Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Land Nickname',
-                                                  style: GoogleFonts.poppins(
-                                                    color:
-                                                        const Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isTitleAdded.value = false;
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Land Nickname',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                const TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width * 0.5,
-                                          child: Text(
-                                            controller.landTitle.value,
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          SizedBox(
+                                            width: Get.width * 0.5,
+                                            child: Text(
+                                              controller.landTitle.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isTitleAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isTitleAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
@@ -1309,101 +1327,109 @@ class _AddLandState extends State<AddLand> {
                   Obx(() {
                     return controller.landSizeValue.value
                         ? controller.isLandAdded.value
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Land Size(Area)',
-                                                  style: GoogleFonts.poppins(
-                                                    color:
-                                                        const Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isLandAdded.value = false;
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Land Size(Area)',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                const TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width * 0.5,
-                                          child: Text(
-                                            controller.landArea.value,
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          SizedBox(
+                                            width: Get.width * 0.5,
+                                            child: Text(
+                                              controller.landArea.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isLandAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isLandAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
@@ -1652,101 +1678,109 @@ class _AddLandState extends State<AddLand> {
                   Obx(() {
                     return controller.addPurpose.value
                         ? controller.isPurposeAdded.value
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Purpose',
-                                                  style: GoogleFonts.poppins(
-                                                    color:
-                                                        const Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isPurposeAdded.value = false;
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Purpose',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                const TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            controller
-                                                .selectedPurposeName.value,
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          Container(
+                                            child: Text(
+                                              controller
+                                                  .selectedPurposeName.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isPurposeAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isPurposeAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
@@ -1987,127 +2021,137 @@ class _AddLandState extends State<AddLand> {
                           );
                   }),
                   controller.selectedPurposeName.value ==
-                          "Give on lease for farming"
+                              "Give on lease for farming" ||
+                          controller.selectedPurposeName.value ==
+                              "Profit sharing lease"
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Obx(() {
                               return controller.landleaseValue.value
                                   ? controller.isLandleaseAdded.value
-                                      ? Container(
-                                          margin: const EdgeInsets.only(
-                                              bottom: 10, top: 10),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: AppColor.GREY_BORDER),
-                                            boxShadow: [AppColor.BOX_SHADOW],
-                                            borderRadius:
-                                                BorderRadius.circular(18),
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10),
-                                                    child: Text.rich(
-                                                      TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text:
-                                                                'Lease duration',
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              color: const Color(
-                                                                  0xFF919191),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height: 0,
+                                      ? InkWell(
+                                          onTap: () {
+                                            controller.isLandleaseAdded.value =
+                                                false;
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10, top: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 15),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: AppColor.GREY_BORDER),
+                                              boxShadow: [AppColor.BOX_SHADOW],
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 10),
+                                                      child: Text.rich(
+                                                        TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  'Lease duration',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: const Color(
+                                                                    0xFF919191),
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                height: 0,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          const TextSpan(
-                                                            text: '*',
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFEB5757),
-                                                              fontSize: 12,
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height: 0,
+                                                            const TextSpan(
+                                                              text: '*',
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFEB5757),
+                                                                fontSize: 12,
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                height: 0,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.5,
-                                                    child: Text(
-                                                      controller
-                                                          .leaseDUration.value,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: const Color(
-                                                            0xFF272727),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        height: 1.2,
+                                                    SizedBox(
+                                                      width: Get.width * 0.5,
+                                                      child: Text(
+                                                        controller.leaseDUration
+                                                            .value,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: const Color(
+                                                              0xFF272727),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          height: 1.2,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      controller
-                                                          .isLandleaseAdded
-                                                          .value = false;
-                                                    },
-                                                    child: Text(
-                                                      'Added',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: AppColor
-                                                            .LIGHT_GREEN,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 0,
+                                                  ],
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        controller
+                                                            .isLandleaseAdded
+                                                            .value = false;
+                                                      },
+                                                      child: Text(
+                                                        'Added',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: AppColor
+                                                              .LIGHT_GREEN,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          height: 0,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Icon(
-                                                    Icons.task_alt_rounded,
-                                                    color: AppColor.LIGHT_GREEN,
-                                                  )
-                                                ],
-                                              )
-                                            ],
+                                                    const Icon(
+                                                      Icons.task_alt_rounded,
+                                                      color:
+                                                          AppColor.LIGHT_GREEN,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         )
                                       : Container(
@@ -2405,120 +2449,128 @@ class _AddLandState extends State<AddLand> {
                             Obx(() {
                               return controller.landleaseAmountvalue.value
                                   ? controller.islandleaseAmountvalue.value
-                                      ? Container(
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: AppColor.GREY_BORDER),
-                                            boxShadow: [AppColor.BOX_SHADOW],
-                                            borderRadius:
-                                                BorderRadius.circular(18),
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10),
-                                                    child: Text.rich(
-                                                      TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text:
-                                                                'Leasing type',
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              color: const Color(
-                                                                  0xFF919191),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height: 0,
+                                      ? InkWell(
+                                          onTap: () {
+                                            controller.islandleaseAmountvalue
+                                                .value = false;
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 15),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: AppColor.GREY_BORDER),
+                                              boxShadow: [AppColor.BOX_SHADOW],
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 10),
+                                                      child: Text.rich(
+                                                        TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  'Leasing type',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: const Color(
+                                                                    0xFF919191),
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                height: 0,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          const TextSpan(
-                                                            text: '*',
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFEB5757),
-                                                              fontSize: 12,
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height: 0,
+                                                            const TextSpan(
+                                                              text: '*',
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFEB5757),
+                                                                fontSize: 12,
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                height: 0,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: Get.width * 0.5,
-                                                    child: Text(
-                                                      controller
-                                                          .lease_type.value,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: const Color(
-                                                            0xFF272727),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        height: 1.2,
+                                                    SizedBox(
+                                                      width: Get.width * 0.5,
+                                                      child: Text(
+                                                        controller
+                                                            .lease_type.value,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: const Color(
+                                                              0xFF272727),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          height: 1.2,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      controller
-                                                          .islandleaseAmountvalue
-                                                          .value = false;
-                                                    },
-                                                    child: Text(
-                                                      'Added',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: AppColor
-                                                            .LIGHT_GREEN,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 0,
+                                                  ],
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        controller
+                                                            .islandleaseAmountvalue
+                                                            .value = false;
+                                                      },
+                                                      child: Text(
+                                                        'Added',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: AppColor
+                                                              .LIGHT_GREEN,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          height: 0,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Icon(
-                                                    Icons.task_alt_rounded,
-                                                    color: AppColor.LIGHT_GREEN,
-                                                  )
-                                                ],
-                                              )
-                                            ],
+                                                    const Icon(
+                                                      Icons.task_alt_rounded,
+                                                      color:
+                                                          AppColor.LIGHT_GREEN,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         )
                                       : Container(
@@ -2592,7 +2644,7 @@ class _AddLandState extends State<AddLand> {
                                                                     AppColor
                                                                         .DARK_GREEN,
                                                                 title: Text(
-                                                                  'Rent/month',
+                                                                  'Rent/${controller.selectedleaseUinit.value == 'Years' ? 'Year' : 'Month'}',
                                                                   style: GoogleFonts
                                                                       .poppins(
                                                                     color: const Color(
@@ -2813,7 +2865,7 @@ class _AddLandState extends State<AddLand> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     print(
-                                                        "LEASE TYPE:::${controller.lease_type.value}");
+                                                        "LEASE TYPE1:::${controller.lease_type.value}");
                                                     controller.addAmount();
                                                   },
                                                   child: Container(
@@ -2838,8 +2890,19 @@ class _AddLandState extends State<AddLand> {
                                                     child: Center(
                                                       child: TextButton(
                                                           onPressed: () {
+                                                            controller
+                                                                    .lease_type
+                                                                    .value
+                                                                    .isEmpty
+                                                                ? controller
+                                                                        .lease_type
+                                                                        .value =
+                                                                    'Rent'
+                                                                : controller
+                                                                    .lease_type
+                                                                    .value;
                                                             print(
-                                                                "LEASE TYPE:::${controller.lease_type.value}");
+                                                                "LEASE TYPE2:::${controller.lease_type.value}");
                                                             controller
                                                                 .addAmount();
                                                           },
@@ -2934,137 +2997,150 @@ class _AddLandState extends State<AddLand> {
                   Obx(() {
                     return controller.iscropAdded.value
                         ? controller.isCropValue.value
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Crops',
-                                                  style: GoogleFonts.poppins(
-                                                    color:
-                                                        const Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                                const TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width * 0.53,
-                                          child: Wrap(
-                                            children: List.generate(
-                                              controller.cropAddedName.length +
-                                                  controller.otherCropAddedName
-                                                      .length,
-                                              (index) {
-                                                final isCropAddedName = index <
-                                                    controller
-                                                        .cropAddedName.length;
-                                                final cropName = isCropAddedName
-                                                    ? controller
-                                                        .cropAddedName[index]
-                                                    : controller
-                                                            .otherCropAddedName[
-                                                        index -
-                                                            controller
-                                                                .cropAddedName
-                                                                .length];
-
-                                                // Check if it's the last item
-                                                final isLast = index ==
-                                                    (controller.cropAddedName
-                                                            .length +
-                                                        controller
-                                                            .otherCropAddedName
-                                                            .length -
-                                                        1);
-
-                                                return Container(
-                                                  child: Text(
-                                                    isLast
-                                                        ? "$cropName"
-                                                        : "$cropName, ",
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isCropValue.value = false;
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Crops',
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(
-                                                          0xFF272727),
+                                                          0xFF919191),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                );
-                                              },
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isCropValue.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                          SizedBox(
+                                            width: Get.width * 0.53,
+                                            child: Wrap(
+                                              children: List.generate(
+                                                controller
+                                                        .cropAddedName.length +
+                                                    controller
+                                                        .otherCropAddedName
+                                                        .length,
+                                                (index) {
+                                                  final isCropAddedName =
+                                                      index <
+                                                          controller
+                                                              .cropAddedName
+                                                              .length;
+                                                  final cropName = isCropAddedName
+                                                      ? controller
+                                                          .cropAddedName[index]
+                                                      : controller
+                                                              .otherCropAddedName[
+                                                          index -
+                                                              controller
+                                                                  .cropAddedName
+                                                                  .length];
+
+                                                  // Check if it's the last item
+                                                  final isLast = index ==
+                                                      (controller.cropAddedName
+                                                              .length +
+                                                          controller
+                                                              .otherCropAddedName
+                                                              .length -
+                                                          1);
+
+                                                  return Container(
+                                                    child: Text(
+                                                      isLast
+                                                          ? "$cropName"
+                                                          : "$cropName, ",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: const Color(
+                                                            0xFF272727),
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isCropValue.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
