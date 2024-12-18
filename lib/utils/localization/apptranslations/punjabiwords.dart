@@ -96,6 +96,7 @@ get punjabiWords => {
       'Search Farmer': 'ਕਿਸਾਨ ਦੀ ਖੋਜ ਕਰੋ',
       'Search Farmers': 'ਕਿਸਾਨ ਦੀ ਖੋਜ ਕਰੋ',
       'Search For farmers': 'ਕਿਸਾਨ ਦੀ ਖੋਜ ਕਰੋ',
+      'Search for farmers': 'ਕਿਸਾਨ ਦੀ ਖੋਜ ਕਰੋ',
       'Search for lands': 'ਜ਼ਮੀਨਾਂ ਦੀ ਖੋਜ ਕਰੋ',
       'Profile': 'ਪ੍ਰੋਫਾਈਲ',
       'Total Followers': 'ਕੁੱਲ ਅਨੁਯਾਈ',

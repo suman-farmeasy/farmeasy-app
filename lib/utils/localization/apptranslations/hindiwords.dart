@@ -96,6 +96,7 @@ get hindiWords => {
       'Lands Listed': 'भूमि सूचीबद्ध',
       'Search Farmer': 'किसान खोजें',
       'Search Farmers': 'किसान खोजें',
+      'Search For farmers': 'किसान खोजें',
       'Search for farmers': 'किसान खोजें',
       'Search for lands': 'जमीनें खोजें',
       'Profile': 'प्रोफ़ाइल',
