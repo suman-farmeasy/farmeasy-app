@@ -57,7 +57,6 @@ class HomeScreenANDROID_AppBar extends StatelessWidget {
                     builder: (context) {
                       return Container(
                         padding: const EdgeInsets.only(bottom: 10),
-                        color: Colors.pink,
                         margin: const EdgeInsets.symmetric(vertical: 2),
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: Column(
