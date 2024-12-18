@@ -83,4 +83,5 @@ get hindiWords => {
       'Delete your account': 'अपना खाता हटाएं',
       'Logout': 'लॉग आउट',
       "Subscription": 'सदस्यता',
+      'Select Service': 'सेवा चुनें',
     };

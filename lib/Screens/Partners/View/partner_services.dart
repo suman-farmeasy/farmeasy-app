@@ -1,11 +1,13 @@
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/localization/translated_text_box.dart';
 import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/Partners/Controller/partner_services_controller.dart';
 import 'package:farm_easy/Screens/Partners/View/partners.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class PartnerServices extends StatefulWidget {
   const PartnerServices({super.key});
@@ -16,6 +18,27 @@ class PartnerServices extends StatefulWidget {
 
 class _PartnerServicesState extends State<PartnerServices> {
   final controller = Get.put(PartnerServicesController());
+  var db = Hive.box('appData');
+  var selectedLang;
+
+  @override
+  void initState() {
+    super.initState();
+    transLateAppFunction();
+  }
+
+  void transLateAppFunction() {
+    db.get('selectedLanguage') == null
+        ? selectedLang = 'en'
+        : db.get('selectedLanguage') == 'Hindi'
+            ? selectedLang = 'hi'
+            : db.get('selectedLanguage') == 'English'
+                ? selectedLang = 'en'
+                : db.get('selectedLanguage') == 'Punjabi'
+                    ? selectedLang = 'pa'
+                    : selectedLang = 'en';
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
@@ -26,7 +49,7 @@ class _PartnerServicesState extends State<PartnerServices> {
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
           isbackButton: false,
-          title: 'Partners',
+          title: 'Partners'.tr,
         ),
       ),
       body: SingleChildScrollView(
@@ -37,12 +60,12 @@ class _PartnerServicesState extends State<PartnerServices> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Center(
                 child: Text(
-                  "Select Service",
+                  "Select Service".tr,
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       color: AppColor.BROWN_TEXT,
@@ -51,18 +74,18 @@ class _PartnerServicesState extends State<PartnerServices> {
               ),
               Obx(() {
                 return controller.loading.value
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Container(
                         height: MediaQuery.of(context).size.height * 0.7,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
                         width: double.infinity,
                         child: GridView.builder(
                           scrollDirection: Axis.vertical,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 8.0,
                             mainAxisSpacing: 8.0,
@@ -83,7 +106,7 @@ class _PartnerServicesState extends State<PartnerServices> {
                               child: Column(
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(bottom: 10),
+                                    margin: const EdgeInsets.only(bottom: 10),
                                     height: MediaQuery.of(context).size.height *
                                         0.11,
                                     width: MediaQuery.of(context).size.height *
@@ -100,18 +123,27 @@ class _PartnerServicesState extends State<PartnerServices> {
                                         borderRadius:
                                             BorderRadius.circular(12)),
                                   ),
-                                  Text(
-                                    controller.servicesData.value.result?[index]
-                                            .name ??
-                                        "",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColor.BROWN_TEXT,
-                                        fontSize: 12),
-                                  )
+                                  TranslateTextBox(
+                                      text: controller.servicesData.value
+                                              .result?[index].name ??
+                                          "",
+                                      toLanguage: selectedLang,
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.BROWN_TEXT,
+                                          fontSize: 12)),
+                                  // Text(
+                                  //   controller.servicesData.value.result?[index]
+                                  //           .name ??
+                                  //       "",
+                                  //   overflow: TextOverflow.ellipsis,
+                                  //   textAlign: TextAlign.center,
+                                  //   maxLines: 2,
+                                  //   style: GoogleFonts.poppins(
+                                  //       fontWeight: FontWeight.w400,
+                                  //       color: AppColor.BROWN_TEXT,
+                                  //       fontSize: 12),
+                                  // )
                                 ],
                               ),
                             );

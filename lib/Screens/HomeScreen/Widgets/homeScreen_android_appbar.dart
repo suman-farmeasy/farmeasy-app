@@ -20,9 +20,9 @@ class HomeScreenANDROID_AppBar extends StatelessWidget {
       backgroundColor: AppColor.DARK_GREEN,
       automaticallyImplyLeading: false,
       flexibleSpace: Padding(
-        padding: const EdgeInsets.only(top: 50, left: 10, bottom: 10),
+        padding: const EdgeInsets.only(top: 50, bottom: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
@@ -30,13 +30,19 @@ class HomeScreenANDROID_AppBar extends StatelessWidget {
               width: 25,
               child: SvgPicture.asset(ImageConstants.WHITE_LOGO),
             ),
+            const SizedBox(
+              width: 3,
+            ),
             Text(
-              ' FarmEasy  ',
+              'FarmEasy',
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
+            ),
+            const SizedBox(
+              width: 2,
             ),
             GestureDetector(
                 onTap: () {
@@ -45,6 +51,8 @@ class HomeScreenANDROID_AppBar extends StatelessWidget {
                     isScrollControlled: true,
                     builder: (context) {
                       return Container(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        color: Colors.pink,
                         margin: const EdgeInsets.symmetric(vertical: 2),
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: Column(

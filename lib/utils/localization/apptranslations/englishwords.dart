@@ -83,4 +83,5 @@ get englishWords => {
       'Delete your account': 'Delete your account',
       'Logout': 'Logout',
       'Subscription': 'Subscription',
+      'Select Service': 'Select Service',
     };

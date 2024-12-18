@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    transLateApp();
+    transLateAppFunction();
     PushNotifications.init();
     PushNotifications.localNotiInit();
     getProfileController.getProfile();
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userId: getProfileController.getProfileData.value.result?.userId ?? 0);
   }
 
-  void transLateApp() {
+  void transLateAppFunction() {
     db.get('selectedLanguage') == null
         ? selectedLang = 'en'
         : db.get('selectedLanguage') == 'Hindi'

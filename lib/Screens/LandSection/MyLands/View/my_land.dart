@@ -53,7 +53,7 @@ class _MyLandsState extends State<MyLands> {
               },
               child: SingleChildScrollView(
                 controller: _landController,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: constraints.maxHeight,
@@ -71,13 +71,13 @@ class _MyLandsState extends State<MyLands> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              color: Color(0xFF777777)),
+                              color: const Color(0xFF777777)),
                         ),
                       ));
                     } else {
                       return ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: homecontroller.alllandListData.length,
                           itemBuilder: (context, landIndex) {
                             if (!processedIndices.contains(landIndex)) {
@@ -96,15 +96,16 @@ class _MyLandsState extends State<MyLands> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  margin: EdgeInsets.only(top: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: double.infinity,
                                   decoration: ShapeDecoration(
-                                    color: Color(0xFFFFFFF7),
+                                    color: const Color(0xFFFFFFF7),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    shadows: [
+                                    shadows: const [
                                       BoxShadow(
                                         color: Color(0x19000000),
                                         blurRadius: 24,
@@ -168,7 +169,7 @@ class _MyLandsState extends State<MyLands> {
                                                               fit:
                                                                   BoxFit.fill)),
                                                     ),
-                                                    Container(
+                                                    SizedBox(
                                                       width: 100,
                                                       child: Text(
                                                         homecontroller
@@ -196,7 +197,8 @@ class _MyLandsState extends State<MyLands> {
                                                   style: GoogleFonts.poppins(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      color: Color(0xFF61646B),
+                                                      color: const Color(
+                                                          0xFF61646B),
                                                       fontSize: 10),
                                                 )
                                               ],
@@ -209,9 +211,10 @@ class _MyLandsState extends State<MyLands> {
                                                       BorderRadius.circular(
                                                           10)),
                                               child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 15),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 15),
                                                 child: Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
@@ -252,9 +255,9 @@ class _MyLandsState extends State<MyLands> {
                                             450 ~/ 4,
                                             (index) => Expanded(
                                                   child: Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 12),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 12),
                                                     color: index % 2 == 0
                                                         ? Colors.transparent
                                                         : AppColor.GREY_BORDER,
@@ -266,7 +269,7 @@ class _MyLandsState extends State<MyLands> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: AppDimension.w * 0.3,
                                             child: Center(
                                               child: Column(
@@ -312,7 +315,7 @@ class _MyLandsState extends State<MyLands> {
                                               ),
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                             height: AppDimension.h * 0.13,
                                             width: AppDimension.w * 0.3,
                                             child: Center(
@@ -346,7 +349,11 @@ class _MyLandsState extends State<MyLands> {
                                                   SizedBox(
                                                     width: AppDimension.w * 0.5,
                                                     child: Text(
-                                                      '${homecontroller.alllandListData[landIndex].landSize ?? ""}',
+                                                      homecontroller
+                                                              .alllandListData[
+                                                                  landIndex]
+                                                              .landSize ??
+                                                          "",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style:
@@ -363,7 +370,7 @@ class _MyLandsState extends State<MyLands> {
                                               ),
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                             width: AppDimension.w * 0.3,
                                             child: Center(
                                               child: Column(
@@ -403,7 +410,13 @@ class _MyLandsState extends State<MyLands> {
                                                         itemBuilder: (context,
                                                             landdata) {
                                                           return Text(
-                                                            '${homecontroller.alllandListData[landIndex].cropToGrow?[landdata]?.name ?? ""}',
+                                                            homecontroller
+                                                                    .alllandListData[
+                                                                        landIndex]
+                                                                    .cropToGrow?[
+                                                                        landdata]
+                                                                    .name ??
+                                                                "",
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: GoogleFonts
@@ -429,9 +442,9 @@ class _MyLandsState extends State<MyLands> {
                                             450 ~/ 4,
                                             (index) => Expanded(
                                                   child: Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 12),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 12),
                                                     color: index % 2 == 0
                                                         ? Colors.transparent
                                                         : AppColor.GREY_BORDER,
@@ -440,7 +453,7 @@ class _MyLandsState extends State<MyLands> {
                                                 )),
                                       ),
                                       Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               horizontal: 10),
                                           height: AppDimension.h * 0.16,
                                           child:
@@ -471,23 +484,27 @@ class _MyLandsState extends State<MyLands> {
                                                                 .toInt());
                                                       },
                                                       child: Container(
-                                                        margin: EdgeInsets
+                                                        margin: const EdgeInsets
                                                             .symmetric(
-                                                                vertical: 10,
-                                                                horizontal: 10),
+                                                            vertical: 10,
+                                                            horizontal: 10),
                                                         child: DottedBorder(
                                                             borderType:
                                                                 BorderType
                                                                     .RRect,
                                                             color: AppColor
                                                                 .DARK_GREEN,
-                                                            dashPattern: [9, 4],
-                                                            radius: Radius
+                                                            dashPattern: const [
+                                                              9,
+                                                              4
+                                                            ],
+                                                            radius: const Radius
                                                                 .circular(12),
                                                             child: ClipRRect(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                        Radius.circular(
                                                                             12)),
                                                                 child:
                                                                     Container(
@@ -497,7 +514,8 @@ class _MyLandsState extends State<MyLands> {
                                                                           0,
                                                                       horizontal:
                                                                           20),
-                                                                  child: Center(
+                                                                  child:
+                                                                      const Center(
                                                                     child:
                                                                         Column(
                                                                       mainAxisAlignment:
@@ -554,7 +572,7 @@ class _MyLandsState extends State<MyLands> {
                                                     );
                                                   } else {
                                                     imageWidget =
-                                                        SizedBox.shrink();
+                                                        const SizedBox.shrink();
                                                   }
                                                   return Container(
                                                     margin: const EdgeInsets
@@ -577,7 +595,7 @@ class _MyLandsState extends State<MyLands> {
                                               },
                                             );
                                           })),
-                                      Divider(),
+                                      const Divider(),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -602,13 +620,16 @@ class _MyLandsState extends State<MyLands> {
                                           Row(
                                             children: [
                                               Text(
-                                                'Partners  ',
+                                                'Partners',
                                                 style: GoogleFonts.poppins(
                                                   color: AppColor.DARK_GREEN,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0.15,
                                                 ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
                                               ),
                                               CircleAvatar(
                                                 radius: 16,

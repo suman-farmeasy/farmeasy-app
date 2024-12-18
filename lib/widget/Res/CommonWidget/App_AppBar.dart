@@ -44,7 +44,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                     ),
                   )
                 : Container(),
-            Spacer(),
+            const Spacer(),
             Text(
               widget.title,
               style: GoogleFonts.poppins(
@@ -54,7 +54,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                 height: 1.2,
               ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

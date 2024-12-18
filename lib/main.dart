@@ -65,15 +65,16 @@ void main() async {
       //  Get.to(() => MessagePage(), arguments: message);
     });
   }
-  runApp(const MyApp()
-      // DevicePreview(
-      //   enabled: true,
-      //   tools: const [
-      //     ...DevicePreview.defaultTools,
-      //   ],
-      //   builder: (context) => const MyApp(),
-      // ),
-      );
+  runApp(
+    const MyApp(),
+    // DevicePreview(
+    //   enabled: true,
+    //   tools: const [
+    //     ...DevicePreview.defaultTools,
+    //   ],
+    //   builder: (context) => const MyApp(),
+    // ),
+  );
 }
 
 class MyApp extends StatefulWidget {

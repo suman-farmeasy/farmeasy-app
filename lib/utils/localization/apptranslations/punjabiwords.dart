@@ -82,4 +82,5 @@ get punjabiWords => {
       'Delete your account': 'ਆਪਣਾ ਖਾਤਾ ਮਿਟਾਓ',
       'Logout': 'ਲਾਗਆਉਟ',
       "Subscription": 'ਗਾਹਕੀ',
+      'Select Service': 'ਸੇਵਾ ਚੁਣੋ',
     };
