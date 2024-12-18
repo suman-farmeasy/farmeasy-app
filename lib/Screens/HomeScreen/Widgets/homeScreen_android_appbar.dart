@@ -20,26 +20,31 @@ class HomeScreenANDROID_AppBar extends StatelessWidget {
       backgroundColor: AppColor.DARK_GREEN,
       automaticallyImplyLeading: false,
       flexibleSpace: Padding(
-        padding: const EdgeInsets.only(top: 50, bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 50, bottom: 10, left: 20, right: 20),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 25,
-              width: 25,
-              child: SvgPicture.asset(ImageConstants.WHITE_LOGO),
+            Row(
+              children: [
+                SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: SvgPicture.asset(ImageConstants.WHITE_LOGO),
+                ),
+                Text(
+                  'FarmEasy',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               width: 3,
-            ),
-            Text(
-              'FarmEasy',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
             ),
             const SizedBox(
               width: 2,

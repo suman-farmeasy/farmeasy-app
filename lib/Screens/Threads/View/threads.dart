@@ -1,5 +1,6 @@
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
+import 'package:farm_easy/utils/localization/translated_text_box.dart';
 import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/LandSection/Recomended%20Land%20Detatils/view/recomended_land_info.dart';
 import 'package:farm_easy/Screens/Threads/Controller/like_unlike_controller.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Threads extends StatefulWidget {
   const Threads({super.key});
@@ -27,6 +29,27 @@ class _ThreadsState extends State<Threads> {
   final isLikedController = Get.put(LikeUnlikeController());
 
   final ScrollController _threadScroller = ScrollController();
+  var db = Hive.box('appData');
+  var selectedLang;
+
+  @override
+  void initState() {
+    super.initState();
+    transLateAppFunction();
+  }
+
+  void transLateAppFunction() {
+    db.get('selectedLanguage') == null
+        ? selectedLang = 'en'
+        : db.get('selectedLanguage') == 'Hindi'
+            ? selectedLang = 'hi'
+            : db.get('selectedLanguage') == 'English'
+                ? selectedLang = 'en'
+                : db.get('selectedLanguage') == 'Punjabi'
+                    ? selectedLang = 'pa'
+                    : selectedLang = 'en';
+  }
+
   @override
   Widget build(BuildContext context) {
     _threadScroller.addListener(() {
@@ -41,7 +64,7 @@ class _ThreadsState extends State<Threads> {
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
           isbackButton: false,
-          title: '  Community',
+          title: 'Community'.tr,
         ),
       ),
       body: LayoutBuilder(builder: (context, constraints) {
@@ -50,7 +73,7 @@ class _ThreadsState extends State<Threads> {
               controller.refreshAllThread();
             },
             child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: constraints.maxHeight,
@@ -60,7 +83,7 @@ class _ThreadsState extends State<Threads> {
                     children: [
                       Obx(() {
                         return Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                           height: AppDimension.h * 0.05,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -91,27 +114,27 @@ class _ThreadsState extends State<Threads> {
                                       }
                                     },
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 6),
-                                      padding: EdgeInsets.symmetric(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 6),
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 8, horizontal: 20),
                                       decoration: BoxDecoration(
                                           color: isSelected
-                                              ? Color(0x14044D3A)
-                                              : Color(0xFFFFFFF7),
+                                              ? const Color(0x14044D3A)
+                                              : const Color(0xFFFFFFF7),
                                           borderRadius:
                                               BorderRadius.circular(30),
                                           border: Border.all(
                                               color: isSelected
-                                                  ? Color(0x70044D3A)
+                                                  ? const Color(0x70044D3A)
                                                   : AppColor.GREY_BORDER)),
                                       child: Center(
                                         child: Text(
                                             "#${tagsController.tagsData.value.result?[index].name ?? ""}",
                                             style: GoogleFonts.poppins(
                                               color: isSelected
-                                                  ? Color(0xFF044D3A)
-                                                  : Color(0xFF283037),
+                                                  ? const Color(0xFF044D3A)
+                                                  : const Color(0xFF283037),
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             )),
@@ -125,18 +148,19 @@ class _ThreadsState extends State<Threads> {
                       Obx(() {
                         if (controller.loading.value &&
                             controller.threadDataList.isEmpty) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else if (controller.rxRequestStatus.value ==
                             Status.ERROR) {
-                          return Text('Error fetching data');
+                          return const Text('Error fetching data');
                         } else if (controller.threadDataList.isEmpty) {
-                          return Center(child: Text('No data available'));
+                          return const Center(child: Text('No data available'));
                         } else {
                           return RefreshIndicator(
                             onRefresh: () async {
                               controller.refreshAllThread();
                             },
-                            child: Container(
+                            child: SizedBox(
                               height: Get.height * 0.7,
                               child: ListView.builder(
                                   scrollDirection: Axis.vertical,
@@ -163,8 +187,8 @@ class _ThreadsState extends State<Threads> {
                                       );
                                     }
                                     return Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12),
                                       child: Column(
                                         children: [
                                           GestureDetector(
@@ -185,7 +209,8 @@ class _ThreadsState extends State<Threads> {
                                               //         0));
                                             },
                                             child: Container(
-                                              margin: EdgeInsets.symmetric(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 8,
                                               ),
                                               child: Column(
@@ -243,8 +268,8 @@ class _ThreadsState extends State<Threads> {
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     image: DecorationImage(
-                                                                        image: NetworkImage(
-                                                                            "${controller.threadDataList[threads].userImage ?? ""}"),
+                                                                        image: NetworkImage(controller.threadDataList[threads].userImage ??
+                                                                            ""),
                                                                         fit: BoxFit
                                                                             .cover),
                                                                     borderRadius:
@@ -260,7 +285,7 @@ class _ThreadsState extends State<Threads> {
                                                             '   ${controller.threadDataList[threads].userName ?? ""}',
                                                             style: GoogleFonts
                                                                 .poppins(
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF61646B),
                                                               fontSize: 12,
                                                               fontWeight:
@@ -277,7 +302,7 @@ class _ThreadsState extends State<Threads> {
                                                             '${controller.threadDataList[threads].createdOn ?? ""}  ',
                                                             style: GoogleFonts
                                                                 .poppins(
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF61646B),
                                                               fontSize: 12,
                                                               fontWeight:
@@ -311,7 +336,7 @@ class _ThreadsState extends State<Threads> {
                                                                     .toInt(),
                                                               );
                                                             },
-                                                            child: Icon(Icons
+                                                            child: const Icon(Icons
                                                                 .more_vert_rounded),
                                                           )
                                                         ],
@@ -319,13 +344,18 @@ class _ThreadsState extends State<Threads> {
                                                     ],
                                                   ),
                                                   Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 0),
-                                                    child: Text(
-                                                      '${controller.threadDataList[threads].title ?? ""}',
-                                                      style: TextStyle(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 0),
+                                                    child: TranslateTextBox(
+                                                      text: controller
+                                                              .threadDataList[
+                                                                  threads]
+                                                              .title ??
+                                                          "",
+                                                      toLanguage: selectedLang,
+                                                      style: const TextStyle(
                                                         color:
                                                             AppColor.BROWN_TEXT,
                                                         fontSize: 15,
@@ -335,6 +365,22 @@ class _ThreadsState extends State<Threads> {
                                                         height: 0,
                                                       ),
                                                     ),
+                                                    // Text(
+                                                    //   controller
+                                                    //           .threadDataList[
+                                                    //               threads]
+                                                    //           .title ??
+                                                    //       "",
+                                                    //   style: const TextStyle(
+                                                    //     color:
+                                                    //         AppColor.BROWN_TEXT,
+                                                    //     fontSize: 15,
+                                                    //     fontFamily: 'Poppins',
+                                                    //     fontWeight:
+                                                    //         FontWeight.w500,
+                                                    //     height: 0,
+                                                    //   ),
+                                                    // ),
                                                   ),
                                                   controller
                                                               .threadDataList[
@@ -342,7 +388,7 @@ class _ThreadsState extends State<Threads> {
                                                               .images
                                                               ?.length !=
                                                           0
-                                                      ? Container(
+                                                      ? SizedBox(
                                                           height:
                                                               Get.height * 0.14,
                                                           child:
@@ -369,7 +415,8 @@ class _ThreadsState extends State<Threads> {
                                                                       },
                                                                       child:
                                                                           Container(
-                                                                        margin: EdgeInsets.only(
+                                                                        margin: const EdgeInsets
+                                                                            .only(
                                                                             bottom:
                                                                                 10,
                                                                             right:
@@ -395,15 +442,20 @@ class _ThreadsState extends State<Threads> {
                                                           ""
                                                       ? Container(
                                                           margin:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                  .only(
                                                                   bottom: 15,
                                                                   left: 0,
                                                                   right: 0),
                                                           child: Text(
-                                                            '${controller.threadDataList[threads].description ?? ""}',
+                                                            controller
+                                                                    .threadDataList[
+                                                                        threads]
+                                                                    .description ??
+                                                                "",
                                                             style: GoogleFonts
                                                                 .poppins(
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF61646B),
                                                               fontSize: 13,
                                                               fontWeight:
@@ -425,14 +477,15 @@ class _ThreadsState extends State<Threads> {
                                                                 ?.length ??
                                                             0, (tags) {
                                                       return Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
                                                                 vertical: 8,
                                                                 horizontal: 20),
                                                         decoration:
                                                             BoxDecoration(
-                                                          color:
-                                                              Color(0x14167C0C),
+                                                          color: const Color(
+                                                              0x14167C0C),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(30),
@@ -441,7 +494,7 @@ class _ThreadsState extends State<Threads> {
                                                           "${controller.threadDataList[threads].tags?[tags].name}",
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFF044D3A),
                                                             fontSize: 12,
                                                             fontWeight:
@@ -452,16 +505,16 @@ class _ThreadsState extends State<Threads> {
                                                     }),
                                                   ),
                                                   Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 15,
-                                                            horizontal: 0),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 15,
+                                                        horizontal: 0),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        Container(
+                                                        SizedBox(
                                                           width:
                                                               AppDimension.w *
                                                                   0.2,
@@ -533,15 +586,15 @@ class _ThreadsState extends State<Threads> {
                                                                             .threadDataList[threads]
                                                                             .isLiked ??
                                                                         false
-                                                                    ? Icon(
+                                                                    ? const Icon(
                                                                         CupertinoIcons
                                                                             .heart_fill,
                                                                         color: Color(
-                                                                            0xfffFF344A),
+                                                                            0xfffff344a),
                                                                         size:
                                                                             28,
                                                                       )
-                                                                    : Icon(
+                                                                    : const Icon(
                                                                         CupertinoIcons
                                                                             .heart,
                                                                         color: AppColor
@@ -573,7 +626,7 @@ class _ThreadsState extends State<Threads> {
                                                             ],
                                                           ),
                                                         ),
-                                                        Container(
+                                                        SizedBox(
                                                           width:
                                                               AppDimension.w *
                                                                   0.25,
@@ -628,14 +681,14 @@ class _ThreadsState extends State<Threads> {
                                                             : '${controller.threadDataList[threads].totalLikes} Likes   ',
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF9A9A9A),
+                                                          color: const Color(
+                                                              0xFF9A9A9A),
                                                           fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.w400,
                                                         ),
                                                       ),
-                                                      CircleAvatar(
+                                                      const CircleAvatar(
                                                         radius: 2,
                                                         backgroundColor:
                                                             Colors.grey,
@@ -644,8 +697,8 @@ class _ThreadsState extends State<Threads> {
                                                         '   ${controller.threadDataList[threads].totalReplies} Replies   ',
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF9A9A9A),
+                                                          color: const Color(
+                                                              0xFF9A9A9A),
                                                           fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.w400,
@@ -657,7 +710,7 @@ class _ThreadsState extends State<Threads> {
                                               ),
                                             ),
                                           ),
-                                          Divider(
+                                          const Divider(
                                             color: AppColor.GREY_BORDER,
                                           )
                                         ],
@@ -674,9 +727,9 @@ class _ThreadsState extends State<Threads> {
       }),
       floatingActionButton: GestureDetector(
         onTap: () {
-          Get.to(() => CreateThreads());
+          Get.to(() => const CreateThreads());
         },
-        child: Container(
+        child: SizedBox(
           width: Get.width * 0.2,
           child: SvgPicture.asset("assets/logos/thread.svg"),
         ),
@@ -698,12 +751,12 @@ class _ThreadsState extends State<Threads> {
       ),
       items: [
         if (isDeleted)
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'Delete',
             child: Text('Delete Post'),
           )
         else
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'Report',
             child: Text('Report'),
           ),

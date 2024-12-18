@@ -72,7 +72,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
               preferredSize: Size.fromHeight(AppDimension.h * 0.08),
               child: CommonAppBar(
                 isbackButton: false,
-                title: '    Directory',
+                title: 'Directory'.tr,
               ),
             ),
             body: Container(
@@ -81,13 +81,13 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TabBar(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 10,
                       ),
                       indicatorWeight: 3,
                       indicatorColor: AppColor.DARK_GREEN,
                       unselectedLabelStyle: GoogleFonts.poppins(
-                        color: Color(0xCC044D3A),
+                        color: const Color(0xCC044D3A),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -98,37 +98,38 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                       ),
                       tabs: [
                         Tab(
-                          text: "Land Owners",
+                          text: "Land Owners".tr,
                         ),
                         Obx(() {
                           if (landownerController.userRole.value ==
                               "Agri Service Provider") {
-                            return const Tab(
-                              text: "Farmers",
+                            return Tab(
+                              text: "Farmers".tr,
                             );
                           } else if (landownerController.userRole.value ==
                               "Farmer") {
-                            return const Tab(
-                              text: "Farmers",
+                            return Tab(
+                              text: "Farmers".tr,
                             );
                           } else if (landownerController.userRole.value ==
                               "Land Owner") {
-                            return const Tab(
-                              text: "Farmers",
+                            return Tab(
+                              text: "Farmers".tr,
                             );
                           } else {
                             return Container();
                           }
                         }),
                         Tab(
-                          text: " Lands",
+                          text: "Lands".tr,
                         ),
                       ]),
                   Expanded(
                       child: TabBarView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                        margin: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -144,11 +145,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                   landownerController.searchLandOwner(query);
                                 },
                                 decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 10),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     border: InputBorder.none,
-                                    hintText: "Search for land owners",
-                                    hintStyle: TextStyle(
+                                    hintText: "Search for land owners".tr,
+                                    hintStyle: const TextStyle(
                                       color: Color(0xCC61646B),
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
@@ -162,14 +163,14 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                 .getUserRole();
                                         print("User Role: $userRole");
                                       },
-                                      child: Icon(Icons.search,
+                                      child: const Icon(Icons.search,
                                           color: AppColor.BROWN_TEXT),
                                     ),
                                     suffixIcon: GestureDetector(
                                       onTap: () async {
                                         landownerController.clearSearch();
                                       },
-                                      child: Icon(Icons.close,
+                                      child: const Icon(Icons.close,
                                           color: AppColor.BROWN_TEXT),
                                     )),
                               ),
@@ -183,7 +184,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                 await farmerController.refreshAllFarmerData();
                               },
                               child: Container(
-                                margin: EdgeInsets.only(top: 10),
+                                margin: const EdgeInsets.only(top: 10),
                                 height: Platform.isIOS
                                     ? MediaQuery.of(context).size.height * 0.6
                                     : MediaQuery.of(context).size.height *
@@ -192,7 +193,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                   if (landownerController.loading.value &&
                                       landownerController
                                           .landOwnerData.isEmpty) {
-                                    return Container(
+                                    return const SizedBox(
                                       height: 200,
                                       child: Center(
                                           child: CircularProgressIndicator()),
@@ -200,10 +201,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                   } else if (landownerController
                                           .rxRequestStatus.value ==
                                       Status.ERROR) {
-                                    return Text('No data available');
+                                    return const Text('No data available');
                                   } else if (landownerController
                                       .landOwnerData.isEmpty) {
-                                    return Text('No data available');
+                                    return const Text('No data available');
                                   } else {
                                     return ListView.builder(
                                         controller: _landownerScroller,
@@ -223,7 +224,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                       ""));
                                             },
                                             child: Container(
-                                              margin: EdgeInsets.only(top: 10),
+                                              margin: const EdgeInsets.only(
+                                                  top: 10),
                                               width: double.infinity,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -262,7 +264,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                             .DARK_GREEN
                                                             .withOpacity(0.1),
                                                         borderRadius:
-                                                            BorderRadius.only(
+                                                            const BorderRadius
+                                                                .only(
                                                           bottomLeft:
                                                               Radius.circular(
                                                                   18),
@@ -331,14 +334,14 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 ),
                                                               ),
                                                             )
-                                                          : SizedBox(), // Show nothing if image exists
+                                                          : const SizedBox(), // Show nothing if image exists
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 0,
-                                                            horizontal: 10),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 0,
+                                                        horizontal: 10),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -348,12 +351,17 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               .spaceBetween,
                                                       children: [
                                                         Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                             vertical: 10,
                                                           ),
                                                           child: Text(
-                                                            '${landownerController.landOwnerData[index].fullName ?? ""}',
+                                                            landownerController
+                                                                    .landOwnerData[
+                                                                        index]
+                                                                    .fullName ??
+                                                                "",
                                                             style: GoogleFonts
                                                                 .poppins(
                                                               color: AppColor
@@ -371,7 +379,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               "assets/farm/locationbrown.svg",
                                                               width: 14,
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: Get.width *
                                                                   0.45,
                                                               child: Text(
@@ -382,7 +390,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFF61646B),
                                                                   fontSize: 8,
                                                                   fontWeight:
@@ -399,20 +407,19 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                     .totalLands ==
                                                                 0
                                                             ? Container(
-                                                                margin: EdgeInsets
+                                                                margin: const EdgeInsets
                                                                     .symmetric(
-                                                                        vertical:
-                                                                            18),
+                                                                    vertical:
+                                                                        18),
                                                               )
                                                             : Container(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .symmetric(
-                                                                        vertical:
-                                                                            5,
-                                                                        horizontal:
-                                                                            15),
+                                                                    vertical: 5,
+                                                                    horizontal:
+                                                                        15),
                                                                 margin:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .only(
                                                                   top: 10,
                                                                 ),
@@ -422,14 +429,15 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       BorderRadius
                                                                           .circular(
                                                                               15),
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0x14167C0C),
                                                                 ),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    '${landownerController.landOwnerData[index].totalLands ?? 0} Lands Listed',
+                                                                    '${landownerController.landOwnerData[index].totalLands ?? 0} Lands Listed'
+                                                                        .tr,
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       color: AppColor
                                                                           .DARK_GREEN,
                                                                       fontSize:
@@ -450,8 +458,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       Get.width *
                                                                           0.37,
                                                                   bottom: 5),
-                                                          padding: EdgeInsets
-                                                              .symmetric(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       15,
                                                                   vertical: 8),
@@ -513,16 +522,16 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   MainAxisAlignment
                                                                       .center,
                                                               children: [
-                                                                Icon(
+                                                                const Icon(
                                                                   Icons.call,
                                                                   color: AppColor
                                                                       .DARK_GREEN,
                                                                   size: 15,
                                                                 ),
                                                                 Text(
-                                                                  '  Contact ',
+                                                                  'Contact'.tr,
                                                                   style:
-                                                                      TextStyle(
+                                                                      const TextStyle(
                                                                     color: Color(
                                                                         0xFF044D3A),
                                                                     fontSize: 9,
@@ -558,8 +567,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                         if (landownerController.userRole.value ==
                             "Agri Service Provider") {
                           return Container(
-                            margin:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, bottom: 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -577,10 +586,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                     },
                                     decoration: InputDecoration(
                                         contentPadding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                            const EdgeInsets.symmetric(
+                                                vertical: 10),
                                         border: InputBorder.none,
-                                        hintText: "Search Farmer",
-                                        hintStyle: TextStyle(
+                                        hintText: "Search Farmer".tr,
+                                        hintStyle: const TextStyle(
                                           color: Color(0xCC61646B),
                                           fontSize: 12,
                                           fontFamily: 'Poppins',
@@ -591,10 +601,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                           onTap: () async {
                                             farmerController.clearSearch();
                                           },
-                                          child: Icon(Icons.close,
+                                          child: const Icon(Icons.close,
                                               color: AppColor.BROWN_TEXT),
                                         ),
-                                        prefixIcon: Icon(Icons.search,
+                                        prefixIcon: const Icon(Icons.search,
                                             color: AppColor.BROWN_TEXT)),
                                   ),
                                 ),
@@ -609,7 +619,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                         .refreshAllFarmerData();
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     height: Platform.isIOS
                                         ? MediaQuery.of(context).size.height *
                                             0.6
@@ -618,7 +628,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                     child: Obx(() {
                                       if (farmerController.loading.value &&
                                           farmerController.farmerData.isEmpty) {
-                                        return Container(
+                                        return const SizedBox(
                                             height: 200,
                                             child: Center(
                                                 child:
@@ -626,10 +636,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                       } else if (farmerController
                                               .rxRequestStatus.value ==
                                           Status.ERROR) {
-                                        return Text('No data available');
+                                        return const Text('No data available');
                                       } else if (farmerController
                                           .farmerData.isEmpty) {
-                                        return Text('No data available');
+                                        return const Text('No data available');
                                       } else {
                                         return ListView.builder(
                                             itemCount: farmerController
@@ -650,8 +660,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                           ""));
                                                 },
                                                 child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
                                                   width: double.infinity,
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
@@ -696,7 +706,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 .withOpacity(
                                                                     0.1),
                                                             borderRadius:
-                                                                BorderRadius
+                                                                const BorderRadius
                                                                     .only(
                                                               bottomLeft: Radius
                                                                   .circular(18),
@@ -762,12 +772,13 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                     ),
                                                                   ),
                                                                 )
-                                                              : SizedBox(), // Show nothing if image exists
+                                                              : const SizedBox(), // Show nothing if image exists
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
                                                                 vertical: 0,
                                                                 horizontal: 10),
                                                         child: Column(
@@ -779,12 +790,17 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   .spaceEvenly,
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                 vertical: 10,
                                                               ),
                                                               child: Text(
-                                                                '${farmerController.farmerData[index].fullName ?? ""}',
+                                                                farmerController
+                                                                        .farmerData[
+                                                                            index]
+                                                                        .fullName ??
+                                                                    "",
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -804,7 +820,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   "assets/farm/locationbrown.svg",
                                                                   width: 14,
                                                                 ),
-                                                                Container(
+                                                                SizedBox(
                                                                   width:
                                                                       Get.width *
                                                                           0.45,
@@ -815,7 +831,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                             .ellipsis,
                                                                     style: GoogleFonts
                                                                         .poppins(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0xFF61646B),
                                                                       fontSize:
                                                                           8,
@@ -829,8 +845,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                             ),
                                                             Container(
                                                               height: 20,
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       vertical:
                                                                           10),
                                                               width: Get.width *
@@ -847,18 +864,20 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                           (context,
                                                                               indexes) {
                                                                         return Container(
-                                                                          margin:
-                                                                              EdgeInsets.symmetric(horizontal: 5),
-                                                                          padding:
-                                                                              EdgeInsets.symmetric(horizontal: 8),
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 5),
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 8),
                                                                           decoration: BoxDecoration(
                                                                               borderRadius: BorderRadius.circular(20),
-                                                                              color: Color(0x14167C0C)),
+                                                                              color: const Color(0x14167C0C)),
                                                                           child:
                                                                               Center(
                                                                             child:
                                                                                 Text(
-                                                                              '${farmerController.farmerData[index].expertise![indexes].name ?? ""}',
+                                                                              farmerController.farmerData[index].expertise![indexes].name ?? "",
                                                                               style: GoogleFonts.poppins(
                                                                                 color: AppColor.DARK_GREEN,
                                                                                 fontSize: 8,
@@ -877,8 +896,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                           0.37,
                                                                       bottom:
                                                                           5),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           15,
                                                                       vertical:
@@ -934,7 +954,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       MainAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Icon(
+                                                                    const Icon(
                                                                       Icons
                                                                           .call,
                                                                       color: AppColor
@@ -942,9 +962,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       size: 15,
                                                                     ),
                                                                     Text(
-                                                                      '  Contact ',
+                                                                      'Contact'
+                                                                          .tr,
                                                                       style:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         color: Color(
                                                                             0xFF044D3A),
                                                                         fontSize:
@@ -991,8 +1012,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                             landownerController.userRole.value ==
                                 "Land Owner") {
                           return Container(
-                            margin:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, bottom: 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1010,10 +1031,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                     },
                                     decoration: InputDecoration(
                                         contentPadding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                            const EdgeInsets.symmetric(
+                                                vertical: 10),
                                         border: InputBorder.none,
-                                        hintText: "Search for farmers",
-                                        hintStyle: TextStyle(
+                                        hintText: "Search for farmers".tr,
+                                        hintStyle: const TextStyle(
                                           color: Color(0xCC61646B),
                                           fontSize: 12,
                                           fontFamily: 'Poppins',
@@ -1024,10 +1046,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                           onTap: () async {
                                             farmerController.clearSearch();
                                           },
-                                          child: Icon(Icons.close,
+                                          child: const Icon(Icons.close,
                                               color: AppColor.BROWN_TEXT),
                                         ),
-                                        prefixIcon: Icon(Icons.search,
+                                        prefixIcon: const Icon(Icons.search,
                                             color: AppColor.BROWN_TEXT)),
                                   ),
                                 ),
@@ -1042,7 +1064,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                         .refreshAllFarmerData();
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     height: Platform.isIOS
                                         ? MediaQuery.of(context).size.height *
                                             0.6
@@ -1051,7 +1073,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                     child: Obx(() {
                                       if (farmerController.loading.value &&
                                           farmerController.farmerData.isEmpty) {
-                                        return Container(
+                                        return const SizedBox(
                                             height: 200,
                                             child: Center(
                                                 child:
@@ -1059,10 +1081,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                       } else if (farmerController
                                               .rxRequestStatus.value ==
                                           Status.ERROR) {
-                                        return Text('No data available');
+                                        return const Text('No data available');
                                       } else if (farmerController
                                           .farmerData.isEmpty) {
-                                        return Text('No data available');
+                                        return const Text('No data available');
                                       } else {
                                         return ListView.builder(
                                             itemCount: farmerController
@@ -1084,8 +1106,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                           ""));
                                                 },
                                                 child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
                                                   width: double.infinity,
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
@@ -1132,7 +1154,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 .withOpacity(
                                                                     0.1),
                                                             borderRadius:
-                                                                BorderRadius
+                                                                const BorderRadius
                                                                     .only(
                                                               bottomLeft: Radius
                                                                   .circular(18),
@@ -1198,12 +1220,13 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                     ),
                                                                   ),
                                                                 )
-                                                              : SizedBox(), // Show nothing if image exists
+                                                              : const SizedBox(), // Show nothing if image exists
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
                                                                 vertical: 0,
                                                                 horizontal: 10),
                                                         child: Column(
@@ -1215,12 +1238,17 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   .spaceEvenly,
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                 vertical: 10,
                                                               ),
                                                               child: Text(
-                                                                '${farmerController.farmerData[index].fullName ?? ""}',
+                                                                farmerController
+                                                                        .farmerData[
+                                                                            index]
+                                                                        .fullName ??
+                                                                    "",
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -1240,7 +1268,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   "assets/farm/locationbrown.svg",
                                                                   width: 14,
                                                                 ),
-                                                                Container(
+                                                                SizedBox(
                                                                   width:
                                                                       Get.width *
                                                                           0.45,
@@ -1251,7 +1279,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                             .ellipsis,
                                                                     style: GoogleFonts
                                                                         .poppins(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0xFF61646B),
                                                                       fontSize:
                                                                           8,
@@ -1265,8 +1293,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                             ),
                                                             Container(
                                                               height: 20,
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       vertical:
                                                                           10),
                                                               width: Get.width *
@@ -1283,18 +1312,20 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                           (context,
                                                                               indexes) {
                                                                         return Container(
-                                                                          margin:
-                                                                              EdgeInsets.symmetric(horizontal: 5),
-                                                                          padding:
-                                                                              EdgeInsets.symmetric(horizontal: 8),
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 5),
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 8),
                                                                           decoration: BoxDecoration(
                                                                               borderRadius: BorderRadius.circular(20),
-                                                                              color: Color(0x14167C0C)),
+                                                                              color: const Color(0x14167C0C)),
                                                                           child:
                                                                               Center(
                                                                             child:
                                                                                 Text(
-                                                                              '${farmerController.farmerData[index].expertise![indexes].name ?? ""}',
+                                                                              farmerController.farmerData[index].expertise![indexes].name ?? "",
                                                                               style: GoogleFonts.poppins(
                                                                                 color: AppColor.DARK_GREEN,
                                                                                 fontSize: 8,
@@ -1313,8 +1344,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                           0.37,
                                                                       bottom:
                                                                           5),
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           15,
                                                                       vertical:
@@ -1370,7 +1402,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       MainAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    Icon(
+                                                                    const Icon(
                                                                       Icons
                                                                           .call,
                                                                       color: AppColor
@@ -1378,9 +1410,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                       size: 15,
                                                                     ),
                                                                     Text(
-                                                                      '  Contact ',
+                                                                      'Contact'
+                                                                          .tr,
                                                                       style:
-                                                                          TextStyle(
+                                                                          const TextStyle(
                                                                         color: Color(
                                                                             0xFF044D3A),
                                                                         fontSize:
@@ -1406,7 +1439,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                               );
                                             });
                                         Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 10),
                                           child: Column(
                                             crossAxisAlignment:
@@ -1440,7 +1473,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                         }
                       }),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1455,11 +1488,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                   landController.searchLandsData(query);
                                 },
                                 decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 10),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     border: InputBorder.none,
-                                    hintText: "Search for lands",
-                                    hintStyle: TextStyle(
+                                    hintText: "Search for lands".tr,
+                                    hintStyle: const TextStyle(
                                       color: Color(0xCC61646B),
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
@@ -1470,7 +1503,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                       onTap: () async {
                                         landController.clearSearch();
                                       },
-                                      child: Icon(Icons.close,
+                                      child: const Icon(Icons.close,
                                           color: AppColor.BROWN_TEXT),
                                     ),
                                     prefixIcon: GestureDetector(
@@ -1480,7 +1513,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                 .getUserRole();
                                         print("User Role: $userRole");
                                       },
-                                      child: Icon(Icons.search,
+                                      child: const Icon(Icons.search,
                                           color: AppColor.BROWN_TEXT),
                                     )),
                               ),
@@ -1494,7 +1527,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                 await farmerController.refreshAllFarmerData();
                               },
                               child: Container(
-                                margin: EdgeInsets.only(top: 10),
+                                margin: const EdgeInsets.only(top: 10),
                                 height: Platform.isIOS
                                     ? MediaQuery.of(context).size.height * 0.6
                                     : MediaQuery.of(context).size.height *
@@ -1502,14 +1535,14 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                 child: Obx(() {
                                   if (landController.loading.value &&
                                       landController.landData.isEmpty) {
-                                    return Center(
+                                    return const Center(
                                         child: CircularProgressIndicator());
                                   } else if (landController
                                           .rxRequestStatus.value ==
                                       Status.ERROR) {
-                                    return Text('No data available');
+                                    return const Text('No data available');
                                   } else if (landController.landData.isEmpty) {
-                                    return Text('No data available');
+                                    return const Text('No data available');
                                   } else {
                                     return ListView.builder(
                                         controller: _landScroller,
@@ -1532,15 +1565,17 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                     top: 10,
                                                   ),
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                     vertical: 10,
                                                   ),
                                                   decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.only(
+                                                          const BorderRadius
+                                                              .only(
                                                               topRight: Radius
                                                                   .circular(20),
                                                               topLeft: Radius
@@ -1564,7 +1599,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 0
                                                             ? Column(
                                                                 children: [
-                                                                  Container(
+                                                                  SizedBox(
                                                                     height:
                                                                         Get.height *
                                                                             0.17,
@@ -1574,7 +1609,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                         itemBuilder: (context, imgindex) {
                                                                           return Container(
                                                                             margin:
-                                                                                EdgeInsets.symmetric(horizontal: 10),
+                                                                                const EdgeInsets.symmetric(horizontal: 10),
                                                                             height:
                                                                                 Get.height * 0.17,
                                                                             width:
@@ -1589,7 +1624,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                         450 ~/ 4,
                                                                         (index) => Expanded(
                                                                               child: Container(
-                                                                                margin: EdgeInsets.symmetric(vertical: 10),
+                                                                                margin: const EdgeInsets.symmetric(vertical: 10),
                                                                                 color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
                                                                                 height: 1,
                                                                               ),
@@ -1622,11 +1657,12 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                 width: 28,
                                                               ),
                                                               Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
                                                                         top: 8),
                                                                 child: Text(
-                                                                  "Land #${landController.landData[index].id ?? 0}",
+                                                                  "${"Land".tr} #${landController.landData[index].id ?? 0}",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -1643,7 +1679,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Container(
+                                                              SizedBox(
                                                                 width:
                                                                     Get.width *
                                                                         0.25,
@@ -1666,7 +1702,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               )
                                                             ],
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             height: Get.height *
                                                                 0.12,
                                                             child: Column(
@@ -1691,7 +1727,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             height: Get.height *
                                                                 0.13,
                                                             width:
@@ -1713,12 +1749,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                     width: 28,
                                                                   ),
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .only(
-                                                                            top:
-                                                                                8),
+                                                                        top: 8),
                                                                     child: Text(
-                                                                      'Area',
+                                                                      'Area'.tr,
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1740,7 +1775,10 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                             .w *
                                                                         0.5,
                                                                     child: Text(
-                                                                      "${landController.landData[index].landSize ?? ""}",
+                                                                      landController
+                                                                              .landData[index]
+                                                                              .landSize ??
+                                                                          "",
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1759,7 +1797,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             height: Get.height *
                                                                 0.12,
                                                             child: Column(
@@ -1785,7 +1823,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                          SizedBox(
                                                             width:
                                                                 Get.width * 0.3,
                                                             child: Center(
@@ -1805,12 +1843,12 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                     width: 28,
                                                                   ),
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .only(
-                                                                            top:
-                                                                                8),
+                                                                        top: 8),
                                                                     child: Text(
-                                                                      'Crop Preferences',
+                                                                      'Crop Preferences'
+                                                                          .tr,
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1843,7 +1881,8 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                           (context,
                                                                               cropdata) {
                                                                         return Text(
-                                                                          "${landController.landData[index].cropToGrow?[cropdata].name ?? ""}",
+                                                                          landController.landData[index].cropToGrow?[cropdata].name ??
+                                                                              "",
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style:
@@ -1867,8 +1906,9 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                       ),
                                                       Center(
                                                         child: Container(
-                                                          margin: EdgeInsets
-                                                              .symmetric(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   vertical: 10,
                                                                   horizontal:
                                                                       10),
@@ -1877,22 +1917,24 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                           child: DottedBorder(
                                                               color: AppColor
                                                                   .GREY_BORDER,
-                                                              radius: Radius
-                                                                  .circular(12),
+                                                              radius:
+                                                                  const Radius
+                                                                      .circular(
+                                                                      12),
                                                               borderType:
                                                                   BorderType
                                                                       .RRect,
-                                                              dashPattern: [
+                                                              dashPattern: const [
                                                                 5,
                                                                 2
                                                               ],
                                                               child: Container(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .symmetric(
-                                                                        vertical:
-                                                                            10,
-                                                                        horizontal:
-                                                                            10),
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        10),
                                                                 child: Center(
                                                                   child: Column(
                                                                     crossAxisAlignment:
@@ -1903,11 +1945,12 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                             .center,
                                                                     children: [
                                                                       Text(
-                                                                          'Land Owner’s Purpose',
+                                                                          'Land Owner’s Purpose'
+                                                                              .tr,
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                             color:
-                                                                                Color(0xFF044D3A),
+                                                                                const Color(0xFF044D3A),
                                                                             fontSize:
                                                                                 10,
                                                                             fontWeight:
@@ -1918,11 +1961,12 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                                                 AppColor.DARK_GREEN,
                                                                           )),
                                                                       Text(
-                                                                        '${landController.landData[index].purpose?.name ?? ""}',
+                                                                        landController.landData[index].purpose?.name ??
+                                                                            "",
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           color:
-                                                                              Color(0xFF044D3A),
+                                                                              const Color(0xFF044D3A),
                                                                           fontSize:
                                                                               12,
                                                                           fontWeight:
@@ -1939,11 +1983,11 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 15),
-                                                  margin: EdgeInsets.only(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 15),
+                                                  margin: const EdgeInsets.only(
                                                       bottom: 20),
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                       color: Color(0x38044D3A),
                                                       borderRadius:
                                                           BorderRadius.only(
@@ -1967,7 +2011,7 @@ class _DirectoryScreenState extends State<DirectoryScreen> {
                                                         width: Get.width * 0.06,
                                                       ),
                                                       Text(
-                                                        'Contact Land Owner',
+                                                        'Contact Land Owner'.tr,
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color: AppColor
