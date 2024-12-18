@@ -34,7 +34,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
           preferredSize: Size.fromHeight(AppDimension.h * 0.08),
           child: CommonAppBar(
             isbackButton: true,
-            title: 'Crop Yield Calculator',
+            title: 'Crop Yield Calculator'.tr,
             onBackPressed: () {
               cropgridCalculator.selectedCropsId.clear();
               cropgridCalculator.selectedCropsName.clear();
@@ -45,15 +45,15 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             width: double.infinity,
             decoration: ShapeDecoration(
-              color: Color(0xFFFFFFF7),
+              color: const Color(0xFFFFFFF7),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              shadows: [
+              shadows: const [
                 BoxShadow(
                   color: Color(0x19000000),
                   blurRadius: 24,
@@ -66,16 +66,16 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Calculate Crop Earning Yield",
+                  "Calculate Crop Earning Yield".tr,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                    "Select crops(upto 3)",
+                    "Select crops(upto 3)".tr,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
@@ -88,16 +88,16 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
-                        return Container(
+                        return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.7,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 15),
-                                  margin: EdgeInsets.only(bottom: 0),
-                                  decoration: BoxDecoration(
+                                  margin: const EdgeInsets.only(bottom: 0),
+                                  decoration: const BoxDecoration(
                                       color: AppColor.DARK_GREEN,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(12),
@@ -110,7 +110,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Select Crops",
+                                        "Select Crops".tr,
                                         style: GoogleFonts.poppins(
                                             color: Colors.white,
                                             fontSize: 16,
@@ -126,7 +126,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                               .clear();
                                           Get.back();
                                         },
-                                        child: CircleAvatar(
+                                        child: const CircleAvatar(
                                           radius: 10,
                                           backgroundColor: Colors.white,
                                           child: Icon(
@@ -150,16 +150,17 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                 padding:
                                                     const EdgeInsets.all(10.0),
                                                 child: Text(
-                                                  "Selected Crop List",
+                                                  "Selected Crop List".tr,
                                                   style: GoogleFonts.poppins(
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      color: Color(0xFF333333)),
+                                                      color: const Color(
+                                                          0xFF333333)),
                                                 ),
                                               ),
                                               Container(
-                                                margin: EdgeInsets.only(
+                                                margin: const EdgeInsets.only(
                                                     top: 5,
                                                     bottom: 20,
                                                     left: 10,
@@ -180,8 +181,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 10),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
                                                       child: Column(
                                                         children: [
                                                           Stack(
@@ -203,10 +205,10 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                                           .size
                                                                           .width *
                                                                       0.25,
-                                                                  margin: EdgeInsets
+                                                                  margin: const EdgeInsets
                                                                       .symmetric(
-                                                                          horizontal:
-                                                                              5),
+                                                                      horizontal:
+                                                                          5),
                                                                   // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
@@ -217,7 +219,8 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                                               .cover,
                                                                           image:
                                                                               NetworkImage(cropgridCalculator.selectedCropsImages[index] ?? ""))),
-                                                                  child: Center(
+                                                                  child:
+                                                                      const Center(
                                                                     child: Row(
                                                                       children: [],
                                                                     ),
@@ -231,7 +234,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                                     CircleAvatar(
                                                                   radius: 10,
                                                                   backgroundColor:
-                                                                      Color(
+                                                                      const Color(
                                                                           0xFFFF3B30),
                                                                   child:
                                                                       InkWell(
@@ -244,7 +247,8 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                                           cropgridCalculator
                                                                               .selectedCropsImages[index]);
                                                                     },
-                                                                    child: Icon(
+                                                                    child:
+                                                                        const Icon(
                                                                       Icons
                                                                           .close,
                                                                       color: Colors
@@ -297,7 +301,8 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Select up to 3 crops you are interested in",
+                                        "Select up to 3 crops you are interested in"
+                                            .tr,
                                         style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500,
@@ -320,7 +325,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                 Obx(() => Expanded(
                                       child: GridView.builder(
                                         gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 3,
                                           crossAxisSpacing: 8.0,
                                           mainAxisSpacing: 8.0,
@@ -344,13 +349,13 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                               .toList()[index];
 
                                           if (crop == null)
-                                            return SizedBox.shrink();
+                                            return const SizedBox.shrink();
 
                                           return Column(
                                             children: [
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
                                                 child: Column(
                                                   children: [
                                                     InkWell(
@@ -433,9 +438,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                       Get.back();
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(
+                                      margin: const EdgeInsets.symmetric(
                                           vertical: 16, horizontal: 25),
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 10),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -443,7 +448,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          "Proceed",
+                                          "Proceed".tr,
                                           style: GoogleFonts.poppins(
                                             color: Colors.white,
                                             fontSize: 16,
@@ -460,8 +465,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    margin: EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 15),
+                    margin: const EdgeInsets.only(bottom: 15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppColor.GREY_BORDER),
@@ -471,9 +477,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Select Crop",
+                            "Select Crop".tr,
                           ),
-                          Icon(Icons.keyboard_arrow_down_rounded,
+                          const Icon(Icons.keyboard_arrow_down_rounded,
                               color: AppColor.BROWN_TEXT),
                         ],
                       ),
@@ -483,7 +489,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                 Obx(() => cropgridCalculator.selectedCropsId.isEmpty
                     ? Container()
                     : Container(
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                             top: 5, bottom: 10, left: 10, right: 10),
                         height: MediaQuery.of(context).size.height * 0.12,
                         width: double.infinity,
@@ -494,12 +500,12 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                               cropgridCalculator.selectedCropsId.length ?? 0,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: EdgeInsets.only(right: 10),
+                              margin: const EdgeInsets.only(right: 10),
                               child: Column(
                                 children: [
                                   Stack(
                                     children: [
-                                      Positioned(
+                                      const Positioned(
                                         right: 0,
                                         top: 0,
                                         child: CircleAvatar(
@@ -525,10 +531,10 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                         },
                                         child: DottedBorder(
                                           borderType: BorderType.RRect,
-                                          color: Color(0xFFD6D6D6),
-                                          dashPattern: [2, 2],
-                                          radius: Radius.circular(12),
-                                          padding: EdgeInsets.symmetric(
+                                          color: const Color(0xFFD6D6D6),
+                                          dashPattern: const [2, 2],
+                                          radius: const Radius.circular(12),
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 8, horizontal: 10),
                                           child: Container(
                                             height: MediaQuery.of(context)
@@ -539,9 +545,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                     .size
                                                     .height *
                                                 0.06,
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 horizontal: 5),
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 5),
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
@@ -550,7 +556,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                                                     .selectedCropsImages[
                                                                 index] ??
                                                             ""))),
-                                            child: Center(
+                                            child: const Center(
                                               child: Row(
                                                 children: [],
                                               ),
@@ -637,17 +643,17 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                 //       : Container();
                 // }),
                 Container(
-                  margin: EdgeInsets.only(bottom: 20, top: 10),
+                  margin: const EdgeInsets.only(bottom: 20, top: 10),
                   height: 1,
                   width: double.infinity,
-                  color: Color(0xFFE3E3E3),
+                  color: const Color(0xFFE3E3E3),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Land Size(Area)",
+                      "${"Land Size".tr}(${"Area".tr})",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
@@ -656,9 +662,9 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                     Obx(() {
                       return Container(
                         height: MediaQuery.of(context).size.height * 0.0367,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          color: Color(0xFF044D3A).withOpacity(0.1),
+                          color: const Color(0xFF044D3A).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(40),
                           border: Border.all(color: AppColor.DARK_GREEN),
                         ),
@@ -682,7 +688,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                                 cropController.updateSelectedValue(newValue);
                               },
                             ),
-                            Icon(Icons.keyboard_arrow_down_rounded,
+                            const Icon(Icons.keyboard_arrow_down_rounded,
                                 color: AppColor.BROWN_TEXT),
                           ],
                         ),
@@ -750,7 +756,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              color: Color(0xFF9299B5),
+                              color: const Color(0xFF9299B5),
                             ),
                           ),
                           Text(
@@ -758,7 +764,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                             style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              color: Color(0xFF9299B5),
+                              color: const Color(0xFF9299B5),
                             ),
                           ),
                         ],
@@ -766,7 +772,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                     ],
                   );
                 }),
-                Divider(
+                const Divider(
                   height: 30,
                   color: Color(0xFFE3E3E3),
                 ),
@@ -775,8 +781,8 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                     cropController.cropdetailsData();
                   },
                   child: Container(
-                    margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                    padding: EdgeInsets.symmetric(vertical: 14),
+                    margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: AppColor.DARK_GREEN,
@@ -785,7 +791,7 @@ class _CropYieldCalculatorState extends State<CropYieldCalculator> {
                     ),
                     child: Center(
                       child: Text(
-                        "Calculate",
+                        "Calculate".tr,
                         style: GoogleFonts.poppins(
                           color: AppColor.DARK_GREEN,
                           fontSize: 14,

@@ -17,7 +17,7 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff343541),
+      backgroundColor: const Color(0xfff343541),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,15 +34,15 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: Colors.white,
                     )),
-                Text(" ")
+                const Text(" ")
               ],
             ),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
+                margin: const EdgeInsets.symmetric(vertical: 20),
                 child: SvgPicture.asset(
                   ImageConstants.CHATGPT,
                   color: Colors.white,
@@ -53,11 +53,11 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
+                  margin: const EdgeInsets.symmetric(vertical: 15),
                   child: Text(
-                    'Welcome to\nFarm Assistant',
+                    'Welcome to\nFarm Assistant'.tr,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
@@ -66,7 +66,7 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
                   ),
                 ),
                 Text(
-                  'Ask anything, get yout answer',
+                  'Ask anything, get yout answer'.tr,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.raleway(
                     color: Colors.white,
@@ -82,18 +82,18 @@ class _ChatGptStartScreenState extends State<ChatGptStartScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-          Get.to(() => ChatGptScreen());
+          Get.to(() => const ChatGptScreen());
         },
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
-          margin: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: AppColor.CHATGPTSENDCOLOR,
           ),
           child: Text(
-            'New Query',
+            'New Query'.tr,
             textAlign: TextAlign.center,
             style: GoogleFonts.raleway(
               color: Colors.white,

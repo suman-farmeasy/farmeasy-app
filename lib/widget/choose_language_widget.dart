@@ -1,4 +1,6 @@
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../utils/Constants/color_constants.dart';
@@ -14,6 +16,7 @@ class LanguageSelectionDialog extends StatefulWidget {
 class _LanguageSelectionDialogState extends State<LanguageSelectionDialog> {
   String? selectedLanguage;
   var db = Hive.box('appData');
+  final localization = Get.put(LocaleController());
 
   @override
   void initState() {
@@ -28,9 +31,9 @@ class _LanguageSelectionDialogState extends State<LanguageSelectionDialog> {
         borderRadius: BorderRadius.circular(20),
       ),
       backgroundColor: const Color(0xFFF9F9DF),
-      title: const Text(
-        'Select Language',
-        style: TextStyle(
+      title: Text(
+        'Select Language'.tr,
+        style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.black,
@@ -41,7 +44,7 @@ class _LanguageSelectionDialogState extends State<LanguageSelectionDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Choose your preferred language:',
+            'Choose your preferred language:'.tr,
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[700],
@@ -85,9 +88,9 @@ class _LanguageSelectionDialogState extends State<LanguageSelectionDialog> {
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: Colors.red),
+          child: Text(
+            'Cancel'.tr,
+            style: const TextStyle(color: Colors.red),
           ),
         ),
         ElevatedButton(
@@ -98,9 +101,9 @@ class _LanguageSelectionDialogState extends State<LanguageSelectionDialog> {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColor.DARK_GREEN,
           ),
-          child: const Text(
-            'Save',
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            'Save'.tr,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ],

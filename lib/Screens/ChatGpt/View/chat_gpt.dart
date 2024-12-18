@@ -24,7 +24,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(AppDimension.h * 0.08),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 border:
                     Border(bottom: BorderSide(width: 1, color: Colors.white))),
             child: AppBar(
@@ -38,12 +38,15 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                   },
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         CupertinoIcons.back,
                         color: Colors.white,
                       ),
+                      SizedBox(
+                        width: Get.width * 0.03,
+                      ),
                       Text(
-                        '      Back',
+                        'Back'.tr,
                         style: GoogleFonts.raleway(
                           color: Colors.white,
                           fontSize: 15.38,
@@ -62,7 +65,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                   height: Get.height * 0.77,
                   child: Obx(() {
                     return ListView.builder(
@@ -77,9 +80,9 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: Container(
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                                 vertical: 4, horizontal: 8),
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             decoration: BoxDecoration(
                               color: message.isMe
                                   ? AppColor.CHATGPTSENDCOLOR
@@ -108,15 +111,16 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                     );
                   })),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                padding: EdgeInsets.symmetric(vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.white, width: 0.3)),
                 child: Container(
                     width: Get.width * 0.8,
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       controller: chatgpt.messageController,
@@ -135,7 +139,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: AppColor.CHATGPTSENDCOLOR),
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SvgPicture.asset(
                               "assets/logos/chatsend.svg",
                             ),

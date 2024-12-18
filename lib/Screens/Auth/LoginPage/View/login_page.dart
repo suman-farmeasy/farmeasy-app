@@ -21,8 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   String getFlagEmoji(String countryCode) {
     if (countryCode.isEmpty) return '';
 
-    final int flagOffset = 0x1F1E6;
-    final int asciiOffset = 0x41;
+    const int flagOffset = 0x1F1E6;
+    const int asciiOffset = 0x41;
 
     final int firstChar = countryCode.codeUnitAt(0) - asciiOffset + flagOffset;
     final int secondChar = countryCode.codeUnitAt(1) - asciiOffset + flagOffset;
@@ -60,12 +60,12 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: AppDimension.h * 0.05,
               ),
-              Row(
+              const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '     Enter your phone number',
+                    'Enter your phone number',
                     style: TextStyle(
                       color: Color(0xFF483C32),
                       fontSize: 15,
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: AppDimension.h * 0.02,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColor.BROWN_SUBTEXT)),
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       "  🇮🇳 India",
                       style: GoogleFonts.poppins(
-                        color: Color(0xFF4F4F4F),
+                        color: const Color(0xFF4F4F4F),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         // controller.selectCountry();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
                         color: Colors.transparent,
                         size: 40,
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: AppDimension.h * 0.02,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColor.BROWN_SUBTEXT)),
@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Center(
                         child: Container(
-                          child: Text(
+                          child: const Text(
                             "  +91",
                             style: TextStyle(
                               color: Colors.black45,
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: Get.width * 0.68,
                         child: TextFormField(
                           focusNode: controller.focusNode,
@@ -228,14 +228,14 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "Phone number",
                             hintStyle: GoogleFonts.poppins(
                               color: selectedCountry != null
-                                  ? Color(0xFF4F4F4F)
-                                  : Color(0xFF757575),
+                                  ? const Color(0xFF4F4F4F)
+                                  : const Color(0xFF757575),
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               height: 0.10,
                             ),
                             // prefixText: "+${controller.countryCode.value} ",
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
                           ),
                           validator: (value) {
@@ -259,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Text('We will send you one time password to verify your number.',
                   style: GoogleFonts.poppins(
-                    color: Color(0xFF757575),
+                    color: const Color(0xFF757575),
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   )),
@@ -269,13 +269,13 @@ class _LoginPageState extends State<LoginPage> {
               Obx(
                 () => controller.loading.value
                     ? Container(
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: AppColor.DARK_GREEN,
                         ),
-                        child: Center(
+                        child: const Center(
                           child: CircularProgressIndicator(
                             color: Colors.white,
                           ),
@@ -288,13 +288,13 @@ class _LoginPageState extends State<LoginPage> {
                               : Container();
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 18),
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: controller.isCountrySelected.value
                                 ? AppColor.DARK_GREEN
-                                : Color(0x19044D3A),
+                                : const Color(0x19044D3A),
                           ),
                           child: Center(
                             child: Text(
@@ -302,7 +302,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: GoogleFonts.poppins(
                                 color: controller.isCountrySelected.value
                                     ? Colors.white
-                                    : Color(0xFFA0A6A3),
+                                    : const Color(0xFFA0A6A3),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -314,17 +314,17 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: AppDimension.h * 0.03,
               ),
-              Text("or"),
+              const Text("or"),
               SizedBox(
                 height: AppDimension.h * 0.05,
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => EmailLogin());
+                  Get.to(() => const EmailLogin());
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppColor.DARK_GREEN)),
@@ -332,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.email_outlined,
                         color: AppColor.DARK_GREEN,
                       ),

@@ -29,7 +29,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
           isbackButton: true,
-          title: 'Crop Fertilizer Calculator',
+          title: 'Crop Fertilizer Calculator'.tr,
         ),
       ),
       body: SingleChildScrollView(
@@ -37,15 +37,15 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               width: double.infinity,
               decoration: ShapeDecoration(
-                color: Color(0xFFFFFFF7),
+                color: const Color(0xFFFFFFF7),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                shadows: [
+                shadows: const [
                   BoxShadow(
                     color: Color(0x19000000),
                     blurRadius: 24,
@@ -58,16 +58,16 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Calculate Fertiliser Requirements ",
+                    "Calculate Fertiliser Requirements".tr,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(
-                      "Select crops",
+                      "Select crops".tr,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
@@ -80,16 +80,16 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
-                          return Container(
+                          return SizedBox(
                               height: MediaQuery.of(context).size.height * 0.7,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 15),
-                                    margin: EdgeInsets.only(bottom: 20),
-                                    decoration: BoxDecoration(
+                                    margin: const EdgeInsets.only(bottom: 20),
+                                    decoration: const BoxDecoration(
                                         color: AppColor.DARK_GREEN,
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(12),
@@ -102,7 +102,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Select Crops",
+                                          "Select Crops".tr,
                                           style: GoogleFonts.poppins(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -112,7 +112,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                           onTap: () {
                                             Get.back();
                                           },
-                                          child: CircleAvatar(
+                                          child: const CircleAvatar(
                                             radius: 10,
                                             backgroundColor: Colors.white,
                                             child: Icon(
@@ -128,7 +128,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                   Obx(() => Expanded(
                                         child: GridView.builder(
                                           gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3,
                                             crossAxisSpacing: 8.0,
                                             mainAxisSpacing: 8.0,
@@ -163,7 +163,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                             return Column(
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       right: 10),
                                                   child: Column(
                                                     children: [
@@ -246,8 +246,8 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                       );
                     },
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -259,9 +259,9 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                           Obx(
                             () => Text(
                               cropController.selectedCropsName.value == ""
-                                  ? "Search"
+                                  ? "Search".tr
                                   : cropController.selectedCropsName.value,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xCC61646B),
                                 fontSize: 12,
                                 fontFamily: 'Poppins',
@@ -270,24 +270,24 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                               ),
                             ),
                           ),
-                          Icon(Icons.keyboard_arrow_down_rounded,
+                          const Icon(Icons.keyboard_arrow_down_rounded,
                               color: AppColor.BROWN_TEXT),
                         ],
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 20, top: 10),
+                    margin: const EdgeInsets.only(bottom: 20, top: 10),
                     height: 1,
                     width: double.infinity,
-                    color: Color(0xFFE3E3E3),
+                    color: const Color(0xFFE3E3E3),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Land Size(Area)",
+                        "${"Land Size".tr}(${"Area".tr})",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
@@ -296,9 +296,9 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                       Obx(() {
                         return Container(
                           height: MediaQuery.of(context).size.height * 0.0367,
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xFF044D3A).withOpacity(0.1),
+                            color: const Color(0xFF044D3A).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(color: AppColor.DARK_GREEN),
                           ),
@@ -324,7 +324,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                       .updateSelectedValuefertilizer(newValue);
                                 },
                               ),
-                              Icon(Icons.keyboard_arrow_down_rounded,
+                              const Icon(Icons.keyboard_arrow_down_rounded,
                                   color: AppColor.BROWN_TEXT),
                             ],
                           ),
@@ -397,7 +397,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
-                                color: Color(0xFF9299B5),
+                                color: const Color(0xFF9299B5),
                               ),
                             ),
                             Text(
@@ -405,7 +405,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
-                                color: Color(0xFF9299B5),
+                                color: const Color(0xFF9299B5),
                               ),
                             ),
                           ],
@@ -413,18 +413,18 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                       ],
                     );
                   }),
-                  Divider(
+                  const Divider(
                     height: 30,
                     color: Color(0xFFE3E3E3),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Text(
-                      "Nitrogen Fertiliser",
+                      "Nitrogen Fertiliser".tr,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
-                          color: Color(0xFF272727)),
+                          color: const Color(0xFF272727)),
                     ),
                   ),
                   Container(
@@ -447,11 +447,11 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                   .cropData.value.result?.nitrogen
                                   ?.toString()),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             border: InputBorder.none,
-                            hintText: "Nitrogen  ",
-                            hintStyle: TextStyle(
+                            hintText: "Nitrogen".tr,
+                            hintStyle: const TextStyle(
                               color: Color(0xCC61646B),
                               fontSize: 12,
                               fontFamily: 'Poppins',
@@ -464,11 +464,11 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Text(
-                      "Phosphorus Fertiliser",
+                      "Phosphorus Fertiliser".tr,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
-                          color: Color(0xFF272727)),
+                          color: const Color(0xFF272727)),
                     ),
                   ),
                   Container(
@@ -491,11 +491,11 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                   .cropData.value.result?.phosphorus
                                   ?.toString()),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             border: InputBorder.none,
-                            hintText: "Phosphorus  ",
-                            hintStyle: TextStyle(
+                            hintText: "Phosphorus".tr,
+                            hintStyle: const TextStyle(
                               color: Color(0xCC61646B),
                               fontSize: 12,
                               fontFamily: 'Poppins',
@@ -508,11 +508,11 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Text(
-                      "Potassium Fertiliser",
+                      "Potassium Fertiliser".tr,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
-                          color: Color(0xFF272727)),
+                          color: const Color(0xFF272727)),
                     ),
                   ),
                   Container(
@@ -535,11 +535,11 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                                   .cropData.value.result?.potassium
                                   ?.toString()),
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             border: InputBorder.none,
-                            hintText: "Potassium  ",
-                            hintStyle: TextStyle(
+                            hintText: "Potassium".tr,
+                            hintStyle: const TextStyle(
                               color: Color(0xCC61646B),
                               fontSize: 12,
                               fontFamily: 'Poppins',
@@ -561,8 +561,9 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                           cropController.selectedCropsId.value);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      margin:
+                          const EdgeInsets.only(top: 20, left: 10, right: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: AppColor.DARK_GREEN,
@@ -571,7 +572,7 @@ class _FertilizercalculatorviewState extends State<Fertilizercalculatorview> {
                       ),
                       child: Center(
                         child: Text(
-                          "Calculate",
+                          "Calculate".tr,
                           style: GoogleFonts.poppins(
                             color: AppColor.DARK_GREEN,
                             fontSize: 14,

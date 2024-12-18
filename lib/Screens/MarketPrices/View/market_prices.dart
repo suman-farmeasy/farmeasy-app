@@ -34,13 +34,13 @@ class _MarketPricesState extends State<MarketPrices> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
-          title: '    Market Prices',
+          title: 'Market Prices'.tr,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             // Row(
@@ -335,16 +335,16 @@ class _MarketPricesState extends State<MarketPrices> {
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
-                          return Container(
+                          return SizedBox(
                               height: MediaQuery.of(context).size.height * 0.8,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 15),
-                                    margin: EdgeInsets.only(bottom: 0),
-                                    decoration: BoxDecoration(
+                                    margin: const EdgeInsets.only(bottom: 0),
+                                    decoration: const BoxDecoration(
                                         color: AppColor.DARK_GREEN,
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(12),
@@ -357,7 +357,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Location",
+                                          "Location".tr,
                                           style: GoogleFonts.poppins(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -367,7 +367,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                           onTap: () {
                                             Get.back();
                                           },
-                                          child: CircleAvatar(
+                                          child: const CircleAvatar(
                                             radius: 10,
                                             backgroundColor: Colors.white,
                                             child: Icon(
@@ -388,13 +388,17 @@ class _MarketPricesState extends State<MarketPrices> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            Get.to(() => StateFilter());
+                                            Get.to(() => const StateFilter());
                                           },
                                           child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 10, horizontal: 0),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 10, horizontal: 15),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -405,28 +409,33 @@ class _MarketPricesState extends State<MarketPrices> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Icon(Icons.search,
+                                                  const Icon(Icons.search,
                                                       color:
                                                           AppColor.BROWN_TEXT),
                                                   Obx(() => Text(stateController
                                                               .state.value ==
                                                           ""
-                                                      ? "  Search State"
+                                                      ? "Search State".tr
                                                       : "  ${stateController.state.value}"))
                                                 ],
                                               )),
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            Get.to(() => DistrictFilter());
+                                            Get.to(
+                                                () => const DistrictFilter());
                                             districtController.getStateList(
                                                 stateController.state.value);
                                           },
                                           child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 10, horizontal: 0),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 10, horizontal: 15),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -437,13 +446,13 @@ class _MarketPricesState extends State<MarketPrices> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Icon(Icons.search,
+                                                  const Icon(Icons.search,
                                                       color:
                                                           AppColor.BROWN_TEXT),
                                                   Obx(() => Text(districtController
                                                               .district.value ==
                                                           ""
-                                                      ? "  Search District"
+                                                      ? "Search District".tr
                                                       : "  ${districtController.district.value}"))
                                                 ],
                                               )),
@@ -523,7 +532,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                         Get.back();
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.only(top: 40),
+                                        margin: const EdgeInsets.only(top: 40),
                                         height: AppDimension.h * 0.06,
                                         width: AppDimension.w * 0.85,
                                         decoration: BoxDecoration(
@@ -533,7 +542,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            "Proceed",
+                                            "Proceed".tr,
                                             style: GoogleFonts.poppins(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -550,9 +559,10 @@ class _MarketPricesState extends State<MarketPrices> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: AppColor.GREY_BORDER)),
@@ -561,17 +571,17 @@ class _MarketPricesState extends State<MarketPrices> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Obx(() {
-                            return Container(
+                            return SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: Text(
                                 stateController.state.value == ""
-                                    ? "Location"
+                                    ? "Location".tr
                                     : stateController.state.value,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF505050)),
+                                    color: const Color(0xFF505050)),
                               ),
                             );
                           }),
@@ -580,7 +590,7 @@ class _MarketPricesState extends State<MarketPrices> {
                             style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF505050)),
+                                color: const Color(0xFF505050)),
                           ),
                           Icon(
                             Icons.arrow_drop_down_rounded,
@@ -597,7 +607,7 @@ class _MarketPricesState extends State<MarketPrices> {
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
-                          return Container(
+                          return SizedBox(
                               height: MediaQuery.of(context).size.height * 0.6,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,10 +619,11 @@ class _MarketPricesState extends State<MarketPrices> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 12, vertical: 15),
-                                        margin: EdgeInsets.only(bottom: 0),
-                                        decoration: BoxDecoration(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 0),
+                                        decoration: const BoxDecoration(
                                             color: AppColor.DARK_GREEN,
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(12),
@@ -625,7 +636,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "Filter",
+                                              "Filter".tr,
                                               style: GoogleFonts.poppins(
                                                   color: Colors.white,
                                                   fontSize: 16,
@@ -635,7 +646,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                               onTap: () {
                                                 Get.back();
                                               },
-                                              child: CircleAvatar(
+                                              child: const CircleAvatar(
                                                 radius: 10,
                                                 backgroundColor: Colors.white,
                                                 child: Icon(
@@ -656,14 +667,17 @@ class _MarketPricesState extends State<MarketPrices> {
                                           children: [
                                             InkWell(
                                               onTap: () {
-                                                Get.to(() => CropListMarket());
+                                                Get.to(() =>
+                                                    const CropListMarket());
                                                 //s
                                               },
                                               child: Container(
-                                                  margin: EdgeInsets.symmetric(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 0),
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 15),
                                                   decoration: BoxDecoration(
@@ -678,13 +692,13 @@ class _MarketPricesState extends State<MarketPrices> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Icon(Icons.search,
+                                                      const Icon(Icons.search,
                                                           color: AppColor
                                                               .BROWN_TEXT),
                                                       Obx(() => Text(cropController
                                                                   .crop.value ==
                                                               ""
-                                                          ? "  Search Crop"
+                                                          ? "Search Crop".tr
                                                           : "  ${cropController.crop.value}"))
                                                     ],
                                                   )),
@@ -704,8 +718,8 @@ class _MarketPricesState extends State<MarketPrices> {
                                                   Get.back();
                                                 },
                                                 child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 40),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 40),
                                                   height: AppDimension.h * 0.06,
                                                   width: AppDimension.w * 0.85,
                                                   decoration: BoxDecoration(
@@ -716,7 +730,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                                   ),
                                                   child: Center(
                                                     child: Text(
-                                                      "Proceed",
+                                                      "Proceed".tr,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color: Colors.white,
@@ -740,9 +754,10 @@ class _MarketPricesState extends State<MarketPrices> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: AppColor.GREY_BORDER)),
@@ -751,17 +766,17 @@ class _MarketPricesState extends State<MarketPrices> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Obx(
-                            () => Container(
+                            () => SizedBox(
                               width: MediaQuery.of(context).size.width * 0.15,
                               child: Text(
                                 cropController.crop.value == ""
-                                    ? "Crops"
-                                    : "${cropController.crop.value}",
+                                    ? "Crops".tr
+                                    : cropController.crop.value,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: Color(0xFF505050)),
+                                    color: const Color(0xFF505050)),
                               ),
                             ),
                           ),
@@ -770,7 +785,7 @@ class _MarketPricesState extends State<MarketPrices> {
                             style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF505050)),
+                                color: const Color(0xFF505050)),
                           ),
                           Icon(
                             Icons.arrow_drop_down_rounded,
@@ -794,20 +809,20 @@ class _MarketPricesState extends State<MarketPrices> {
                       stateController.getStateList();
                     },
                     child: Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: AppColor.GREY_BORDER)),
                         child: Center(
                           child: Text(
-                            "Clear",
+                            "Clear".tr,
                             style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF505050)),
+                                color: const Color(0xFF505050)),
                           ),
                         )),
                   ),
@@ -816,25 +831,25 @@ class _MarketPricesState extends State<MarketPrices> {
             ),
             Obx(
               () => controller.loading.value
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       itemCount:
                           controller.marketData.value.result?.length ?? 0,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final commodityName = controller
                                 .marketData.value.result?[index].commodity ??
                             "";
 
                         return Container(
-                          margin:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                          padding: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFFFFFFF7),
+                            color: const Color(0xFFFFFFF7),
                             boxShadow: [AppColor.BOX_SHADOW],
                           ),
                           child: Row(
@@ -846,7 +861,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                           .result?[index].images ??
                                       "";
                                   return Container(
-                                    margin: EdgeInsets.only(right: 10),
+                                    margin: const EdgeInsets.only(right: 10),
                                     height: MediaQuery.of(context).size.height *
                                         0.11,
                                     width: MediaQuery.of(context).size.width *
@@ -861,7 +876,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                   );
                                 },
                               ),
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.11,
                                 child: Column(
@@ -869,7 +884,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
@@ -889,7 +904,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                           width: 14,
                                           color: AppColor.LIGHT_GREEN,
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: Get.width * 0.45,
                                           child: Text(
                                             "  ${controller.marketData.value.result?[index].market ?? ""}, ${controller.marketData.value.result?[index].district ?? ""}, ${controller.marketData.value.result?[index].state ?? ""}",
@@ -904,12 +919,12 @@ class _MarketPricesState extends State<MarketPrices> {
                                       ],
                                     ),
                                     Text(
-                                      "Rate/Quintal",
+                                      "Rate/Quintal".tr,
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 10,
-                                        color:
-                                            Color(0xFF828282).withOpacity(0.8),
+                                        color: const Color(0xFF828282)
+                                            .withOpacity(0.8),
                                       ),
                                     ),
                                     Text(
@@ -917,7 +932,7 @@ class _MarketPricesState extends State<MarketPrices> {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                       ),
                                     ),
                                   ],

@@ -43,7 +43,7 @@ class _MyLandsState extends State<MyLands> {
           preferredSize: Size.fromHeight(AppDimension.h * 0.08),
           child: CommonAppBar(
             isbackButton: true,
-            title: '    My Lands',
+            title: 'My Lands'.tr,
           ),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
@@ -67,7 +67,8 @@ class _MyLandsState extends State<MyLands> {
                             horizontal: 20.0, vertical: 30),
                         child: Text(
                           textAlign: TextAlign.center,
-                          'Currently there are no lands, you can surely see those here, once posted.',
+                          'Currently there are no lands, you can surely see those here, once posted.'
+                              .tr,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
@@ -284,7 +285,7 @@ class _MyLandsState extends State<MyLands> {
                                                     width: 40,
                                                   ),
                                                   Text(
-                                                    'Land #${homecontroller.alllandListData[landIndex].id?.toInt() ?? ""}',
+                                                    '${"Land".tr} #${homecontroller.alllandListData[landIndex].id?.toInt() ?? ""}',
                                                     textAlign: TextAlign.center,
                                                     style: GoogleFonts.poppins(
                                                       color:
@@ -332,7 +333,7 @@ class _MyLandsState extends State<MyLands> {
                                                   ),
                                                   Container(
                                                     child: Text(
-                                                      'Area',
+                                                      'Area'.tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style:
@@ -386,7 +387,7 @@ class _MyLandsState extends State<MyLands> {
                                                     width: 40,
                                                   ),
                                                   Text(
-                                                    'Crop Preferences',
+                                                    'Crop Preferences'.tr,
                                                     textAlign: TextAlign.center,
                                                     style: GoogleFonts.poppins(
                                                       color:
@@ -514,15 +515,14 @@ class _MyLandsState extends State<MyLands> {
                                                                           0,
                                                                       horizontal:
                                                                           20),
-                                                                  child:
-                                                                      const Center(
+                                                                  child: Center(
                                                                     child:
                                                                         Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
                                                                               .center,
                                                                       children: [
-                                                                        Icon(
+                                                                        const Icon(
                                                                             Icons
                                                                                 .add,
                                                                             size:
@@ -530,11 +530,12 @@ class _MyLandsState extends State<MyLands> {
                                                                             color:
                                                                                 AppColor.BROWN_TEXT),
                                                                         Text(
-                                                                          "Add Land\nImages",
+                                                                          "Add Land\nImages"
+                                                                              .tr,
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style:
-                                                                              TextStyle(
+                                                                              const TextStyle(
                                                                             fontSize:
                                                                                 13,
                                                                             fontWeight:
@@ -607,7 +608,7 @@ class _MyLandsState extends State<MyLands> {
                                                 height: 30,
                                               ),
                                               Text(
-                                                '  Enquiries',
+                                                'Enquiries'.tr,
                                                 style: GoogleFonts.poppins(
                                                   color: AppColor.DARK_GREEN,
                                                   fontSize: 12,
@@ -620,7 +621,7 @@ class _MyLandsState extends State<MyLands> {
                                           Row(
                                             children: [
                                               Text(
-                                                'Partners',
+                                                'Partners'.tr,
                                                 style: GoogleFonts.poppins(
                                                   color: AppColor.DARK_GREEN,
                                                   fontSize: 12,
@@ -629,7 +630,7 @@ class _MyLandsState extends State<MyLands> {
                                                 ),
                                               ),
                                               const SizedBox(
-                                                width: 10,
+                                                width: 5,
                                               ),
                                               CircleAvatar(
                                                 radius: 16,
@@ -653,13 +654,16 @@ class _MyLandsState extends State<MyLands> {
                                           Row(
                                             children: [
                                               Text(
-                                                'Farmers  ',
+                                                'Farmers'.tr,
                                                 style: GoogleFonts.poppins(
                                                   color: AppColor.DARK_GREEN,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0.15,
                                                 ),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
                                               ),
                                               CircleAvatar(
                                                 radius: 16,

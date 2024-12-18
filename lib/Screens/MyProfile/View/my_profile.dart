@@ -59,7 +59,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
-          title: 'Profile',
+          title: 'Profile'.tr,
         ),
       ),
       body: RefreshIndicator(
@@ -206,7 +206,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'Total Followers',
+                                              'Total Followers'.tr,
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 color: const Color(0xFF483C32),
@@ -270,7 +270,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               textAlign: TextAlign.center,
                                             ),
                                             Text(
-                                              'Following',
+                                              'Following'.tr,
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 color: const Color(0xFF483C32),
@@ -322,7 +322,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 Text(
-                                                  'Total Lands',
+                                                  'Total Lands'.tr,
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.poppins(
                                                     color:
@@ -345,7 +345,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
-                          "Additional Details",
+                          "Additional Details".tr,
                           style: GoogleFonts.poppins(
                             color: AppColor.BROWN_TEXT,
                             fontSize: 18,
@@ -367,7 +367,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Bio',
+                              'Bio'.tr,
                               style: GoogleFonts.poppins(
                                 color: const Color(0xFF483C32),
                                 fontSize: 14,
@@ -396,7 +396,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               height: 12,
                             ),
                             Text(
-                              'City',
+                              'City'.tr,
                               style: GoogleFonts.poppins(
                                 color: const Color(0xFF483C32),
                                 fontSize: 14,
@@ -429,7 +429,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 return Container(
                                   margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    'Profile',
+                                    'Profile'.tr,
                                     style: GoogleFonts.poppins(
                                       color: const Color(0xFF333333),
                                       fontSize: 12,
@@ -443,7 +443,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 return Container(
                                   margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    'Expertise',
+                                    'Expertise'.tr,
                                     style: GoogleFonts.poppins(
                                       color: const Color(0xFF333333),
                                       fontSize: 12,
@@ -457,7 +457,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 return Container(
                                   margin: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    'Roles',
+                                    'Roles'.tr,
                                     style: GoogleFonts.poppins(
                                       color: const Color(0xFF333333),
                                       fontSize: 12,
@@ -541,7 +541,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               height: 12,
                             ),
                             Text(
-                              'Education',
+                              'Education'.tr,
                               style: GoogleFonts.poppins(
                                 color: const Color(0xFF483C32),
                                 fontSize: 14,
@@ -591,7 +591,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                             print("PRINTURL $instagramUrl");
                                           },
                                           child: Text(
-                                            'Available On',
+                                            'Available On'.tr,
                                             style: GoogleFonts.poppins(
                                               color: const Color(0xFF483C32),
                                               fontSize: 14,
@@ -835,7 +835,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'My Lands',
+                                                  'My Lands'.tr,
                                                   style: GoogleFonts.poppins(
                                                     color:
                                                         const Color(0xFF483C32),
@@ -849,7 +849,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                         () => const MyLands());
                                                   },
                                                   child: Text(
-                                                    'View all (${homecontroller.landData.value.result?.pageInfo?.totalObject?.toInt() ?? "No land added"}) >',
+                                                    '${"View all".tr} (${homecontroller.landData.value.result?.pageInfo?.totalObject?.toInt() ?? "No land added".tr}) >',
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(
                                                           0xFF044D3A),
@@ -880,7 +880,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         horizontal: 20.0, vertical: 30),
                                     child: Text(
                                       textAlign: TextAlign.center,
-                                      'Currently there are no lands, you can surely see those here, once posted.',
+                                      'Currently there are no lands, you can surely see those here, once posted.'
+                                          .tr,
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -1156,7 +1157,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         .only(
                                                                         top: 8),
                                                                     child: Text(
-                                                                      'Land #${homecontroller.landData.value.result?.data?[index].id?.toInt() ?? ""}',
+                                                                      '${"Land".tr} #${homecontroller.landData.value.result?.data?[index].id?.toInt() ?? ""}',
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1223,7 +1224,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         .only(
                                                                         top: 8),
                                                                     child: Text(
-                                                                      'Area',
+                                                                      'Area'.tr,
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1295,7 +1296,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                         .only(
                                                                         top: 8),
                                                                     child: Text(
-                                                                      'Crop Preferences',
+                                                                      'Crop Preferences'
+                                                                          .tr,
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -1428,7 +1430,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                                 height: 30,
                                                               ),
                                                               Text(
-                                                                '  Enquiries',
+                                                                'Enquiries'.tr,
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -1446,7 +1448,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                           Row(
                                                             children: [
                                                               Text(
-                                                                'Partners  ',
+                                                                'Partners'.tr,
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -1487,7 +1489,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                           Row(
                                                             children: [
                                                               Text(
-                                                                'Farmers  ',
+                                                                'Farmers'.tr,
                                                                 style:
                                                                     GoogleFonts
                                                                         .poppins(
@@ -1575,7 +1577,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     ),
                                   ),
                                   Obx(() => Text(
-                                        '  ${reviewController.reviewData.value.result?.pageInfo?.totalObject ?? ""} Reviews',
+                                        '  ${reviewController.reviewData.value.result?.pageInfo?.totalObject ?? ""} ${"Reviews".tr}',
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.poppins(
                                           color: const Color(0xFF483C32),
@@ -1607,7 +1609,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       horizontal: 20.0, vertical: 20),
                                   child: Text(
                                     textAlign: TextAlign.center,
-                                    'Currently there are no reviews, you can surely see those here, once posted.',
+                                    'Currently there are no reviews, you can surely see those here, once posted.'
+                                        .tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
@@ -1818,7 +1821,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               )),
           child: Center(
             child: Text(
-              "Edit Profile",
+              "Edit Profile".tr,
               style: GoogleFonts.poppins(
                 color: AppColor.DARK_GREEN,
                 fontSize: 16,

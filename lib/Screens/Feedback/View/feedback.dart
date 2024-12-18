@@ -23,7 +23,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppDimension.h * 0.08),
         child: CommonAppBar(
-          title: 'Feedback',
+          title: 'Feedback'.tr,
         ),
       ),
       body: SingleChildScrollView(
@@ -35,7 +35,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
             ),
             Center(
               child: Text(
-                "How are you feeling?",
+                "How are you feeling?".tr,
                 style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -43,15 +43,16 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               child: Center(
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Your input is valuable in helping us better understand your \nneeds and tailor our service accordingly",
+                  "Your input is valuable in helping us better understand your \nneeds and tailor our service accordingly"
+                      .tr,
                   style: GoogleFonts.poppins(
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF61646B)),
+                      color: const Color(0xFF61646B)),
                 ),
               ),
             ),
@@ -59,13 +60,13 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               height: MediaQuery.of(context).size.height * 0.1,
             ),
             Center(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.08,
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                   child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 8.0), // Space on the sides of the list
 
                     shrinkWrap: true,
@@ -84,26 +85,26 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                           print(_selectedIndex);
                         },
                         child: AnimatedContainer(
-                          duration: Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 200),
                           height: MediaQuery.of(context).size.height * 0.08,
                           width: MediaQuery.of(context).size.height * 0.08,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape:
                                 BoxShape.circle, // Make the container circular
                             color: Colors.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(
+                            padding: const EdgeInsets.all(
                                 4.0), // Optional padding around the image
                             child: ClipOval(
                               child: ColorFiltered(
                                 colorFilter: isSelected
-                                    ? ColorFilter.mode(
+                                    ? const ColorFilter.mode(
                                         Colors
                                             .transparent, // Show original color on tap
                                         BlendMode.dst,
                                       )
-                                    : ColorFilter.mode(
+                                    : const ColorFilter.mode(
                                         Colors.grey, // Black-and-white effect
                                         BlendMode.saturation,
                                       ),
@@ -125,11 +126,11 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: ShapeDecoration(
                 color: AppColor.BACKGROUND,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0x66044D3A)),
+                  side: const BorderSide(width: 1, color: Color(0x66044D3A)),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -151,7 +152,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                   maxLines: 8,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Add a Comment...",
+                    hintText: "Add a Comment...".tr,
                     hintStyle: GoogleFonts.poppins(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -168,16 +169,17 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                     _selectedIndex, controller.description.value.text);
               },
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
                 height: MediaQuery.of(context).size.height * 0.06,
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: AppColor.DARK_GREEN),
                 child: Center(
                   child: Text(
-                    'Submit Now',
+                    'Submit Now'.tr,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 16,

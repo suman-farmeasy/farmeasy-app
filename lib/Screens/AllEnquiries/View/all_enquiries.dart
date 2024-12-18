@@ -1,4 +1,5 @@
 import 'package:farm_easy/utils/Constants/color_constants.dart';
+import 'package:farm_easy/utils/localization/localization_controller.dart';
 import 'package:farm_easy/widget/Res/CommonWidget/App_AppBar.dart';
 import 'package:farm_easy/Screens/AllEnquiries/Controller/all_enquiries_controller.dart';
 import 'package:farm_easy/Screens/ChatSection/view/chat_ui.dart';
@@ -17,6 +18,7 @@ class AllEnquiries extends StatefulWidget {
 
 class _AllEnquiriesState extends State<AllEnquiries> {
   final controller = Get.put(AllEnquiriesController());
+  final localeController = Get.put(LocaleController());
   final ScrollController _enquiryScroller = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                 Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
             child: CommonAppBar(
               isbackButton: widget.isbackButton ?? false,
-              title: 'All Enquiries',
+              title: 'All Enquiries'.tr,
             )),
         body: LayoutBuilder(builder: (context, constraints) {
           return RefreshIndicator(
@@ -52,9 +54,9 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (controller.rxRequestStatus.value ==
                         Status.ERROR) {
-                      return const Center(child: Text('Error fetching data'));
+                      return Center(child: Text('Error fetching data'.tr));
                     } else if (controller.allEnquiriesList.isEmpty) {
-                      return const Center(child: Text('No data available'));
+                      return Center(child: Text('No data available'.tr));
                     } else {
                       return RefreshIndicator(
                         onRefresh: () async {
@@ -224,7 +226,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Enquiry #${controller.allEnquiriesList[index].id ?? ""}',
+                                                      '${"Enquiry".tr} #${controller.allEnquiriesList[index].id ?? ""}',
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0x7F484848),
@@ -280,7 +282,7 @@ class _AllEnquiriesState extends State<AllEnquiries> {
                                                         vertical: 8),
                                                 width: Get.width * 0.58,
                                                 child: Text(
-                                                  '${controller.allEnquiriesList[index].connectedPersonUserType ?? ""} from ${controller.allEnquiriesList[index].connectedPersonAddress ?? ""}',
+                                                  '${controller.allEnquiriesList[index].connectedPersonUserType ?? ""} ${"from".tr} ${controller.allEnquiriesList[index].connectedPersonAddress ?? ""}',
                                                   style: GoogleFonts.poppins(
                                                     color:
                                                         const Color(0xFF333333),
