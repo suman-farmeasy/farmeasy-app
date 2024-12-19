@@ -177,4 +177,5 @@ get englishWords => {
       "Search Crop": "Search Crop",
       "Clear": "Clear",
       "Rate/Quintal": "Rate/Quintal",
+      "Land Details": 'Land Details',
     };

@@ -1,3 +1,4 @@
+import 'package:farm_easy/Screens/LandSection/LandDetails/AiAssistant/View/aiassistant_view.dart';
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/Screens/Dashboard/controller/dashboard_controller.dart';
 import 'package:farm_easy/Screens/Dashboard/view/dashboard.dart';
@@ -17,6 +18,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../utils/Constants/dimensions_constatnts.dart';
+import '../../../../utils/localization/localization_controller.dart';
 
 class LandDetails extends StatefulWidget {
   LandDetails({super.key, required this.id});
@@ -36,6 +38,7 @@ class _LandDetailsState extends State<LandDetails> {
   final landPercentageController = Get.put(LandPercentageController());
   final cropSuggest = Get.put(CropSuggestionController());
   final controller = Get.put(LandInfoController());
+  final localeController = Get.put(LocaleController());
 
   @override
   void initState() {
@@ -63,7 +66,7 @@ class _LandDetailsState extends State<LandDetails> {
         return false;
       },
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           backgroundColor: AppColor.BACKGROUND,
           appBar: PreferredSize(
@@ -83,17 +86,15 @@ class _LandDetailsState extends State<LandDetails> {
                           Get.off(() => DashBoard());
                           final dashboardControllers =
                               Get.find<DashboardController>();
-                          if (dashboardControllers != null) {
-                            dashboardControllers.homecontroller.landListData();
-                          }
+                          dashboardControllers.homecontroller.landListData();
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back_ios_new_rounded,
                           color: Colors.white,
                           size: 20,
                         )),
                     Text(
-                      ' Land Details',
+                      'Land Details'.tr,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 17,
@@ -124,13 +125,13 @@ class _LandDetailsState extends State<LandDetails> {
             return Column(
               children: [
                 TabBar(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 10,
                     ),
                     indicatorWeight: 3,
                     indicatorColor: AppColor.DARK_GREEN,
                     unselectedLabelStyle: GoogleFonts.poppins(
-                      color: Color(0xCC044D3A),
+                      color: const Color(0xCC044D3A),
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -140,13 +141,16 @@ class _LandDetailsState extends State<LandDetails> {
                       fontWeight: FontWeight.w600,
                     ),
                     tabs: [
-                      Tab(
+                      const Tab(
                         text: "     Info     ",
                       ),
                       Tab(
                         text:
                             "Enquiries (${enquiriesController.enquiriesData.value.result?.pageInfo?.totalObject ?? 0})",
-                      )
+                      ),
+                      const Tab(
+                        text: "Ai Assistant",
+                      ),
                     ]),
                 Expanded(
                     child: TabBarView(
@@ -154,7 +158,8 @@ class _LandDetailsState extends State<LandDetails> {
                     InfoView(
                       landId: widget.id,
                     ),
-                    EnquiriesView(),
+                    const EnquiriesView(),
+                    AiassistantView(),
                   ],
                 ))
               ],

@@ -176,4 +176,5 @@ get hindiWords => {
       "Search Crop": "फसल खोजें",
       "Clear": "साफ करो",
       "Rate/Quintal": "दर/क्विंटल",
+      "Land Details": "भूमि विवरण",
     };

@@ -175,4 +175,5 @@ get punjabiWords => {
       "Search Crop": "ਖੋਜ ਕਰੋਪ",
       "Clear": "ਸਾਫ਼ ਕਰੋ",
       "Rate/Quintal": "ਰੇਟ/ਕੁਇੰਟਲ",
+      "Land Details": "ਜ਼ਮੀਨ ਦੇ ਵੇਰਵੇ",
     };
