@@ -36,7 +36,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
               },
               child: Obx(() {
                 return agriController.agriLoding.value
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Column(
@@ -51,7 +51,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (context) {
-                                    return Container(
+                                    return SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.4,
@@ -59,11 +59,13 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 12, vertical: 15),
-                                              margin:
-                                                  EdgeInsets.only(bottom: 20),
-                                              decoration: BoxDecoration(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 15),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 20),
+                                              decoration: const BoxDecoration(
                                                   color: AppColor.DARK_GREEN,
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -91,7 +93,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                     onTap: () {
                                                       Get.back();
                                                     },
-                                                    child: CircleAvatar(
+                                                    child: const CircleAvatar(
                                                       radius: 10,
                                                       backgroundColor:
                                                           Colors.white,
@@ -138,7 +140,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(height: 20),
+                                            const SizedBox(height: 20),
                                             Obx(
                                               () => Slider(
                                                 value: agriController
@@ -156,7 +158,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                 },
                                               ),
                                             ),
-                                            SizedBox(height: 20),
+                                            const SizedBox(height: 20),
                                             GestureDetector(
                                               onTap: () {
                                                 agriController.getAgriData(
@@ -168,12 +170,14 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                 });
                                               },
                                               child: Container(
-                                                padding: EdgeInsets.symmetric(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                   vertical: 10,
                                                 ),
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 10),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
                                                 decoration: ShapeDecoration(
                                                   color: AppColor.DARK_GREEN,
                                                   shape: RoundedRectangleBorder(
@@ -202,21 +206,36 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                 );
                               },
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset("assets/img/filter.svg"),
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset("assets/img/filter.svg"),
+                                      Text(
+                                        "  Distance Filter",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColor.BROWN_TEXT,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
                                   Text(
-                                    "  Distance Filter",
+                                    "${agriController.currentDistance.value.toString()} Km",
                                     style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColor.BROWN_TEXT,
-                                        fontSize: 16),
+                                      color: AppColor.DARK_GREEN,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      height: 0,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                               vertical: 0,
                             ),
                             height: AppDimension.h * 0.81,
@@ -252,7 +271,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                               ""));
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(
+                                      margin: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -292,7 +311,8 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                               decoration: BoxDecoration(
                                                 color: AppColor.DARK_GREEN
                                                     .withOpacity(0.1),
-                                                borderRadius: BorderRadius.only(
+                                                borderRadius:
+                                                    const BorderRadius.only(
                                                   bottomLeft:
                                                       Radius.circular(18),
                                                   topLeft: Radius.circular(18),
@@ -365,11 +385,12 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                         ),
                                                       ),
                                                     )
-                                                  : SizedBox(), // Show nothing if image exists
+                                                  : const SizedBox(), // Show nothing if image exists
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(left: 10),
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -377,10 +398,17 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 10),
                                                   child: Text(
-                                                    '${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].fullName ?? ""}',
+                                                    agriController
+                                                            .agriProviderData
+                                                            .value
+                                                            .result
+                                                            ?.matchingAgriServiceProviders?[
+                                                                index]
+                                                            .fullName ??
+                                                        "",
                                                     style: GoogleFonts.poppins(
                                                       color:
                                                           AppColor.BROWN_TEXT,
@@ -391,7 +419,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       bottom: 8),
                                                   child: Row(
                                                     children: [
@@ -399,7 +427,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                         "assets/farm/locationbrown.svg",
                                                         width: 20,
                                                       ),
-                                                      Container(
+                                                      SizedBox(
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
@@ -409,7 +437,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                           '  ${agriController.agriProviderData.value.result?.matchingAgriServiceProviders?[index].livesIn ?? ""}',
                                                           style: GoogleFonts
                                                               .poppins(
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFF61646B),
                                                             fontSize: 8,
                                                             fontWeight:
@@ -427,8 +455,9 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                       width: 20,
                                                     ),
                                                     Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 5),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 5),
                                                       height: 20,
                                                       width: Get.width * 0.4,
                                                       child: ListView.builder(
@@ -446,8 +475,9 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                           itemBuilder:
                                                               (context, roles) {
                                                             return Container(
-                                                              margin: EdgeInsets
-                                                                  .symmetric(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           5),
                                                               decoration: BoxDecoration(
@@ -455,11 +485,20 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                                       BorderRadius
                                                                           .circular(
                                                                               20),
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0x14167C0C)),
                                                               child: Center(
                                                                 child: Text(
-                                                                  '${agriController.agriProviderData.value.result!.matchingAgriServiceProviders?[index].roles![roles].name ?? ""}',
+                                                                  agriController
+                                                                          .agriProviderData
+                                                                          .value
+                                                                          .result!
+                                                                          .matchingAgriServiceProviders?[
+                                                                              index]
+                                                                          .roles![
+                                                                              roles]
+                                                                          .name ??
+                                                                      "",
                                                                   style: GoogleFonts
                                                                       .poppins(
                                                                     color: AppColor
@@ -479,11 +518,12 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                   ],
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(
+                                                  margin: const EdgeInsets.only(
                                                       left: 120,
                                                       top: 10,
                                                       bottom: 10),
-                                                  padding: EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       horizontal: 15,
                                                       vertical: 4),
                                                   decoration: BoxDecoration(
@@ -495,7 +535,7 @@ class _MatchingAgriProviderState extends State<MatchingAgriProvider> {
                                                             AppColor.DARK_GREEN,
                                                         width: 1),
                                                   ),
-                                                  child: Row(
+                                                  child: const Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .center,

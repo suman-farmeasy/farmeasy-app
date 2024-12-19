@@ -106,9 +106,9 @@ class _EditLandState extends State<EditLand> {
     controller.selectedleaseUinit.value = widget.leaseDurationType;
     controller.lease_type.value = widget.leaseType;
     controller.landArea.value =
-        widget.landSizeData + "  " + widget.landSizeDataType;
+        "${widget.landSizeData}  ${widget.landSizeDataType}";
     controller.leaseDUration.value =
-        widget.leaseDuration + "  " + widget.leaseDurationType;
+        "${widget.leaseDuration}  ${widget.leaseDurationType}";
     controller.landSize.value.text = widget.landSizeData;
     controller.selectedUnit.value = widget.landSizeDataType;
     if (widget.leaseType == "Rent") {
@@ -178,7 +178,7 @@ class _EditLandState extends State<EditLand> {
                       getLandData.getLandDetails(widget.landId);
                       Get.back();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: AppColor.BROWN_TEXT,
                     )),
@@ -224,7 +224,7 @@ class _EditLandState extends State<EditLand> {
                       Text(
                         '    Land information',
                         style: GoogleFonts.poppins(
-                          color: Color(0xFF483C32),
+                          color: const Color(0xFF483C32),
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           height: 0.17,
@@ -235,104 +235,113 @@ class _EditLandState extends State<EditLand> {
                   Obx(() {
                     return controller.landtitleValue.value
                         ? controller.isTitleAdded.value
-                            ? Container(
-                                margin: EdgeInsets.only(top: 10),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Land Nickname',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isTitleAdded.value = false;
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Land Nickname',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          width: Get.width * 0.5,
-                                          child: Text(
-                                            controller.landTitle.value,
-                                            style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          SizedBox(
+                                            width: Get.width * 0.5,
+                                            child: Text(
+                                              controller.landTitle.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isTitleAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isTitleAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.only(top: 10),
-                                padding: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -350,13 +359,13 @@ class _EditLandState extends State<EditLand> {
                                           TextSpan(
                                             text: 'Land Nickname',
                                             style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
+                                              color: const Color(0xFF272727),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               height: 0,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: '*',
                                             style: TextStyle(
                                               color: Color(0xFFEB5757),
@@ -370,8 +379,8 @@ class _EditLandState extends State<EditLand> {
                                       ),
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 15),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 15),
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.075,
@@ -387,8 +396,9 @@ class _EditLandState extends State<EditLand> {
                                           Form(
                                             key: _landTitle,
                                             child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 15),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
                                               width: Get.width * 0.75,
                                               child: TextFormField(
                                                 keyboardType:
@@ -399,7 +409,8 @@ class _EditLandState extends State<EditLand> {
                                                   hintText: 'Land Nickname',
                                                   hintStyle:
                                                       GoogleFonts.poppins(
-                                                    color: Color(0x994F4F4F),
+                                                    color:
+                                                        const Color(0x994F4F4F),
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     height: 0.10,
@@ -421,7 +432,7 @@ class _EditLandState extends State<EditLand> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 120),
+                                      padding: const EdgeInsets.only(left: 120),
                                       child: InkWell(
                                         onTap: () {
                                           if (_landTitle.currentState!
@@ -434,14 +445,14 @@ class _EditLandState extends State<EditLand> {
                                           }
                                           {
                                             print("VALUE");
-                                            return null;
+                                            return;
                                           }
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             vertical: 3,
                                           ),
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                           ),
                                           decoration: ShapeDecoration(
@@ -464,7 +475,7 @@ class _EditLandState extends State<EditLand> {
                                                             .text);
                                                   }
                                                   {
-                                                    return null;
+                                                    return;
                                                   }
                                                 },
                                                 child: Text(
@@ -486,8 +497,9 @@ class _EditLandState extends State<EditLand> {
                         : InkWell(
                             onTap: controller.landTitleValue,
                             child: Container(
-                              margin: EdgeInsets.only(bottom: 10, top: 10),
-                              padding: EdgeInsets.symmetric(
+                              margin:
+                                  const EdgeInsets.only(bottom: 10, top: 10),
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -505,13 +517,13 @@ class _EditLandState extends State<EditLand> {
                                         TextSpan(
                                           text: 'Land Nickname',
                                           style: GoogleFonts.poppins(
-                                            color: Color(0xFF919191),
+                                            color: const Color(0xFF919191),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             height: 0,
                                           ),
                                         ),
-                                        TextSpan(
+                                        const TextSpan(
                                           text: '*',
                                           style: TextStyle(
                                             color: Color(0xFFEB5757),
@@ -529,7 +541,7 @@ class _EditLandState extends State<EditLand> {
                                     child: Text(
                                       'Add',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF272727),
+                                        color: const Color(0xFF272727),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         height: 0,
@@ -544,104 +556,115 @@ class _EditLandState extends State<EditLand> {
                   Obx(() {
                     return controller.landSizeValue.value
                         ? controller.isLandAdded.value
-                            ? Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Land Size(Area)',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isLandAdded.value = false;
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Land Size(Area)',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          width: Get.width * 0.5,
-                                          child: Text(
-                                            controller.landArea.value,
-                                            style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          SizedBox(
+                                            width: Get.width * 0.5,
+                                            child: Text(
+                                              controller.landArea.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isLandAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isLandAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.symmetric(vertical: 20),
-                                padding: EdgeInsets.symmetric(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -659,13 +682,13 @@ class _EditLandState extends State<EditLand> {
                                           TextSpan(
                                             text: 'Land Size(Area)',
                                             style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
+                                              color: const Color(0xFF272727),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               height: 0,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: '*',
                                             style: TextStyle(
                                               color: Color(0xFFEB5757),
@@ -679,8 +702,8 @@ class _EditLandState extends State<EditLand> {
                                       ),
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 15),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 15),
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.075,
@@ -696,8 +719,9 @@ class _EditLandState extends State<EditLand> {
                                           Form(
                                             key: _landSize,
                                             child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 15),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
                                               width: Get.width * 0.33,
                                               child: TextFormField(
                                                 keyboardType:
@@ -708,7 +732,8 @@ class _EditLandState extends State<EditLand> {
                                                   hintText: 'Land Size',
                                                   hintStyle:
                                                       GoogleFonts.poppins(
-                                                    color: Color(0x994F4F4F),
+                                                    color:
+                                                        const Color(0x994F4F4F),
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     height: 0.10,
@@ -731,7 +756,7 @@ class _EditLandState extends State<EditLand> {
                                             color: Colors.grey,
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 15),
                                             child: Obx(
                                               () => DropdownButton(
@@ -747,8 +772,8 @@ class _EditLandState extends State<EditLand> {
                                                       unit,
                                                       style:
                                                           GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF4F4F4F),
+                                                        color: const Color(
+                                                            0xFF4F4F4F),
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -768,7 +793,7 @@ class _EditLandState extends State<EditLand> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 120),
+                                      padding: const EdgeInsets.only(left: 120),
                                       child: InkWell(
                                         onTap: () {
                                           if (_landSize.currentState!
@@ -778,14 +803,14 @@ class _EditLandState extends State<EditLand> {
                                                 controller.landArea.value);
                                           }
                                           {
-                                            return null;
+                                            return;
                                           }
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             vertical: 3,
                                           ),
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                           ),
                                           decoration: ShapeDecoration(
@@ -806,7 +831,7 @@ class _EditLandState extends State<EditLand> {
                                                             .landArea.value);
                                                   }
                                                   {
-                                                    return null;
+                                                    return;
                                                   }
                                                 },
                                                 child: Text(
@@ -828,8 +853,9 @@ class _EditLandState extends State<EditLand> {
                         : InkWell(
                             onTap: controller.landValue,
                             child: Container(
-                              margin: EdgeInsets.only(bottom: 10, top: 10),
-                              padding: EdgeInsets.symmetric(
+                              margin:
+                                  const EdgeInsets.only(bottom: 10, top: 10),
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -847,13 +873,13 @@ class _EditLandState extends State<EditLand> {
                                         TextSpan(
                                           text: 'Land Size (Area) ',
                                           style: GoogleFonts.poppins(
-                                            color: Color(0xFF919191),
+                                            color: const Color(0xFF919191),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             height: 0,
                                           ),
                                         ),
-                                        TextSpan(
+                                        const TextSpan(
                                           text: '*',
                                           style: TextStyle(
                                             color: Color(0xFFEB5757),
@@ -871,7 +897,7 @@ class _EditLandState extends State<EditLand> {
                                     child: Text(
                                       'Add',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF272727),
+                                        color: const Color(0xFF272727),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         height: 0,
@@ -886,104 +912,114 @@ class _EditLandState extends State<EditLand> {
                   Obx(() {
                     return controller.addPurpose.value
                         ? controller.isPurposeAdded.value
-                            ? Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Purpose',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                            ? InkWell(
+                                onTap: () =>
+                                    controller.isPurposeAdded.value = false,
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Purpose',
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(
+                                                          0xFF919191),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            controller
-                                                .selectedPurposeName.value,
-                                            style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2,
+                                          Container(
+                                            child: Text(
+                                              controller
+                                                  .selectedPurposeName.value,
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.2,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isPurposeAdded.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isPurposeAdded.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.symmetric(vertical: 20),
-                                padding: EdgeInsets.symmetric(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -1001,13 +1037,13 @@ class _EditLandState extends State<EditLand> {
                                           TextSpan(
                                             text: 'Purpose',
                                             style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
+                                              color: const Color(0xFF272727),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               height: 0,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: '*',
                                             style: TextStyle(
                                               color: Color(0xFFEB5757),
@@ -1024,9 +1060,9 @@ class _EditLandState extends State<EditLand> {
                                       if (controller.rxPurposeRequestStatus ==
                                           Status.LOADING) {
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 20),
-                                          child: Center(
+                                          child: const Center(
                                             child: CircularProgressIndicator(
                                               color: AppColor.DARK_GREEN,
                                             ),
@@ -1036,7 +1072,7 @@ class _EditLandState extends State<EditLand> {
                                               .rxPurposeRequestStatus ==
                                           Status.SUCCESS) {
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 15),
                                           child: Wrap(
                                             spacing: 10,
@@ -1063,9 +1099,10 @@ class _EditLandState extends State<EditLand> {
                                                           .name!;
                                                 },
                                                 child: AnimatedContainer(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  padding: EdgeInsets.symmetric(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 10,
                                                       horizontal: 10),
                                                   decoration: BoxDecoration(
@@ -1089,7 +1126,7 @@ class _EditLandState extends State<EditLand> {
                                                         : AppColor
                                                             .WHITE_GRADIENT,
                                                   ),
-                                                  duration: Duration(
+                                                  duration: const Duration(
                                                       milliseconds: 300),
                                                   child: Text(
                                                     controller.purposeData.value
@@ -1105,7 +1142,7 @@ class _EditLandState extends State<EditLand> {
                                       }
                                     }),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 120),
+                                      padding: const EdgeInsets.only(left: 120),
                                       child: InkWell(
                                         onTap: () {
                                           controller.purposeAdded();
@@ -1116,10 +1153,10 @@ class _EditLandState extends State<EditLand> {
                                               "============================================================${controller.selectedPurposeName.value}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             vertical: 3,
                                           ),
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                           ),
                                           decoration: ShapeDecoration(
@@ -1160,8 +1197,9 @@ class _EditLandState extends State<EditLand> {
                         : InkWell(
                             onTap: controller.addPurposeValue,
                             child: Container(
-                              margin: EdgeInsets.only(bottom: 20, top: 10),
-                              padding: EdgeInsets.symmetric(
+                              margin:
+                                  const EdgeInsets.only(bottom: 20, top: 10),
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -1179,13 +1217,13 @@ class _EditLandState extends State<EditLand> {
                                         TextSpan(
                                           text: 'Purpose',
                                           style: GoogleFonts.poppins(
-                                            color: Color(0xFF919191),
+                                            color: const Color(0xFF919191),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             height: 0,
                                           ),
                                         ),
-                                        TextSpan(
+                                        const TextSpan(
                                           text: '*',
                                           style: TextStyle(
                                             color: Color(0xFFEB5757),
@@ -1203,7 +1241,7 @@ class _EditLandState extends State<EditLand> {
                                     child: Text(
                                       'Add',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF272727),
+                                        color: const Color(0xFF272727),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         height: 0,
@@ -1224,127 +1262,147 @@ class _EditLandState extends State<EditLand> {
                               Obx(() {
                                 return controller.landleaseValue.value
                                     ? controller.isLandleaseAdded.value
-                                        ? Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: 10, top: 10),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 15),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                  color: AppColor.GREY_BORDER),
-                                              boxShadow: [AppColor.BOX_SHADOW],
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
-                                                      child: Text.rich(
-                                                        TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text:
-                                                                  'Lease duration',
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Color(
-                                                                    0xFF919191),
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 0,
+                                        ? InkWell(
+                                            onTap: () {
+                                              controller.isLandleaseAdded
+                                                  .value = false;
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10, top: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color:
+                                                        AppColor.GREY_BORDER),
+                                                boxShadow: [
+                                                  AppColor.BOX_SHADOW
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
+                                                        child: Text.rich(
+                                                          TextSpan(
+                                                            children: [
+                                                              TextSpan(
+                                                                text:
+                                                                    'Lease duration',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: const Color(
+                                                                      0xFF919191),
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            TextSpan(
-                                                              text: '*',
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xFFEB5757),
-                                                                fontSize: 12,
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 0,
+                                                              const TextSpan(
+                                                                text: '*',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFFEB5757),
+                                                                  fontSize: 12,
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      width: Get.width * 0.5,
-                                                      child: Text(
-                                                        controller.leaseDUration
-                                                            .value,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF272727),
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          height: 1.2,
+                                                      SizedBox(
+                                                        width: Get.width * 0.5,
+                                                        child: Text(
+                                                          controller
+                                                              .leaseDUration
+                                                              .value,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: const Color(
+                                                                0xFF272727),
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            height: 1.2,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        controller
-                                                            .isLandleaseAdded
-                                                            .value = false;
-                                                      },
-                                                      child: Text(
-                                                        'Added',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: AppColor
-                                                              .LIGHT_GREEN,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          height: 0,
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          controller
+                                                              .isLandleaseAdded
+                                                              .value = false;
+                                                        },
+                                                        child: Text(
+                                                          'Added',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .LIGHT_GREEN,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            height: 0,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Icon(
-                                                      Icons.task_alt_rounded,
-                                                      color:
-                                                          AppColor.LIGHT_GREEN,
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                                      const Icon(
+                                                        Icons.task_alt_rounded,
+                                                        color: AppColor
+                                                            .LIGHT_GREEN,
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           )
                                         : Container(
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            padding: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 15, horizontal: 15),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
@@ -1365,15 +1423,15 @@ class _EditLandState extends State<EditLand> {
                                                         text: 'Lease duration',
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF272727),
+                                                          color: const Color(
+                                                              0xFF272727),
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           height: 0,
                                                         ),
                                                       ),
-                                                      TextSpan(
+                                                      const TextSpan(
                                                         text: '*',
                                                         style: TextStyle(
                                                           color:
@@ -1389,8 +1447,8 @@ class _EditLandState extends State<EditLand> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 15),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 15),
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
@@ -1412,8 +1470,9 @@ class _EditLandState extends State<EditLand> {
                                                       Form(
                                                         key: _landlease,
                                                         child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       15),
                                                           width:
@@ -1433,7 +1492,7 @@ class _EditLandState extends State<EditLand> {
                                                               hintStyle:
                                                                   GoogleFonts
                                                                       .poppins(
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0x994F4F4F),
                                                                 fontSize: 14,
                                                                 fontWeight:
@@ -1462,54 +1521,69 @@ class _EditLandState extends State<EditLand> {
                                                         color: Colors.grey,
                                                       ),
                                                       Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
                                                                 horizontal: 15),
                                                         child: Obx(
-                                                          () => DropdownButton(
-                                                            underline:
-                                                                Container(),
-                                                            value: controller
+                                                          () {
+                                                            // Ensure the selected value is in the list of items
+                                                            final selectedValue = controller
+                                                                    .leaseunits
+                                                                    .contains(controller
+                                                                        .selectedleaseUinit
+                                                                        .value)
+                                                                ? controller
                                                                     .selectedleaseUinit
-                                                                    .value ??
-                                                                "Months",
-                                                            items: controller
-                                                                .leaseunits
-                                                                .map((unit) {
-                                                              return DropdownMenuItem(
-                                                                value: unit,
-                                                                child: Text(
-                                                                  unit,
-                                                                  style: GoogleFonts
-                                                                      .poppins(
-                                                                    color: Color(
-                                                                        0xFF4F4F4F),
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    height:
-                                                                        0.10,
+                                                                    .value
+                                                                : null;
+
+                                                            return DropdownButton(
+                                                              underline:
+                                                                  Container(),
+                                                              value:
+                                                                  selectedValue,
+                                                              hint: const Text(
+                                                                  "Select a unit"),
+                                                              items: controller
+                                                                  .leaseunits
+                                                                  .map((unit) {
+                                                                return DropdownMenuItem(
+                                                                  value: unit,
+                                                                  child: Text(
+                                                                    unit,
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      color: const Color(
+                                                                          0xFF4F4F4F),
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      height:
+                                                                          0.10,
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            }).toList(),
-                                                            onChanged:
-                                                                (selectedUnit) {
-                                                              controller.updateSelectedleaseUnit(
-                                                                  selectedUnit
-                                                                      .toString());
-                                                            },
-                                                          ),
+                                                                );
+                                                              }).toList(),
+                                                              onChanged:
+                                                                  (selectedUnit) {
+                                                                controller.updateSelectedleaseUnit(
+                                                                    selectedUnit
+                                                                        .toString());
+                                                              },
+                                                            );
+                                                          },
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 120),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 120),
                                                   child: InkWell(
                                                     onTap: () {
                                                       if (_landlease
@@ -1523,16 +1597,16 @@ class _EditLandState extends State<EditLand> {
                                                                     .value);
                                                       }
                                                       {
-                                                        return null;
+                                                        return;
                                                       }
                                                     },
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
                                                         vertical: 3,
                                                       ),
-                                                      margin:
-                                                          EdgeInsets.symmetric(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
                                                         horizontal: 10,
                                                       ),
                                                       decoration:
@@ -1560,7 +1634,7 @@ class _EditLandState extends State<EditLand> {
                                                                         .value);
                                                               }
                                                               {
-                                                                return null;
+                                                                return;
                                                               }
                                                             },
                                                             child: Text(
@@ -1586,8 +1660,9 @@ class _EditLandState extends State<EditLand> {
                                     : InkWell(
                                         onTap: controller.leaseValue,
                                         child: Container(
-                                          margin: EdgeInsets.only(bottom: 10),
-                                          padding: EdgeInsets.symmetric(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 15),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
@@ -1608,15 +1683,15 @@ class _EditLandState extends State<EditLand> {
                                                       text: 'Lease duration',
                                                       style:
                                                           GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF919191),
+                                                        color: const Color(
+                                                            0xFF919191),
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         height: 0,
                                                       ),
                                                     ),
-                                                    TextSpan(
+                                                    const TextSpan(
                                                       text: '*',
                                                       style: TextStyle(
                                                         color:
@@ -1636,7 +1711,8 @@ class _EditLandState extends State<EditLand> {
                                                 child: Text(
                                                   'Add',
                                                   style: GoogleFonts.poppins(
-                                                    color: Color(0xFF272727),
+                                                    color:
+                                                        const Color(0xFF272727),
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                     height: 0,
@@ -1648,132 +1724,151 @@ class _EditLandState extends State<EditLand> {
                                         ),
                                       );
                               }),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Obx(() {
                                 return controller.landleaseAmountvalue.value
                                     ? controller.islandleaseAmountvalue.value
-                                        ? Container(
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 15),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                  color: AppColor.GREY_BORDER),
-                                              boxShadow: [AppColor.BOX_SHADOW],
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
-                                                      child: Text.rich(
-                                                        TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text:
-                                                                  'Leasing type',
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Color(
-                                                                    0xFF919191),
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 0,
+                                        ? InkWell(
+                                            onTap: () => controller
+                                                .islandleaseAmountvalue
+                                                .value = false,
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color:
+                                                        AppColor.GREY_BORDER),
+                                                boxShadow: [
+                                                  AppColor.BOX_SHADOW
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
+                                                        child: Text.rich(
+                                                          TextSpan(
+                                                            children: [
+                                                              TextSpan(
+                                                                text:
+                                                                    'Leasing type',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: const Color(
+                                                                      0xFF919191),
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            TextSpan(
-                                                              text: '*',
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xFFEB5757),
-                                                                fontSize: 12,
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 0,
+                                                              const TextSpan(
+                                                                text: '*',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFFEB5757),
+                                                                  fontSize: 12,
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      width: Get.width * 0.5,
-                                                      child: Text(
-                                                        controller
-                                                            .lease_type.value,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF272727),
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          height: 1.2,
+                                                      SizedBox(
+                                                        width: Get.width * 0.5,
+                                                        child: Text(
+                                                          controller
+                                                              .lease_type.value,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: const Color(
+                                                                0xFF272727),
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            height: 1.2,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        controller
-                                                            .islandleaseAmountvalue
-                                                            .value = false;
-                                                      },
-                                                      child: Text(
-                                                        'Added',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: AppColor
-                                                              .LIGHT_GREEN,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          height: 0,
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          controller
+                                                              .islandleaseAmountvalue
+                                                              .value = false;
+                                                        },
+                                                        child: Text(
+                                                          'Added',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .LIGHT_GREEN,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            height: 0,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Icon(
-                                                      Icons.task_alt_rounded,
-                                                      color:
-                                                          AppColor.LIGHT_GREEN,
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                                      const Icon(
+                                                        Icons.task_alt_rounded,
+                                                        color: AppColor
+                                                            .LIGHT_GREEN,
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           )
                                         : Container(
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            padding: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 15, horizontal: 15),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
@@ -1794,15 +1889,15 @@ class _EditLandState extends State<EditLand> {
                                                         text: 'Lease type',
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:
-                                                              Color(0xFF272727),
+                                                          color: const Color(
+                                                              0xFF272727),
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           height: 0,
                                                         ),
                                                       ),
-                                                      TextSpan(
+                                                      const TextSpan(
                                                         text: '*',
                                                         style: TextStyle(
                                                           color:
@@ -1819,10 +1914,10 @@ class _EditLandState extends State<EditLand> {
                                                 ),
                                                 Obx(() {
                                                   return Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 0),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 0),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1845,7 +1940,7 @@ class _EditLandState extends State<EditLand> {
                                                                     'Rent/month',
                                                                     style: GoogleFonts
                                                                         .poppins(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0xFF333333),
                                                                       fontSize:
                                                                           12,
@@ -1877,14 +1972,14 @@ class _EditLandState extends State<EditLand> {
                                                                     RadioListTile<
                                                                         bool>(
                                                                   contentPadding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
-                                                                              0),
+                                                                          0),
                                                                   title: Text(
                                                                     'Share profit',
                                                                     style: GoogleFonts
                                                                         .poppins(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0xFF333333),
                                                                       fontSize:
                                                                           12,
@@ -1921,8 +2016,9 @@ class _EditLandState extends State<EditLand> {
                                                               .isleaseAvailable
                                                               .value,
                                                           child: Container(
-                                                            margin: EdgeInsets
-                                                                .symmetric(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
                                                                     vertical:
                                                                         15),
                                                             height: MediaQuery.of(
@@ -1949,10 +2045,10 @@ class _EditLandState extends State<EditLand> {
                                                             child: Row(
                                                               children: [
                                                                 Container(
-                                                                  padding: EdgeInsets
+                                                                  padding: const EdgeInsets
                                                                       .symmetric(
-                                                                          horizontal:
-                                                                              15),
+                                                                      horizontal:
+                                                                          15),
                                                                   child: Obx(
                                                                     () =>
                                                                         DropdownButton(
@@ -1976,7 +2072,7 @@ class _EditLandState extends State<EditLand> {
                                                                             unit,
                                                                             style:
                                                                                 GoogleFonts.poppins(
-                                                                              color: Color(0xFF4F4F4F),
+                                                                              color: const Color(0xFF4F4F4F),
                                                                               fontSize: 14,
                                                                               fontWeight: FontWeight.w500,
                                                                               height: 0.10,
@@ -1998,10 +2094,10 @@ class _EditLandState extends State<EditLand> {
                                                                       .grey,
                                                                 ),
                                                                 Container(
-                                                                  padding: EdgeInsets
+                                                                  padding: const EdgeInsets
                                                                       .symmetric(
-                                                                          horizontal:
-                                                                              15),
+                                                                      horizontal:
+                                                                          15),
                                                                   width:
                                                                       Get.width *
                                                                           0.33,
@@ -2021,7 +2117,7 @@ class _EditLandState extends State<EditLand> {
                                                                       hintStyle:
                                                                           GoogleFonts
                                                                               .poppins(
-                                                                        color: Color(
+                                                                        color: const Color(
                                                                             0x994F4F4F),
                                                                         fontSize:
                                                                             14,
@@ -2054,8 +2150,9 @@ class _EditLandState extends State<EditLand> {
                                                   );
                                                 }),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 120),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 120),
                                                   child: InkWell(
                                                     onTap: () {
                                                       print(
@@ -2071,12 +2168,12 @@ class _EditLandState extends State<EditLand> {
                                                                   .value);
                                                     },
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
                                                         vertical: 3,
                                                       ),
-                                                      margin:
-                                                          EdgeInsets.symmetric(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
                                                         horizontal: 10,
                                                       ),
                                                       decoration:
@@ -2128,9 +2225,9 @@ class _EditLandState extends State<EditLand> {
                                     : InkWell(
                                         onTap: controller.leaseAmountValue,
                                         child: Container(
-                                          margin: EdgeInsets.only(
+                                          margin: const EdgeInsets.only(
                                               bottom: 10, top: 10),
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 15),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
@@ -2151,15 +2248,15 @@ class _EditLandState extends State<EditLand> {
                                                       text: 'Lease type',
                                                       style:
                                                           GoogleFonts.poppins(
-                                                        color:
-                                                            Color(0xFF919191),
+                                                        color: const Color(
+                                                            0xFF919191),
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         height: 0,
                                                       ),
                                                     ),
-                                                    TextSpan(
+                                                    const TextSpan(
                                                       text: '*',
                                                       style: TextStyle(
                                                         color:
@@ -2179,7 +2276,8 @@ class _EditLandState extends State<EditLand> {
                                                 child: Text(
                                                   'Add',
                                                   style: GoogleFonts.poppins(
-                                                    color: Color(0xFF272727),
+                                                    color:
+                                                        const Color(0xFF272727),
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                     height: 0,
@@ -2198,128 +2296,145 @@ class _EditLandState extends State<EditLand> {
                   Obx(() {
                     return controller.iscropAdded.value
                         ? controller.isCropValue.value
-                            ? Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Crops',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Color(0xFF919191),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                    color: Color(0xFFEB5757),
-                                                    fontSize: 12,
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: Get.width * 0.53,
-                                          child: Wrap(
-                                            children: List.generate(
-                                              controller.cropAddedName.length +
-                                                  controller.otherCropAddedName
-                                                      .length,
-                                              (index) {
-                                                final isCropAddedName = index <
-                                                    controller
-                                                        .cropAddedName.length;
-                                                final cropName = isCropAddedName
-                                                    ? controller
-                                                        .cropAddedName[index]
-                                                    : controller
-                                                            .otherCropAddedName[
-                                                        index -
-                                                            controller
-                                                                .cropAddedName
-                                                                .length];
-
-                                                return Container(
-                                                  child: Text(
-                                                    "$cropName, ",
+                            ? InkWell(
+                                onTap: () {
+                                  controller.isCropValue.value = false;
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Crops',
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF272727),
+                                                      color: const Color(
+                                                          0xFF919191),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                );
-                                              },
+                                                  const TextSpan(
+                                                    text: '*',
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEB5757),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.isCropValue.value =
-                                                false;
-                                          },
-                                          child: Text(
-                                            'Added',
-                                            style: GoogleFonts.poppins(
-                                              color: AppColor.LIGHT_GREEN,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
+                                          SizedBox(
+                                            width: Get.width * 0.53,
+                                            child: Wrap(
+                                              children: List.generate(
+                                                controller
+                                                        .cropAddedName.length +
+                                                    controller
+                                                        .otherCropAddedName
+                                                        .length,
+                                                (index) {
+                                                  final isCropAddedName =
+                                                      index <
+                                                          controller
+                                                              .cropAddedName
+                                                              .length;
+                                                  final cropName = isCropAddedName
+                                                      ? controller
+                                                          .cropAddedName[index]
+                                                      : controller
+                                                              .otherCropAddedName[
+                                                          index -
+                                                              controller
+                                                                  .cropAddedName
+                                                                  .length];
+
+                                                  return Container(
+                                                    child: Text(
+                                                      "$cropName, ",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: const Color(
+                                                            0xFF272727),
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.isCropValue.value =
+                                                  false;
+                                            },
+                                            child: Text(
+                                              'Added',
+                                              style: GoogleFonts.poppins(
+                                                color: AppColor.LIGHT_GREEN,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.task_alt_rounded,
-                                          color: AppColor.LIGHT_GREEN,
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                          const Icon(
+                                            Icons.task_alt_rounded,
+                                            color: AppColor.LIGHT_GREEN,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.symmetric(vertical: 20),
-                                padding: EdgeInsets.symmetric(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -2341,13 +2456,13 @@ class _EditLandState extends State<EditLand> {
                                                 ? 'What crop can be grown?'
                                                 : 'What kind of crop do you want to grow?',
                                             style: GoogleFonts.poppins(
-                                              color: Color(0xFF272727),
+                                              color: const Color(0xFF272727),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
                                               height: 0,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: '*',
                                             style: TextStyle(
                                               color: Color(0xFFEB5757),
@@ -2361,12 +2476,12 @@ class _EditLandState extends State<EditLand> {
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
                                       child: Text(
                                         'You can select multiple options',
                                         style: GoogleFonts.poppins(
-                                          color: Color(0xFF757575),
+                                          color: const Color(0xFF757575),
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500,
                                           height: 0.16,
@@ -2377,9 +2492,9 @@ class _EditLandState extends State<EditLand> {
                                       if (controller.rxCroprequestStatus ==
                                           Status.LOADING) {
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 20),
-                                          child: Center(
+                                          child: const Center(
                                             child: CircularProgressIndicator(
                                               color: AppColor.DARK_GREEN,
                                             ),
@@ -2389,7 +2504,7 @@ class _EditLandState extends State<EditLand> {
                                               .rxCroprequestStatus ==
                                           Status.SUCCESS) {
                                         return Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 15),
                                           child: Wrap(
                                             spacing: 10,
@@ -2420,8 +2535,9 @@ class _EditLandState extends State<EditLand> {
                                                                   .height *
                                                               0.7,
                                                           color: Colors.white,
-                                                          margin: EdgeInsets
-                                                              .symmetric(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       15,
                                                                   vertical: 10),
@@ -2460,7 +2576,7 @@ class _EditLandState extends State<EditLand> {
                                                                             .listOtherCrop(value); // Call API on every change
                                                                       },
                                                                       decoration:
-                                                                          InputDecoration(
+                                                                          const InputDecoration(
                                                                         hintText:
                                                                             "Enter Crop",
                                                                         contentPadding:
@@ -2475,7 +2591,8 @@ class _EditLandState extends State<EditLand> {
                                                                         () {
                                                                       Get.back();
                                                                     },
-                                                                    icon: Icon(
+                                                                    icon:
+                                                                        const Icon(
                                                                       Icons
                                                                           .close,
                                                                       color: AppColor
@@ -2485,7 +2602,7 @@ class _EditLandState extends State<EditLand> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                   height: 10),
                                                               Container(
                                                                 height: MediaQuery.of(
@@ -2493,8 +2610,9 @@ class _EditLandState extends State<EditLand> {
                                                                         .size
                                                                         .height *
                                                                     0.5,
-                                                                margin: EdgeInsets
-                                                                    .only(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
                                                                         top:
                                                                             10),
                                                                 child: Obx(() {
@@ -2502,7 +2620,7 @@ class _EditLandState extends State<EditLand> {
                                                                           .rxRequestStatus ==
                                                                       Status
                                                                           .LOADING) {
-                                                                    return Center(
+                                                                    return const Center(
                                                                       child:
                                                                           CircularProgressIndicator(
                                                                         color: AppColor
@@ -2535,7 +2653,7 @@ class _EditLandState extends State<EditLand> {
                                                                                 cropId != null && controller.otherCropAdded.contains(cropId.toInt());
                                                                             bool
                                                                                 isSelectedName =
-                                                                                cropName != null && controller.otherCropAddedName.contains(cropName.toString());
+                                                                                controller.otherCropAddedName.contains(cropName.toString());
 
                                                                             return InkWell(
                                                                               onTap: () {
@@ -2546,23 +2664,21 @@ class _EditLandState extends State<EditLand> {
                                                                                     controller.otherCropAdded.add(cropId);
                                                                                   }
                                                                                 }
-                                                                                if (cropName != null) {
-                                                                                  if (isSelectedName) {
-                                                                                    controller.otherCropAddedName.remove(cropName);
-                                                                                  } else {
-                                                                                    controller.otherCropAddedName.add(cropName);
-                                                                                  }
+                                                                                if (isSelectedName) {
+                                                                                  controller.otherCropAddedName.remove(cropName);
+                                                                                } else {
+                                                                                  controller.otherCropAddedName.add(cropName);
                                                                                 }
                                                                               },
                                                                               child: AnimatedContainer(
-                                                                                margin: EdgeInsets.symmetric(vertical: 5),
-                                                                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                                                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                                                                 decoration: BoxDecoration(
                                                                                   borderRadius: BorderRadius.circular(40),
                                                                                   border: isSelected ? Border.all(color: AppColor.DARK_GREEN) : Border.all(color: AppColor.GREY_BORDER),
                                                                                   gradient: isSelected ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
                                                                                 ),
-                                                                                duration: Duration(milliseconds: 200),
+                                                                                duration: const Duration(milliseconds: 200),
                                                                                 child: Text(cropName),
                                                                               ),
                                                                             );
@@ -2590,11 +2706,11 @@ class _EditLandState extends State<EditLand> {
                                                                 child:
                                                                     Container(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .symmetric(
                                                                     vertical: 3,
                                                                   ),
-                                                                  margin: EdgeInsets
+                                                                  margin: const EdgeInsets
                                                                       .symmetric(
                                                                     horizontal:
                                                                         10,
@@ -2651,13 +2767,12 @@ class _EditLandState extends State<EditLand> {
 //                                                     }
                                                   },
                                                   child: AnimatedContainer(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 5),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 10),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(vertical: 5),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -2675,9 +2790,9 @@ class _EditLandState extends State<EditLand> {
                                                           : AppColor
                                                               .WHITE_GRADIENT,
                                                     ),
-                                                    duration: Duration(
+                                                    duration: const Duration(
                                                         milliseconds: 200),
-                                                    child: Text("Others"),
+                                                    child: const Text("Others"),
                                                   ),
                                                 );
                                               } else {
@@ -2697,11 +2812,10 @@ class _EditLandState extends State<EditLand> {
                                                         controller.cropAdded
                                                             .contains(
                                                                 cropId.toInt());
-                                                bool isSelectedName =
-                                                    cropName != null &&
-                                                        controller.cropAddedName
-                                                            .contains(cropName
-                                                                .toString());
+                                                bool isSelectedName = controller
+                                                    .cropAddedName
+                                                    .contains(
+                                                        cropName.toString());
 
                                                 return InkWell(
                                                   onTap: () {
@@ -2715,24 +2829,21 @@ class _EditLandState extends State<EditLand> {
                                                                 cropId.toInt());
                                                       }
                                                     }
-                                                    if (cropName != null) {
-                                                      if (isSelectedName) {
-                                                        controller.cropAddedName
-                                                            .remove(cropName);
-                                                      } else {
-                                                        controller.cropAddedName
-                                                            .add(cropName);
-                                                      }
+                                                    if (isSelectedName) {
+                                                      controller.cropAddedName
+                                                          .remove(cropName);
+                                                    } else {
+                                                      controller.cropAddedName
+                                                          .add(cropName);
                                                     }
                                                   },
                                                   child: AnimatedContainer(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 5),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 10),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(vertical: 5),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -2750,7 +2861,7 @@ class _EditLandState extends State<EditLand> {
                                                           : AppColor
                                                               .WHITE_GRADIENT,
                                                     ),
-                                                    duration: Duration(
+                                                    duration: const Duration(
                                                         milliseconds: 200),
                                                     child: Text(cropName),
                                                   ),
@@ -2764,7 +2875,7 @@ class _EditLandState extends State<EditLand> {
                                       }
                                     }),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 120),
+                                      padding: const EdgeInsets.only(left: 120),
                                       child: InkWell(
                                         onTap: () {
                                           controller
@@ -2776,10 +2887,10 @@ class _EditLandState extends State<EditLand> {
                                           print("DATA");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             vertical: 3,
                                           ),
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                             horizontal: 10,
                                           ),
                                           decoration: ShapeDecoration(
@@ -2821,8 +2932,8 @@ class _EditLandState extends State<EditLand> {
                         : InkWell(
                             onTap: controller.cropAdd,
                             child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              padding: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -2836,7 +2947,7 @@ class _EditLandState extends State<EditLand> {
                                 children: [
                                   Obx(() {
                                     if (controller.lease_type.value == "") {
-                                      return Container(
+                                      return SizedBox(
                                         width: Get.width * 0.5,
                                         child: Text.rich(
                                           TextSpan(
@@ -2845,13 +2956,14 @@ class _EditLandState extends State<EditLand> {
                                                 text:
                                                     'What kind of crop do you want to grow?',
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF919191),
+                                                  color:
+                                                      const Color(0xFF919191),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: '*',
                                                 style: TextStyle(
                                                   color: Color(0xFFEB5757),
@@ -2867,7 +2979,7 @@ class _EditLandState extends State<EditLand> {
                                       );
                                     } else if (controller.lease_type.value ==
                                         "Share Profit") {
-                                      return Container(
+                                      return SizedBox(
                                         width: Get.width * 0.5,
                                         child: Text.rich(
                                           TextSpan(
@@ -2876,13 +2988,14 @@ class _EditLandState extends State<EditLand> {
                                                 text:
                                                     'What kind of crop do you want to grow?',
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF919191),
+                                                  color:
+                                                      const Color(0xFF919191),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: '*',
                                                 style: TextStyle(
                                                   color: Color(0xFFEB5757),
@@ -2898,7 +3011,7 @@ class _EditLandState extends State<EditLand> {
                                       );
                                     } else if (controller.lease_type.value ==
                                         "Rent") {
-                                      return Container(
+                                      return SizedBox(
                                         width: Get.width * 0.5,
                                         child: Text.rich(
                                           TextSpan(
@@ -2907,13 +3020,14 @@ class _EditLandState extends State<EditLand> {
                                                 text:
                                                     'Types of crop you can grow?',
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF919191),
+                                                  color:
+                                                      const Color(0xFF919191),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500,
                                                   height: 0,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: '*',
                                                 style: TextStyle(
                                                   color: Color(0xFFEB5757),
@@ -2936,7 +3050,7 @@ class _EditLandState extends State<EditLand> {
                                     child: Text(
                                       'Add',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF272727),
+                                        color: const Color(0xFF272727),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         height: 0,
@@ -2950,9 +3064,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -2967,7 +3081,7 @@ class _EditLandState extends State<EditLand> {
                             child: Text(
                               'Type of Land',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -2978,8 +3092,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -2988,7 +3102,7 @@ class _EditLandState extends State<EditLand> {
                                     )),
                           ),
                           landTypeController.loading.value
-                              ? Center(
+                              ? const Center(
                                   child: CircularProgressIndicator(
                                   color: AppColor.DARK_GREEN,
                                 ))
@@ -3013,7 +3127,7 @@ class _EditLandState extends State<EditLand> {
                                               "======================================================================${updateLand.landType.value}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 20),
                                           decoration: BoxDecoration(
                                             gradient: landTypeController
@@ -3060,7 +3174,7 @@ class _EditLandState extends State<EditLand> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   'Save',
                                   style: TextStyle(
                                     color: Color(0xFFFBFBFB),
@@ -3077,9 +3191,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3095,7 +3209,7 @@ class _EditLandState extends State<EditLand> {
                             child: Text(
                               'Are there water sources available?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3106,8 +3220,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3120,12 +3234,12 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Available',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3144,11 +3258,11 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     title: Text(
                                       'Unavailable',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3190,7 +3304,7 @@ class _EditLandState extends State<EditLand> {
                                               "======================================================================${updateLand.waterResource.value}");
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 20),
                                           decoration: BoxDecoration(
                                             gradient:
@@ -3242,16 +3356,16 @@ class _EditLandState extends State<EditLand> {
                                 ),
                                 child: updateLand.waterloading.value
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
                                         height: 15,
                                         width: 15,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           color: Colors.white,
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save',
                                         style: TextStyle(
                                           color: Color(0xFFFBFBFB),
@@ -3268,9 +3382,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3285,7 +3399,7 @@ class _EditLandState extends State<EditLand> {
                             child: Text(
                               'Is there space available for farmer accommodation?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3296,8 +3410,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3310,12 +3424,12 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile<bool>(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Available',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3335,11 +3449,11 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile<bool>(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     title: Text(
                                       'Unavailable',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3362,7 +3476,7 @@ class _EditLandState extends State<EditLand> {
                           Visibility(
                             visible: updateLand.isAccomodationAvailable.value,
                             child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 15),
+                              margin: const EdgeInsets.symmetric(vertical: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(color: AppColor.GREY_BORDER),
@@ -3381,11 +3495,12 @@ class _EditLandState extends State<EditLand> {
                                     return "";
                                   },
                                   decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 20),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 20),
                                       hintText: "What’s available?",
                                       hintStyle: GoogleFonts.poppins(
-                                        color: Color(0x994F4F4F),
+                                        color: const Color(0x994F4F4F),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         height: 0.10,
@@ -3419,16 +3534,16 @@ class _EditLandState extends State<EditLand> {
                                 ),
                                 child: updateLand.accomodationloading.value
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
                                         height: 15,
                                         width: 15,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           color: Colors.white,
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save',
                                         style: TextStyle(
                                           color: Color(0xFFFBFBFB),
@@ -3445,9 +3560,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3462,7 +3577,7 @@ class _EditLandState extends State<EditLand> {
                             child: Text(
                               'Do you have any equipment/machines available at your land for farming?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3473,8 +3588,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3487,12 +3602,12 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile<bool>(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Available',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3510,11 +3625,11 @@ class _EditLandState extends State<EditLand> {
                               Expanded(
                                 child: Obx(
                                   () => RadioListTile<bool>(
-                                    contentPadding: EdgeInsets.all(0),
+                                    contentPadding: const EdgeInsets.all(0),
                                     title: Text(
                                       'Unavailable',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3535,7 +3650,7 @@ class _EditLandState extends State<EditLand> {
                           Visibility(
                             visible: updateLand.isEquipmentAvailable.value,
                             child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 15),
+                              margin: const EdgeInsets.symmetric(vertical: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(color: AppColor.GREY_BORDER),
@@ -3554,11 +3669,12 @@ class _EditLandState extends State<EditLand> {
                                     return "";
                                   },
                                   decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 20),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 20),
                                       hintText: "What’s available?",
                                       hintStyle: GoogleFonts.poppins(
-                                        color: Color(0x994F4F4F),
+                                        color: const Color(0x994F4F4F),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                         height: 0.10,
@@ -3591,16 +3707,16 @@ class _EditLandState extends State<EditLand> {
                                 ),
                                 child: updateLand.equipmentloading.value
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
                                         height: 15,
                                         width: 15,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           color: Colors.white,
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save',
                                         style: TextStyle(
                                           color: Color(0xFFFBFBFB),
@@ -3617,9 +3733,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3630,11 +3746,11 @@ class _EditLandState extends State<EditLand> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'Did you farm on this land in the past?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3645,8 +3761,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3659,14 +3775,14 @@ class _EditLandState extends State<EditLand> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Obx(
-                                () => Container(
+                                () => SizedBox(
                                   width: AppDimension.w * 0.4,
                                   child: RadioListTile<bool>(
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Yes',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3685,7 +3801,7 @@ class _EditLandState extends State<EditLand> {
                                     title: Text(
                                       'No',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3705,7 +3821,7 @@ class _EditLandState extends State<EditLand> {
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'What type of crops did you grew?',
                                       style: TextStyle(
                                         color: Color(0xFF272727),
@@ -3717,8 +3833,8 @@ class _EditLandState extends State<EditLand> {
                                     ),
                                     Obx(() {
                                       return Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 15),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 15),
                                         child: Wrap(
                                           spacing: 10,
                                           children: List.generate(
@@ -3747,11 +3863,13 @@ class _EditLandState extends State<EditLand> {
                                                 }
                                               },
                                               child: AnimatedContainer(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 5),
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 10),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 10),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -3768,10 +3886,15 @@ class _EditLandState extends State<EditLand> {
                                                             .PRIMARY_GRADIENT
                                                         : AppColor
                                                             .WHITE_GRADIENT),
-                                                duration:
-                                                    Duration(milliseconds: 10),
+                                                duration: const Duration(
+                                                    milliseconds: 10),
                                                 child: Text(
-                                                    "${cropSugestionController.cropData.value.result![index].name.toString()}"),
+                                                    cropSugestionController
+                                                        .cropData
+                                                        .value
+                                                        .result![index]
+                                                        .name
+                                                        .toString()),
                                               ),
                                             );
                                           }),
@@ -3801,16 +3924,16 @@ class _EditLandState extends State<EditLand> {
                                 ),
                                 child: updateLand.croploading.value
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
                                         height: 15,
                                         width: 15,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           color: Colors.white,
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save',
                                         style: TextStyle(
                                           color: Color(0xFFFBFBFB),
@@ -3827,9 +3950,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3840,11 +3963,11 @@ class _EditLandState extends State<EditLand> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'Is there road access to the land?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3855,8 +3978,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3869,14 +3992,14 @@ class _EditLandState extends State<EditLand> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Obx(
-                                () => Container(
+                                () => SizedBox(
                                   width: AppDimension.w * 0.4,
                                   child: RadioListTile<bool>(
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Yes',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3896,7 +4019,7 @@ class _EditLandState extends State<EditLand> {
                                     title: Text(
                                       'No',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -3931,16 +4054,16 @@ class _EditLandState extends State<EditLand> {
                                 ),
                                 child: updateLand.roadloading.value
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
                                         height: 15,
                                         width: 15,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           color: Colors.white,
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Save',
                                         style: TextStyle(
                                           color: Color(0xFFFBFBFB),
@@ -3957,9 +4080,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -3974,7 +4097,7 @@ class _EditLandState extends State<EditLand> {
                             child: Text(
                               'Is this property certified organic, or does it qualify for organic certification under federal organic regulations?',
                               style: GoogleFonts.poppins(
-                                color: Color(0xFF272727),
+                                color: const Color(0xFF272727),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -3985,8 +4108,8 @@ class _EditLandState extends State<EditLand> {
                                 450 ~/ 4,
                                 (index) => Expanded(
                                       child: Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 12),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 12),
                                         color: index % 2 == 0
                                             ? Colors.transparent
                                             : AppColor.GREY_BORDER,
@@ -3999,14 +4122,14 @@ class _EditLandState extends State<EditLand> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Obx(
-                                () => Container(
+                                () => SizedBox(
                                   width: AppDimension.w * 0.4,
                                   child: RadioListTile<bool>(
                                     activeColor: AppColor.DARK_GREEN,
                                     title: Text(
                                       'Yes',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -4025,7 +4148,7 @@ class _EditLandState extends State<EditLand> {
                                     title: Text(
                                       'No',
                                       style: GoogleFonts.poppins(
-                                        color: Color(0xFF333333),
+                                        color: const Color(0xFF333333),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -4050,9 +4173,9 @@ class _EditLandState extends State<EditLand> {
                                             updateLand.pickPdf();
                                           },
                                           child: Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 10),
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 10),
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -4065,20 +4188,30 @@ class _EditLandState extends State<EditLand> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: 20),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 20),
                                                     child: SvgPicture.asset(
                                                       "assets/logos/doc.svg",
                                                       width: 30,
                                                     )),
                                                 Container(
-                                                  margin: EdgeInsets.symmetric(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 20,
                                                       horizontal: 20),
                                                   child: Text(
-                                                    "${updateLand.selectedPdf.value?.path != null ? updateLand.selectedPdf.value!.path.split('/').last : ''}",
+                                                    updateLand.selectedPdf.value
+                                                                ?.path !=
+                                                            null
+                                                        ? updateLand.selectedPdf
+                                                            .value!.path
+                                                            .split('/')
+                                                            .last
+                                                        : '',
                                                     style: GoogleFonts.poppins(
-                                                      color: Color(0xFF283037),
+                                                      color: const Color(
+                                                          0xFF283037),
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -4098,16 +4231,16 @@ class _EditLandState extends State<EditLand> {
                                             },
                                             child: Container(
                                               height: 28,
-                                              padding: EdgeInsets.all(4),
-                                              child: Icon(
-                                                Icons.close,
-                                                color: Colors.white,
-                                                size: 18,
-                                              ),
-                                              decoration: BoxDecoration(
+                                              padding: const EdgeInsets.all(4),
+                                              decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: Color.fromARGB(
                                                     255, 244, 67, 54),
+                                              ),
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                                size: 18,
                                               ),
                                             ),
                                           ),
@@ -4119,9 +4252,9 @@ class _EditLandState extends State<EditLand> {
                                         updateLand.pickPdf();
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
+                                        margin: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 10),
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 10),
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -4134,31 +4267,36 @@ class _EditLandState extends State<EditLand> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 10),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
                                                 child: SvgPicture.asset(
                                                   "assets/logos/doc.svg",
                                                   width: 30,
                                                 )),
                                             Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 2, horizontal: 10),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 10),
                                               child: Text(
                                                 "Browse document\n",
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF283037),
+                                                  color:
+                                                      const Color(0xFF283037),
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                             ),
                                             Container(
-                                              margin:
-                                                  EdgeInsets.only(bottom: 15),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 15),
                                               child: Text(
                                                 "to Upload",
                                                 style: GoogleFonts.poppins(
-                                                  color: Color(0xFF6E7B89),
+                                                  color:
+                                                      const Color(0xFF6E7B89),
                                                   fontSize: 10,
                                                   height: -0.07,
                                                   fontWeight: FontWeight.w400,
@@ -4187,16 +4325,16 @@ class _EditLandState extends State<EditLand> {
                               ),
                               child: updateLand.pdfloading.value
                                   ? Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5),
                                       height: 15,
                                       width: 15,
-                                      child: CircularProgressIndicator(
+                                      child: const CircularProgressIndicator(
                                         color: Colors.white,
                                         strokeWidth: 3,
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       'Save',
                                       style: TextStyle(
                                         color: Color(0xFFFBFBFB),
@@ -4214,9 +4352,9 @@ class _EditLandState extends State<EditLand> {
                   }),
                   Obx(() {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: AppColor.GREY_BORDER),
@@ -4226,7 +4364,7 @@ class _EditLandState extends State<EditLand> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Add up to 6 photos of your land.',
                             style: TextStyle(
                               color: Color(0xFF272727),
@@ -4236,10 +4374,10 @@ class _EditLandState extends State<EditLand> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'Added ${imageController.photos.length}/6',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF757575),
                                 fontSize: 10,
                                 fontFamily: 'Poppins',
@@ -4248,7 +4386,7 @@ class _EditLandState extends State<EditLand> {
                             ),
                           ),
                           GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -4291,16 +4429,16 @@ class _EditLandState extends State<EditLand> {
                                         },
                                         child: Container(
                                           height: 28,
-                                          padding: EdgeInsets.all(4),
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                            size: 18,
-                                          ),
-                                          decoration: BoxDecoration(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: Color.fromARGB(
                                                 255, 244, 67, 54),
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 18,
                                           ),
                                         ),
                                       ),
@@ -4319,13 +4457,13 @@ class _EditLandState extends State<EditLand> {
                                     child: DottedBorder(
                                       borderType: BorderType.RRect,
                                       color: AppColor.DARK_GREEN,
-                                      dashPattern: [9, 4],
-                                      radius: Radius.circular(12),
+                                      dashPattern: const [9, 4],
+                                      radius: const Radius.circular(12),
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(12)),
                                         child: Container(
-                                          color: Color(0x1E044D3A),
+                                          color: const Color(0x1E044D3A),
                                           child: Center(
                                             child: Column(
                                               mainAxisAlignment:
@@ -4335,7 +4473,7 @@ class _EditLandState extends State<EditLand> {
                                                   'assets/logos/gallery.svg',
                                                   height: 24,
                                                 ),
-                                                SizedBox(height: 10),
+                                                const SizedBox(height: 10),
                                                 Text(
                                                   "Browse",
                                                   style: GoogleFonts.poppins(
@@ -4349,7 +4487,8 @@ class _EditLandState extends State<EditLand> {
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 11,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF73817B),
+                                                    color:
+                                                        const Color(0xFF73817B),
                                                   ),
                                                 ),
                                               ],
@@ -4384,16 +4523,16 @@ class _EditLandState extends State<EditLand> {
                               ),
                               child: imageController.loading.value
                                   ? Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5),
                                       height: 15,
                                       width: 15,
-                                      child: CircularProgressIndicator(
+                                      child: const CircularProgressIndicator(
                                         color: Colors.white,
                                         strokeWidth: 3,
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       'Save',
                                       style: TextStyle(
                                         color: Color(0xFFFBFBFB),
