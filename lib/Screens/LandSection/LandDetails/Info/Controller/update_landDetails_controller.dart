@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:farm_easy/API/ApiUrls/api_urls.dart';
@@ -14,15 +15,16 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class UpdateLandDetailsController extends GetxController {
-  final landdetailController = Get.find<ChecklandDetailsController>();
+  // final landdetailController = Get.find<ChecklandDetailsController>();
+  final landdetailController = Get.put(ChecklandDetailsController());
 
   final _apiService = UpdateLandDetailsViewModel();
   final updateData = LandUpdateResponseModel().obs;
   final rxRequestStatus = Status.LOADING.obs;
   RxInt landId = 0.obs;
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void setRxRequestData(LandUpdateResponseModel _value) =>
-      updateData.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void setRxRequestData(LandUpdateResponseModel value) =>
+      updateData.value = value;
   RxString landType = "".obs;
   final _prefs = AppPreferences();
   RxString waterResource = "".obs;
@@ -98,9 +100,6 @@ class UpdateLandDetailsController extends GetxController {
   Future<void> selectedPDF() async {
     pdfloading.value = true;
     String? accessToken = await _prefs.getUserAccessToken();
-    if (accessToken == null) {
-      return;
-    }
 
     File? pdfFile = selectedPdf.value;
     if (pdfFile == null) {
@@ -110,7 +109,7 @@ class UpdateLandDetailsController extends GetxController {
 
     var request = http.MultipartRequest(
       'PATCH',
-      Uri.parse(ApiUrls.UPDATE_LAND_DETAILS + '${landId.value}'),
+      Uri.parse('${ApiUrls.UPDATE_LAND_DETAILS}${landId.value}'),
     );
 
     request.files.add(http.MultipartFile(
@@ -202,7 +201,7 @@ class UpdateLandDetailsController extends GetxController {
       },
       landId.value,
       jsonEncode({
-        "land_size": "${landArea}",
+        "land_size": landArea,
       }),
     ).then((value) {
       showSuccessCustomSnackbar(
@@ -227,7 +226,7 @@ class UpdateLandDetailsController extends GetxController {
       },
       landId.value,
       jsonEncode({
-        "purpose": "${selectedPurposeid}",
+        "purpose": "$selectedPurposeid",
       }),
     ).then((value) {
       showSuccessCustomSnackbar(
@@ -252,7 +251,7 @@ class UpdateLandDetailsController extends GetxController {
       },
       landId.value,
       jsonEncode({
-        "lease_duration": "${leaseDuration}",
+        "lease_duration": leaseDuration,
       }),
     ).then((value) {
       landloading.value = false;
@@ -273,8 +272,8 @@ class UpdateLandDetailsController extends GetxController {
       },
       landId.value,
       jsonEncode({
-        "lease_type": "${leaseType}",
-        "expected_lease_amount": "${leaseAmount}",
+        "lease_type": leaseType,
+        "expected_lease_amount": leaseAmount,
       }),
     ).then((value) {
       landloading.value = false;
@@ -319,7 +318,7 @@ class UpdateLandDetailsController extends GetxController {
       },
       landId.value,
       jsonEncode({
-        "purpose": "${selectedPurposeid}",
+        "purpose": "$selectedPurposeid",
       }),
     ).then((value) {
       landloading.value = false;
@@ -341,7 +340,7 @@ class UpdateLandDetailsController extends GetxController {
       landId.value,
       jsonEncode({
         "water_source_available": "${isWaterAvailable.value}",
-        "water_source": "${waterResource.value}",
+        "water_source": waterResource.value,
       }),
     ).then((value) {
       waterloading.value = false;
@@ -384,7 +383,7 @@ class UpdateLandDetailsController extends GetxController {
       landId.value,
       jsonEncode({
         "accomodation_available": "${isAccomodationAvailable.value}",
-        "accomodation": "${accomodationController.value.text}",
+        "accomodation": accomodationController.value.text,
       }),
     ).then((value) {
       accomodationloading.value = false;
@@ -427,7 +426,7 @@ class UpdateLandDetailsController extends GetxController {
       landId.value,
       jsonEncode({
         "equipment_available": "${isEquipmentAvailable.value}",
-        "equipment": "${equipmentController.value.text}",
+        "equipment": equipmentController.value.text,
       }),
     ).then((value) {
       equipmentloading.value = false;

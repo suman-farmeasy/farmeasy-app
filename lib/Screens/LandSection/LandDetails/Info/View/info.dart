@@ -1,6 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:farm_easy/API/Services/network/status.dart';
+import 'package:farm_easy/Screens/LandSection/EditLand/Controller/edit_land_controller.dart';
+import 'package:farm_easy/Screens/LandSection/EditLand/View/kind_of_crop.dart';
+import 'package:farm_easy/Screens/LandSection/LandDetails/Info/Widget/edit_land_dialog.dart';
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:farm_easy/utils/Constants/dimensions_constatnts.dart';
 import 'package:farm_easy/utils/Constants/image_constant.dart';
@@ -31,6 +36,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../LandAdd/Controller/listother_crop.dart';
+import '../../View/land_details.dart';
+import '../Model/LandUpdateResponseModel.dart';
+
 class InfoView extends StatefulWidget {
   InfoView({super.key, required this.landId});
   int landId;
@@ -55,9 +64,13 @@ class _InfoViewState extends State<InfoView> {
   final cropSugestionController = Get.put(CropSuggestionController());
   final controller = Get.put(LandInfoController());
   final currentWeather = Get.put(LandWeatherController());
+  final editController = Get.put(EditLandController());
+  final otherCropController = Get.put(ListOthersCropController());
+  final _landSize = GlobalKey<FormState>();
+  final _landlease = GlobalKey<FormState>();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     landController.landDetails(widget.landId);
   }
@@ -402,7 +415,7 @@ class _InfoViewState extends State<InfoView> {
                             height: 10,
                           ),
                           SizedBox(
-                            height: Get.height * 0.65,
+                            height: Get.height * 0.64,
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
@@ -425,108 +438,418 @@ class _InfoViewState extends State<InfoView> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                width: Get.width * 0.6,
-                                                margin: const EdgeInsets.only(
-                                                    top: 15),
-                                                child: ListTile(
-                                                  leading: SvgPicture.asset(
-                                                    "assets/farm/area.svg",
-                                                    width: 30,
+                                          InkWell(
+                                            onTap: () {
+                                              showEditLandDialog(
+                                                context,
+                                                0.4,
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 20),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 15),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    border: Border.all(
+                                                        color: AppColor
+                                                            .GREY_BORDER),
+                                                    boxShadow: [
+                                                      AppColor.BOX_SHADOW
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18),
                                                   ),
-                                                  title: Text(
-                                                    'Area',
-                                                    style: GoogleFonts.poppins(
-                                                      color:
-                                                          AppColor.DARK_GREEN,
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    controller
-                                                            .landDetailsData
-                                                            .value
-                                                            .result
-                                                            ?.landSize ??
-                                                        "plz select",
-                                                    style: GoogleFonts.poppins(
-                                                      color: const Color(
-                                                          0xA3044D3A),
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      height: 0,
-                                                    ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text.rich(
+                                                        TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  'Land Size(Area)',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: const Color(
+                                                                    0xFF272727),
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 0,
+                                                              ),
+                                                            ),
+                                                            const TextSpan(
+                                                              text: '*',
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFEB5757),
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 0,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 15),
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.075,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border.all(
+                                                              color: AppColor
+                                                                  .GREY_BORDER),
+                                                          boxShadow: [
+                                                            AppColor.BOX_SHADOW
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(18),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Form(
+                                                              key: _landSize,
+                                                              child: Container(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15),
+                                                                width:
+                                                                    Get.width *
+                                                                        0.33,
+                                                                child:
+                                                                    TextFormField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  controller:
+                                                                      editController
+                                                                          .landSize
+                                                                          .value,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'Land Size',
+                                                                    hintStyle:
+                                                                        GoogleFonts
+                                                                            .poppins(
+                                                                      color: const Color(
+                                                                          0x994F4F4F),
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      height:
+                                                                          0.10,
+                                                                    ),
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                  ),
+                                                                  validator:
+                                                                      (value) {
+                                                                    if (value!
+                                                                        .isEmpty) {
+                                                                      return 'enter the land size';
+                                                                    }
+                                                                    {
+                                                                      return null;
+                                                                    }
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          15),
+                                                              child: Obx(
+                                                                () =>
+                                                                    DropdownButton(
+                                                                  underline:
+                                                                      Container(),
+                                                                  value: editController
+                                                                          .selectedUnit
+                                                                          .value ??
+                                                                      "Square Meters",
+                                                                  items: editController
+                                                                      .units
+                                                                      .map(
+                                                                          (unit) {
+                                                                    return DropdownMenuItem(
+                                                                      value:
+                                                                          unit,
+                                                                      child:
+                                                                          Text(
+                                                                        unit,
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF4F4F4F),
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          height:
+                                                                              0.10,
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }).toList(),
+                                                                  onChanged:
+                                                                      (selectedUnit) {
+                                                                    editController
+                                                                        .updateSelectedUnit(
+                                                                            selectedUnit.toString());
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 120),
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            if (_landSize
+                                                                .currentState!
+                                                                .validate()) {
+                                                              editController
+                                                                  .addLand();
+                                                              updateLand.updateLandSize(
+                                                                  editController
+                                                                      .landArea
+                                                                      .value);
+                                                            }
+                                                            {
+                                                              return;
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              vertical: 3,
+                                                            ),
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              horizontal: 10,
+                                                            ),
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child: TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    if (_landSize
+                                                                        .currentState!
+                                                                        .validate()) {
+                                                                      editController
+                                                                          .addLand();
+                                                                      updateLand.updateLandSize(editController
+                                                                          .landArea
+                                                                          .value);
+                                                                      Future.delayed(
+                                                                          const Duration(
+                                                                              milliseconds: 500),
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => LandDetails(
+                                                                                id: widget.landId,
+                                                                              ),
+                                                                            ));
+                                                                      });
+                                                                    }
+                                                                    {
+                                                                      return;
+                                                                    }
+                                                                  },
+                                                                  child: Text(
+                                                                    'Add ',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height: 0,
+                                                                    ),
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                              CircularPercentIndicator(
-                                                radius: Get.width * 0.11,
-                                                lineWidth: 8.0,
-                                                percent: (percentageController
-                                                            .percentIndicate
-                                                            .value
-                                                            .result
-                                                            ?.completionPercentage
-                                                            ?.toDouble() ??
-                                                        0.0) /
-                                                    100,
-                                                startAngle: 0.0,
-                                                linearGradient: LinearGradient(
-                                                  begin: Alignment.topRight,
-                                                  end: Alignment.bottomLeft,
-                                                  colors: [
-                                                    const Color(0xfff1f881f)
-                                                        .withOpacity(0.8),
-                                                    const Color(0xfffffe546)
-                                                        .withOpacity(0.4),
-                                                  ],
-                                                ),
-                                                center: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "${percentageController.percentIndicate.value.result?.completionPercentage ?? "0"}%",
+                                              );
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: Get.width * 0.6,
+                                                  margin: const EdgeInsets.only(
+                                                      top: 15),
+                                                  child: ListTile(
+                                                    leading: SvgPicture.asset(
+                                                      "assets/farm/area.svg",
+                                                      width: 30,
+                                                    ),
+                                                    title: Text(
+                                                      'Area',
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color:
                                                             AppColor.DARK_GREEN,
-                                                        fontSize: 12,
+                                                        fontSize: 11,
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        height: 0,
                                                       ),
                                                     ),
-                                                    Text(
-                                                      "information",
+                                                    subtitle: Text(
+                                                      editController.landArea
+                                                              .value.isNotEmpty
+                                                          ? editController
+                                                              .landArea.value
+                                                          : controller
+                                                                  .landDetailsData
+                                                                  .value
+                                                                  .result
+                                                                  ?.landSize ??
+                                                              "plz select",
                                                       style:
                                                           GoogleFonts.poppins(
-                                                        color: AppColor
-                                                            .GREEN_SUBTEXT,
-                                                        fontSize: 8,
+                                                        color: const Color(
+                                                            0xA3044D3A),
+                                                        fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         height: 0,
                                                       ),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                                CircularPercentIndicator(
+                                                  radius: Get.width * 0.11,
+                                                  lineWidth: 8.0,
+                                                  percent: (percentageController
+                                                              .percentIndicate
+                                                              .value
+                                                              .result
+                                                              ?.completionPercentage
+                                                              ?.toDouble() ??
+                                                          0.0) /
+                                                      100,
+                                                  startAngle: 0.0,
+                                                  linearGradient:
+                                                      LinearGradient(
+                                                    begin: Alignment.topRight,
+                                                    end: Alignment.bottomLeft,
+                                                    colors: [
+                                                      const Color(0xfff1f881f)
+                                                          .withOpacity(0.8),
+                                                      const Color(0xfffffe546)
+                                                          .withOpacity(0.4),
+                                                    ],
+                                                  ),
+                                                  center: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "${percentageController.percentIndicate.value.result?.completionPercentage ?? "0"}%",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: AppColor
+                                                              .DARK_GREEN,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          height: 0,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "information",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color: AppColor
+                                                              .GREEN_SUBTEXT,
+                                                          fontSize: 8,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          height: 0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           const Divider(
                                             color: Color(0xFFE6E6E6),
                                           ),
                                           ListTile(
+                                            onTap: () {
+                                              log('Address');
+                                            },
                                             leading: SvgPicture.asset(
                                               "assets/farm/location.svg",
                                               width: 30,
@@ -554,80 +877,227 @@ class _InfoViewState extends State<InfoView> {
                                           const Divider(
                                             color: Color(0xFFE6E6E6),
                                           ),
-                                          ListTile(
-                                            leading: SvgPicture.asset(
-                                              "assets/farm/target.svg",
-                                              width: 30,
-                                            ),
-                                            title: Text(
-                                              'Purpose',
-                                              style: GoogleFonts.poppins(
-                                                color: AppColor.DARK_GREEN,
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600,
+                                          InkWell(
+                                            onTap: () {
+                                              Get.to(() => KindOfCrop(
+                                                    landId: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.landId ??
+                                                        0,
+                                                    nickName: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.landTitle ??
+                                                        "",
+                                                    landSizeData: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.landSizeData
+                                                            ?.area ??
+                                                        "",
+                                                    landSizeDataType: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.landSizeData
+                                                            ?.unit ??
+                                                        "",
+                                                    purposeId: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.purpose
+                                                            ?.id ??
+                                                        0,
+                                                    purposeName: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.purpose
+                                                            ?.name ??
+                                                        "",
+                                                    leaseDuration: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.leaseDurationData
+                                                            ?.duration ??
+                                                        "",
+                                                    leaseDurationType: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.leaseDurationData
+                                                            ?.unit ??
+                                                        "",
+                                                    leaseType: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.leaseType ??
+                                                        "",
+                                                    leaseAmount: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.leaseAmountData
+                                                            ?.amount ??
+                                                        "",
+                                                    leaseAmountValue: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.leaseAmountData
+                                                            ?.unit ??
+                                                        "",
+                                                    cropToGrow: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .cropToGrow! ??
+                                                        [],
+                                                    landType: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .landType
+                                                            ?.id ??
+                                                        0,
+                                                    isWaterAvailable: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .waterSourceAvailable ??
+                                                        true,
+                                                    waterValue: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .waterSource
+                                                            ?.id ??
+                                                        0,
+                                                    isAccommodationAvailable:
+                                                        controller
+                                                                .landDetailsData
+                                                                .value
+                                                                .result!
+                                                                .accomodationAvailable ??
+                                                            true,
+                                                    accommodation: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .accomodation ??
+                                                        "",
+                                                    isEquipmentAvailable: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .equipmentAvailable ??
+                                                        true,
+                                                    equipment: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .equipment ??
+                                                        "",
+                                                    isRoadAccess: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .roadAccess ??
+                                                        true,
+                                                    isFarmedBefore: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .landFarmedBefore ??
+                                                        true,
+                                                    cropGrew: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result!
+                                                            .cropsGrown! ??
+                                                        [],
+                                                    landImages: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.images ??
+                                                        [],
+                                                    certificate: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.certificationDocumnet ??
+                                                        "",
+                                                    isLandCertified: controller
+                                                            .landDetailsData
+                                                            .value
+                                                            .result
+                                                            ?.organicCertification ??
+                                                        true,
+                                                  ));
+                                            },
+                                            child: ListTile(
+                                              leading: SvgPicture.asset(
+                                                "assets/farm/cultivation.svg",
+                                                width: 30,
                                               ),
-                                            ),
-                                            subtitle: Text(
-                                              controller.landDetailsData.value
-                                                      .result?.purpose!.name ??
-                                                  "",
-                                              style: GoogleFonts.poppins(
-                                                color: const Color(0xA3044D3A),
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                                height: 0,
+                                              title: Text(
+                                                'What kind of crop do you want to grow',
+                                                style: GoogleFonts.poppins(
+                                                  color: AppColor.DARK_GREEN,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          const Divider(
-                                            color: Color(0xFFE6E6E6),
-                                          ),
-                                          ListTile(
-                                            leading: SvgPicture.asset(
-                                              "assets/farm/cultivation.svg",
-                                              width: 30,
-                                            ),
-                                            title: Text(
-                                              'What kind of crop do you want to grow',
-                                              style: GoogleFonts.poppins(
-                                                color: AppColor.DARK_GREEN,
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            subtitle: SizedBox(
-                                              height: 15,
-                                              child: ListView.builder(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: controller
-                                                    .landDetailsData
-                                                    .value
-                                                    .result!
-                                                    .cropToGrow!
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  final crop = controller
+                                              subtitle: SizedBox(
+                                                height: 15,
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount: controller
                                                       .landDetailsData
                                                       .value
                                                       .result!
-                                                      .cropToGrow![index];
-                                                  return Text(
-                                                    " ${crop.name ?? ""},",
-                                                    style: GoogleFonts.poppins(
-                                                      color: const Color(
-                                                          0xA3044D3A),
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      height: 0,
-                                                    ),
-                                                  );
-                                                },
+                                                      .cropToGrow!
+                                                      .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final crop = controller
+                                                        .landDetailsData
+                                                        .value
+                                                        .result!
+                                                        .cropToGrow![index];
+                                                    return Text(
+                                                      " ${crop.name ?? ""},",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: const Color(
+                                                            0xA3044D3A),
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        height: 0,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                           ),
-                                          controller
+                                          editController
+                                                          .selectedPurposeName.value ==
+                                                      "Give on lease for farming" ||
+                                                  editController.selectedPurposeName
+                                                          .value ==
+                                                      "Profit sharing lease" ||
+                                                  controller
                                                           .landDetailsData
                                                           .value
                                                           .result
@@ -646,78 +1116,666 @@ class _InfoViewState extends State<InfoView> {
                                                     const Divider(
                                                       color: Color(0xFFE6E6E6),
                                                     ),
-                                                    ListTile(
-                                                      leading: SvgPicture.asset(
-                                                        "assets/img/wide 1.svg",
-                                                        width: 30,
-                                                        color:
-                                                            AppColor.DARK_GREEN,
-                                                      ),
-                                                      title: Text(
-                                                        'Lease Type',
-                                                        style:
-                                                            GoogleFonts.poppins(
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showEditLandDialog(
+                                                            context,
+                                                            0.37,
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      bottom:
+                                                                          10),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          15,
+                                                                      horizontal:
+                                                                          15),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: Border.all(
+                                                                    color: AppColor
+                                                                        .GREY_BORDER),
+                                                                boxShadow: [
+                                                                  AppColor
+                                                                      .BOX_SHADOW
+                                                                ],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            18),
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text.rich(
+                                                                    TextSpan(
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          text:
+                                                                              'Lease type',
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                const Color(0xFF272727),
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            height:
+                                                                                0,
+                                                                          ),
+                                                                        ),
+                                                                        const TextSpan(
+                                                                          text:
+                                                                              '*',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Color(0xFFEB5757),
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            height:
+                                                                                0,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Obx(() {
+                                                                    return Container(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              10,
+                                                                          horizontal:
+                                                                              0),
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.end,
+                                                                        children: [
+                                                                          Row(
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Obx(
+                                                                                  () => RadioListTile<bool>(
+                                                                                    contentPadding: EdgeInsets.zero,
+                                                                                    activeColor: AppColor.DARK_GREEN,
+                                                                                    title: Text(
+                                                                                      'Rent/month',
+                                                                                      style: GoogleFonts.poppins(
+                                                                                        color: const Color(0xFF333333),
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                      ),
+                                                                                    ),
+                                                                                    value: true,
+                                                                                    groupValue: editController.isleaseAvailable.value,
+                                                                                    onChanged: (value) {
+                                                                                      editController.isleaseAvailable.value = value!;
+                                                                                      editController.lease_type.value = "Rent";
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Obx(
+                                                                                  () => RadioListTile<bool>(
+                                                                                    contentPadding: const EdgeInsets.all(0),
+                                                                                    title: Text(
+                                                                                      'Share profit',
+                                                                                      style: GoogleFonts.poppins(
+                                                                                        color: const Color(0xFF333333),
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                      ),
+                                                                                    ),
+                                                                                    value: false,
+                                                                                    activeColor: AppColor.DARK_GREEN,
+                                                                                    groupValue: editController.isleaseAvailable.value,
+                                                                                    onChanged: (value) {
+                                                                                      editController.isleaseAvailable.value = value!;
+                                                                                      editController.lease_type.value = "Share Profit";
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Visibility(
+                                                                            visible:
+                                                                                editController.isleaseAvailable.value,
+                                                                            child:
+                                                                                Container(
+                                                                              margin: const EdgeInsets.symmetric(vertical: 15),
+                                                                              height: MediaQuery.of(context).size.height * 0.075,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.white,
+                                                                                border: Border.all(color: AppColor.GREY_BORDER),
+                                                                                boxShadow: [
+                                                                                  AppColor.BOX_SHADOW
+                                                                                ],
+                                                                                borderRadius: BorderRadius.circular(18),
+                                                                              ),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                    child: Obx(
+                                                                                      () => DropdownButton(
+                                                                                        icon: null,
+                                                                                        underline: Container(),
+                                                                                        value: editController.amount.value ?? "Months",
+                                                                                        items: editController.amountType.map((unit) {
+                                                                                          return DropdownMenuItem(
+                                                                                            value: unit,
+                                                                                            child: Text(
+                                                                                              unit,
+                                                                                              style: GoogleFonts.poppins(
+                                                                                                color: const Color(0xFF4F4F4F),
+                                                                                                fontSize: 14,
+                                                                                                fontWeight: FontWeight.w500,
+                                                                                                height: 0.10,
+                                                                                              ),
+                                                                                            ),
+                                                                                          );
+                                                                                        }).toList(),
+                                                                                        onChanged: (selectedUnit) {
+                                                                                          editController.updateSelectedamount(selectedUnit.toString());
+                                                                                        },
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 1,
+                                                                                    color: Colors.grey,
+                                                                                  ),
+                                                                                  Container(
+                                                                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                    width: Get.width * 0.33,
+                                                                                    child: TextFormField(
+                                                                                      keyboardType: TextInputType.number,
+                                                                                      controller: editController.isleaseAmount.value,
+                                                                                      decoration: InputDecoration(
+                                                                                        hintText: 'amount',
+                                                                                        hintStyle: GoogleFonts.poppins(
+                                                                                          color: const Color(0x994F4F4F),
+                                                                                          fontSize: 14,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          height: 0.10,
+                                                                                        ),
+                                                                                        border: InputBorder.none,
+                                                                                      ),
+                                                                                      validator: (value) {
+                                                                                        if (value!.isEmpty) {
+                                                                                          return 'enter the amount';
+                                                                                        }
+                                                                                        {
+                                                                                          return null;
+                                                                                        }
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        left:
+                                                                            120),
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        print(
+                                                                            "LEASE TYPE:::${editController.lease_type.value}");
+                                                                        editController
+                                                                            .addAmount();
+                                                                        updateLand.updateLandLeaseType(
+                                                                            editController.lease_type.value,
+                                                                            editController.leaseAmount.value);
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              3,
+                                                                        ),
+                                                                        margin:
+                                                                            const EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                        ),
+                                                                        decoration:
+                                                                            ShapeDecoration(
+                                                                          color:
+                                                                              AppColor.DARK_GREEN,
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10),
+                                                                          ),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child: TextButton(
+                                                                              onPressed: () {
+                                                                                print("LEASE TYPE:::${editController.lease_type.value}");
+                                                                                editController.addAmount();
+                                                                                updateLand.updateLandLeaseType(editController.lease_type.value, editController.leaseAmount.value);
+                                                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                                                  Navigator.pop(context);
+                                                                                  Navigator.pop(context);
+                                                                                  Navigator.push(
+                                                                                      context,
+                                                                                      MaterialPageRoute(
+                                                                                        builder: (context) => LandDetails(
+                                                                                          id: widget.landId,
+                                                                                        ),
+                                                                                      ));
+                                                                                });
+                                                                              },
+                                                                              child: Text(
+                                                                                'Add ',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: Colors.white,
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  height: 0,
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ));
+                                                      },
+                                                      child: ListTile(
+                                                        leading:
+                                                            SvgPicture.asset(
+                                                          "assets/img/wide 1.svg",
+                                                          width: 30,
                                                           color: AppColor
                                                               .DARK_GREEN,
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.w600,
                                                         ),
-                                                      ),
-                                                      subtitle: Text(
-                                                        controller
-                                                                .landDetailsData
-                                                                .value
-                                                                .result
-                                                                ?.leaseType! ??
-                                                            "",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: const Color(
-                                                              0xA3044D3A),
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          height: 0,
+                                                        title: Text(
+                                                          'Lease Type',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .DARK_GREEN,
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                        subtitle: Text(
+                                                          editController
+                                                                  .lease_type
+                                                                  .value
+                                                                  .isNotEmpty
+                                                              ? editController
+                                                                  .lease_type
+                                                                  .value
+                                                              : controller
+                                                                      .landDetailsData
+                                                                      .value
+                                                                      .result
+                                                                      ?.leaseType! ??
+                                                                  "",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: const Color(
+                                                                0xA3044D3A),
+                                                            fontSize: 10,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            height: 0,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                     const Divider(
                                                       color: Color(0xFFE6E6E6),
                                                     ),
-                                                    ListTile(
-                                                      leading: SvgPicture.asset(
-                                                        "assets/img/wide 1.svg",
-                                                        width: 30,
-                                                        color:
-                                                            AppColor.DARK_GREEN,
-                                                      ),
-                                                      title: Text(
-                                                        'Lease duration',
-                                                        style:
-                                                            GoogleFonts.poppins(
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showEditLandDialog(
+                                                          context,
+                                                          0.27,
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    bottom: 10),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        15,
+                                                                    horizontal:
+                                                                        15),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              border: Border.all(
+                                                                  color: AppColor
+                                                                      .GREY_BORDER),
+                                                              boxShadow: [
+                                                                AppColor
+                                                                    .BOX_SHADOW
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18),
+                                                            ),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text.rich(
+                                                                  TextSpan(
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        text:
+                                                                            'Lease duration',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          height:
+                                                                              0,
+                                                                        ),
+                                                                      ),
+                                                                      const TextSpan(
+                                                                        text:
+                                                                            '*',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Color(0xFFEB5757),
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          height:
+                                                                              0,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          15),
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.075,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    border: Border.all(
+                                                                        color: AppColor
+                                                                            .GREY_BORDER),
+                                                                    boxShadow: [
+                                                                      AppColor
+                                                                          .BOX_SHADOW
+                                                                    ],
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            18),
+                                                                  ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Form(
+                                                                        key:
+                                                                            _landlease,
+                                                                        child:
+                                                                            Container(
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 15),
+                                                                          width:
+                                                                              Get.width * 0.33,
+                                                                          child:
+                                                                              TextFormField(
+                                                                            keyboardType:
+                                                                                TextInputType.number,
+                                                                            controller:
+                                                                                editController.landlease.value,
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              hintText: 'duration',
+                                                                              hintStyle: GoogleFonts.poppins(
+                                                                                color: const Color(0x994F4F4F),
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                height: 0.10,
+                                                                              ),
+                                                                              border: InputBorder.none,
+                                                                            ),
+                                                                            validator:
+                                                                                (value) {
+                                                                              if (value!.isEmpty) {
+                                                                                return 'enter the duration';
+                                                                              }
+                                                                              {
+                                                                                return null;
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        width:
+                                                                            1,
+                                                                        color: Colors
+                                                                            .grey,
+                                                                      ),
+                                                                      Container(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                15),
+                                                                        child:
+                                                                            Obx(
+                                                                          () {
+                                                                            // Ensure the selected value is in the list of items
+                                                                            final selectedValue = editController.leaseunits.contains(editController.selectedleaseUinit.value)
+                                                                                ? editController.selectedleaseUinit.value
+                                                                                : null;
+
+                                                                            return DropdownButton(
+                                                                              underline: Container(),
+                                                                              value: selectedValue,
+                                                                              hint: const Text("Select a unit"),
+                                                                              items: editController.leaseunits.map((unit) {
+                                                                                return DropdownMenuItem(
+                                                                                  value: unit,
+                                                                                  child: Text(
+                                                                                    unit,
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      color: const Color(0xFF4F4F4F),
+                                                                                      fontSize: 14,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      height: 0.10,
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              }).toList(),
+                                                                              onChanged: (selectedUnit) {
+                                                                                editController.updateSelectedleaseUnit(selectedUnit.toString());
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              120),
+                                                                  child:
+                                                                      InkWell(
+                                                                    onTap: () {
+                                                                      if (_landlease
+                                                                          .currentState!
+                                                                          .validate()) {
+                                                                        editController
+                                                                            .addLease();
+                                                                        updateLand.updateLandLeaseDuration(editController
+                                                                            .leaseDUration
+                                                                            .value);
+                                                                      }
+                                                                      {
+                                                                        return;
+                                                                      }
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          const EdgeInsets
+                                                                              .symmetric(
+                                                                        vertical:
+                                                                            3,
+                                                                      ),
+                                                                      margin: const EdgeInsets
+                                                                          .symmetric(
+                                                                        horizontal:
+                                                                            10,
+                                                                      ),
+                                                                      decoration:
+                                                                          ShapeDecoration(
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Center(
+                                                                        child: TextButton(
+                                                                            onPressed: () {
+                                                                              if (_landlease.currentState!.validate()) {
+                                                                                editController.addLease();
+                                                                                updateLand.updateLandLeaseDuration(editController.leaseDUration.value);
+                                                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                                                  Navigator.pop(context);
+                                                                                  Navigator.pop(context);
+                                                                                  Navigator.push(
+                                                                                      context,
+                                                                                      MaterialPageRoute(
+                                                                                        builder: (context) => LandDetails(
+                                                                                          id: widget.landId,
+                                                                                        ),
+                                                                                      ));
+                                                                                });
+                                                                              }
+                                                                              {
+                                                                                return;
+                                                                              }
+                                                                            },
+                                                                            child: Text(
+                                                                              'Add ',
+                                                                              style: GoogleFonts.poppins(
+                                                                                color: Colors.white,
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                height: 0,
+                                                                              ),
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: ListTile(
+                                                        leading:
+                                                            SvgPicture.asset(
+                                                          "assets/img/wide 1.svg",
+                                                          width: 30,
                                                           color: AppColor
                                                               .DARK_GREEN,
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.w600,
                                                         ),
-                                                      ),
-                                                      subtitle: Text(
-                                                        controller
-                                                                .landDetailsData
-                                                                .value
-                                                                .result
-                                                                ?.leaseDuration ??
-                                                            "",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: const Color(
-                                                              0xA3044D3A),
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          height: 0,
+                                                        title: Text(
+                                                          'Lease duration',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: AppColor
+                                                                .DARK_GREEN,
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                        subtitle: Text(
+                                                          editController
+                                                                  .leaseDUration
+                                                                  .value
+                                                                  .isNotEmpty
+                                                              ? editController
+                                                                  .leaseDUration
+                                                                  .value
+                                                              : controller
+                                                                      .landDetailsData
+                                                                      .value
+                                                                      .result
+                                                                      ?.leaseDuration ??
+                                                                  "",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: const Color(
+                                                                0xA3044D3A),
+                                                            fontSize: 10,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            height: 0,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -735,7 +1793,2061 @@ class _InfoViewState extends State<InfoView> {
                                           }),
                                           Obx(() {
                                             return controller.isvissible.value
-                                                ? const ViewMore()
+                                                ? Container(
+                                                    child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                            context,
+                                                            0.4,
+                                                            Obx(
+                                                              () {
+                                                                return Container(
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          20),
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          10,
+                                                                      horizontal:
+                                                                          15),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    border: Border.all(
+                                                                        color: AppColor
+                                                                            .GREY_BORDER),
+                                                                    boxShadow: [
+                                                                      AppColor
+                                                                          .BOX_SHADOW
+                                                                    ],
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            18),
+                                                                  ),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Align(
+                                                                        alignment:
+                                                                            Alignment.topLeft,
+                                                                        child:
+                                                                            Text(
+                                                                          'Is there space available for farmer accommodation?',
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                const Color(0xFF272727),
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Row(
+                                                                        children: List.generate(
+                                                                            450 ~/ 4,
+                                                                            (index) => Expanded(
+                                                                                  child: Container(
+                                                                                    margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                    color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                )),
+                                                                      ),
+                                                                      Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            child:
+                                                                                Obx(
+                                                                              () => RadioListTile<bool>(
+                                                                                contentPadding: const EdgeInsets.all(0),
+                                                                                activeColor: AppColor.DARK_GREEN,
+                                                                                title: Text(
+                                                                                  'Available',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    color: const Color(0xFF333333),
+                                                                                    fontSize: 12,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                                value: true,
+                                                                                groupValue: updateLand.isAccomodationAvailable.value,
+                                                                                onChanged: (value) {
+                                                                                  updateLand.isAccomodationAvailable.value = value!;
+                                                                                  print(updateLand.isAccomodationAvailable.value);
+                                                                                  setState(() {
+                                                                                    updateLand.accomodationController.value.text = "";
+                                                                                  });
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Expanded(
+                                                                            child:
+                                                                                Obx(
+                                                                              () => RadioListTile<bool>(
+                                                                                contentPadding: const EdgeInsets.all(0),
+                                                                                title: Text(
+                                                                                  'Unavailable',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    color: const Color(0xFF333333),
+                                                                                    fontSize: 12,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                                value: false,
+                                                                                activeColor: AppColor.DARK_GREEN,
+                                                                                groupValue: updateLand.isAccomodationAvailable.value,
+                                                                                onChanged: (value) {
+                                                                                  updateLand.isAccomodationAvailable.value = value!;
+                                                                                  print(updateLand.isAccomodationAvailable.value);
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Visibility(
+                                                                        visible: updateLand
+                                                                            .isAccomodationAvailable
+                                                                            .value,
+                                                                        child:
+                                                                            Container(
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 15),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            border:
+                                                                                Border.all(color: AppColor.GREY_BORDER),
+                                                                            boxShadow: [
+                                                                              AppColor.BOX_SHADOW
+                                                                            ],
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(18),
+                                                                          ),
+                                                                          child:
+                                                                              Form(
+                                                                            key:
+                                                                                _accomodationKey,
+                                                                            child:
+                                                                                TextFormField(
+                                                                              controller: updateLand.accomodationController.value,
+                                                                              validator: (value) {
+                                                                                if (value!.isEmpty) {
+                                                                                  return 'Please enter the value';
+                                                                                }
+                                                                                return "";
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                  contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                                                                  hintText: "What’s available?",
+                                                                                  hintStyle: GoogleFonts.poppins(
+                                                                                    color: const Color(0x994F4F4F),
+                                                                                    fontSize: 14,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    height: 0.10,
+                                                                                  ),
+                                                                                  border: InputBorder.none),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () async {
+                                                                          updateLand.isAccomodationAvailable.value
+                                                                              ? _accomodationKey.currentState!.validate()
+                                                                              : "";
+                                                                          updateLand.isAccomodationAvailable.value
+                                                                              ? await updateLand.updateAccomodationAvailable()
+                                                                              : await updateLand.isaccomodationAvailable();
+
+                                                                          log('1 ${updateLand.accomodationController.value}');
+                                                                          log('2 ${updateLand.isAccomodationAvailable.value}');
+                                                                          Future.delayed(
+                                                                              const Duration(milliseconds: 500),
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                            Navigator.pop(context);
+                                                                            Navigator.push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                  builder: (context) => LandDetails(
+                                                                                    id: widget.landId,
+                                                                                  ),
+                                                                                ));
+                                                                          });
+                                                                        },
+                                                                        child: Container(
+                                                                            margin: EdgeInsets.only(left: Get.width * 0.5),
+                                                                            padding: const EdgeInsets.symmetric(
+                                                                              vertical: 13,
+                                                                              horizontal: 40,
+                                                                            ),
+                                                                            decoration: ShapeDecoration(
+                                                                              color: AppColor.DARK_GREEN,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                              ),
+                                                                            ),
+                                                                            child: updateLand.accomodationloading.value
+                                                                                ? Container(
+                                                                                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                    height: 15,
+                                                                                    width: 15,
+                                                                                    child: const CircularProgressIndicator(
+                                                                                      color: Colors.white,
+                                                                                      strokeWidth: 3,
+                                                                                    ),
+                                                                                  )
+                                                                                : const Text(
+                                                                                    'Save',
+                                                                                    style: TextStyle(
+                                                                                      color: Color(0xFFFBFBFB),
+                                                                                      fontSize: 12,
+                                                                                      fontFamily: 'Poppins',
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      height: 0,
+                                                                                    ),
+                                                                                  )),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                            leading: SvgPicture
+                                                                .asset(
+                                                              "assets/farm/family.svg",
+                                                              width: 30,
+                                                            ),
+                                                            title: Text(
+                                                              'Shelter Available',
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: AppColor
+                                                                    .DARK_GREEN,
+                                                                fontSize: 11,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                            subtitle: Text(
+                                                              (controller
+                                                                          .landDetailsData
+                                                                          .value
+                                                                          .result
+                                                                          ?.accomodationAvailable ??
+                                                                      false)
+                                                                  ? "Available"
+                                                                  : "Unavailable",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: const Color(
+                                                                    0xA3044D3A),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                height: 0,
+                                                              ),
+                                                            )),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                            context,
+                                                            0.6,
+                                                            Obx(() {
+                                                              return Container(
+                                                                margin: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        20),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        15),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: AppColor
+                                                                          .GREY_BORDER),
+                                                                  boxShadow: [
+                                                                    AppColor
+                                                                        .BOX_SHADOW
+                                                                  ],
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .topLeft,
+                                                                      child:
+                                                                          Text(
+                                                                        'Type of Land',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: List.generate(
+                                                                          450 ~/ 4,
+                                                                          (index) => Expanded(
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 10),
+                                                                                  color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                  height: 1,
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                    landTypeController
+                                                                            .loading
+                                                                            .value
+                                                                        ? const Center(
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                          ))
+                                                                        : Wrap(
+                                                                            spacing:
+                                                                                10,
+                                                                            runSpacing:
+                                                                                10,
+                                                                            children:
+                                                                                List.generate(
+                                                                              landTypeController.landData.value.result?.length ?? 0,
+                                                                              (index) {
+                                                                                final landType = landTypeController.landData.value.result![index];
+                                                                                return InkWell(
+                                                                                  onTap: () {
+                                                                                    landTypeController.selectedId.value = landType.id!.toInt(); // Assign actual id
+                                                                                    updateLand.landType.value = landType.id.toString();
+                                                                                    print("======================================================================${updateLand.landType.value}");
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                                                                    decoration: BoxDecoration(
+                                                                                      gradient: landTypeController.selectedId.value == landType.id ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
+                                                                                      borderRadius: BorderRadius.circular(30),
+                                                                                      border: Border.all(
+                                                                                        color: landTypeController.selectedId.value == landType.id ? AppColor.DARK_GREEN : AppColor.GREY_BORDER,
+                                                                                      ),
+                                                                                    ),
+                                                                                    child: Text(
+                                                                                      landType.name ?? "",
+                                                                                      style: GoogleFonts.poppins(
+                                                                                        color: AppColor.DARK_GREEN,
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        updateLand
+                                                                            .updateLandType();
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) => LandDetails(
+                                                                                  id: widget.landId,
+                                                                                ),
+                                                                              ));
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: Get.width * 0.5),
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                13,
+                                                                            horizontal:
+                                                                                40,
+                                                                          ),
+                                                                          decoration: ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                          child: const Text(
+                                                                            'Save',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color(0xFFFBFBFB),
+                                                                              fontSize: 12,
+                                                                              fontFamily: 'Poppins',
+                                                                              fontWeight: FontWeight.w600,
+                                                                              height: 0,
+                                                                            ),
+                                                                          )),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/forest.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Land Type',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Text(
+                                                            controller
+                                                                    .landDetailsData
+                                                                    .value
+                                                                    .result
+                                                                    ?.landType!
+                                                                    .name ??
+                                                                "N/A",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: const Color(
+                                                                  0xA3044D3A),
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                              context,
+                                                              0.8,
+                                                              Container(
+                                                                margin: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        20),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        15),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: AppColor
+                                                                          .GREY_BORDER),
+                                                                  boxShadow: [
+                                                                    AppColor
+                                                                        .BOX_SHADOW
+                                                                  ],
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      margin: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              8),
+                                                                      child:
+                                                                          Text(
+                                                                        'Did you farm on this land in the past?',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: List.generate(
+                                                                          450 ~/ 4,
+                                                                          (index) => Expanded(
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                  color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                  height: 1,
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Obx(
+                                                                          () =>
+                                                                              SizedBox(
+                                                                            width:
+                                                                                AppDimension.w * 0.4,
+                                                                            child:
+                                                                                RadioListTile<bool>(
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              title: Text(
+                                                                                'Yes',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: true,
+                                                                              groupValue: updateLand.isLandFarm.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isLandFarm.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Obx(
+                                                                          () =>
+                                                                              Expanded(
+                                                                            child:
+                                                                                RadioListTile<bool>(
+                                                                              title: Text(
+                                                                                'No',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: false,
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              groupValue: updateLand.isLandFarm.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isLandFarm.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    updateLand
+                                                                            .isLandFarm
+                                                                            .value
+                                                                        ? Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              const Text(
+                                                                                'What type of crops did you grew?',
+                                                                                style: TextStyle(
+                                                                                  color: Color(0xFF272727),
+                                                                                  fontSize: 13,
+                                                                                  fontFamily: 'Poppins',
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  height: 0,
+                                                                                ),
+                                                                              ),
+                                                                              Obx(() {
+                                                                                return Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 15),
+                                                                                  child: Wrap(
+                                                                                    spacing: 10,
+                                                                                    children: List.generate(cropSugestionController.cropData.value.result!.length, (index) {
+                                                                                      final cropId = cropSugestionController.cropData.value.result![index].id;
+                                                                                      bool isSelected = cropId != null && updateLand.crops.contains(cropId.toInt());
+
+                                                                                      return InkWell(
+                                                                                        onTap: () {
+                                                                                          if (cropId != null) {
+                                                                                            if (isSelected) {
+                                                                                              updateLand.crops.remove(cropId);
+                                                                                            } else {
+                                                                                              updateLand.crops.add(cropId);
+                                                                                            }
+                                                                                          }
+                                                                                        },
+                                                                                        child: AnimatedContainer(
+                                                                                          margin: const EdgeInsets.symmetric(vertical: 5),
+                                                                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(40), border: isSelected ? Border.all(color: AppColor.DARK_GREEN) : Border.all(color: AppColor.GREY_BORDER), gradient: isSelected ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT),
+                                                                                          duration: const Duration(milliseconds: 10),
+                                                                                          child: Text(cropSugestionController.cropData.value.result![index].name.toString()),
+                                                                                        ),
+                                                                                      );
+                                                                                    }),
+                                                                                  ),
+                                                                                );
+                                                                              }),
+                                                                            ],
+                                                                          )
+                                                                        : Container(),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        updateLand.isLandFarm.value
+                                                                            ? await updateLand.updateCropData()
+                                                                            : await updateLand.updateCrop();
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) => LandDetails(
+                                                                                  id: widget.landId,
+                                                                                ),
+                                                                              ));
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: Get.width * 0.5),
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                13,
+                                                                            horizontal:
+                                                                                40,
+                                                                          ),
+                                                                          decoration: ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                          child: updateLand.croploading.value
+                                                                              ? Container(
+                                                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  height: 15,
+                                                                                  width: 15,
+                                                                                  child: const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                    strokeWidth: 3,
+                                                                                  ),
+                                                                                )
+                                                                              : const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    color: Color(0xFFFBFBFB),
+                                                                                    fontSize: 12,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                )),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ));
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/farm.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Is this land previously cultivated?',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Row(
+                                                            children: [
+                                                              Text(
+                                                                " ${controller.landDetailsData.value.result?.landFarmedBefore == true ? 'yes, ' : 'N/A '}",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  color: const Color(
+                                                                      0xA3044D3A),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  height: 0,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 15,
+                                                                width: Get.size
+                                                                        .width *
+                                                                    0.5,
+                                                                child: ListView
+                                                                    .builder(
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  itemCount: controller
+                                                                      .landDetailsData
+                                                                      .value
+                                                                      .result!
+                                                                      .cropsGrown!
+                                                                      .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    final crop = controller
+                                                                        .landDetailsData
+                                                                        .value
+                                                                        .result!
+                                                                        .cropsGrown![index];
+                                                                    return Text(
+                                                                      " ${crop.name ?? ""},",
+                                                                      style: GoogleFonts
+                                                                          .poppins(
+                                                                        color: const Color(
+                                                                            0xA3044D3A),
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        height:
+                                                                            0,
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                              context,
+                                                              0.4,
+                                                              Container(
+                                                                margin: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        20),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        15),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: AppColor
+                                                                          .GREY_BORDER),
+                                                                  boxShadow: [
+                                                                    AppColor
+                                                                        .BOX_SHADOW
+                                                                  ],
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      margin: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              8),
+                                                                      child:
+                                                                          Text(
+                                                                        'Is there road access to the land?',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: List.generate(
+                                                                          450 ~/ 4,
+                                                                          (index) => Expanded(
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                  color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                  height: 1,
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Obx(
+                                                                          () =>
+                                                                              SizedBox(
+                                                                            width:
+                                                                                AppDimension.w * 0.4,
+                                                                            child:
+                                                                                RadioListTile<bool>(
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              title: Text(
+                                                                                'Yes',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: true,
+                                                                              groupValue: updateLand.isRoadAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isRoadAvailable.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Obx(
+                                                                          () =>
+                                                                              Expanded(
+                                                                            child:
+                                                                                RadioListTile<bool>(
+                                                                              title: Text(
+                                                                                'No',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: false,
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              groupValue: updateLand.isRoadAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isRoadAvailable.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await updateLand
+                                                                            .roadAvailable();
+
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) => LandDetails(
+                                                                                  id: widget.landId,
+                                                                                ),
+                                                                              ));
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: Get.width * 0.5),
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                13,
+                                                                            horizontal:
+                                                                                40,
+                                                                          ),
+                                                                          decoration: ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                          child: updateLand.roadloading.value
+                                                                              ? Container(
+                                                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  height: 15,
+                                                                                  width: 15,
+                                                                                  child: const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                    strokeWidth: 3,
+                                                                                  ),
+                                                                                )
+                                                                              : const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    color: Color(0xFFFBFBFB),
+                                                                                    fontSize: 12,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                )),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ));
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/road.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Road access',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Text(
+                                                            updateLand.isRoadAvailable
+                                                                        .value ==
+                                                                    true
+                                                                ? "yes"
+                                                                : controller
+                                                                            .landDetailsData
+                                                                            .value
+                                                                            .result
+                                                                            ?.roadAccess ==
+                                                                        false
+                                                                    ? 'No'
+                                                                    : controller.landDetailsData.value.result?.roadAccess ==
+                                                                            true
+                                                                        ? "yes"
+                                                                        : "N/A",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: const Color(
+                                                                  0xA3044D3A),
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                            context,
+                                                            0.5,
+                                                            Obx(
+                                                              () {
+                                                                return Container(
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          20),
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          10,
+                                                                      horizontal:
+                                                                          15),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    border: Border.all(
+                                                                        color: AppColor
+                                                                            .GREY_BORDER),
+                                                                    boxShadow: [
+                                                                      AppColor
+                                                                          .BOX_SHADOW
+                                                                    ],
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            18),
+                                                                  ),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Align(
+                                                                        alignment:
+                                                                            Alignment.topLeft,
+                                                                        child:
+                                                                            Text(
+                                                                          'Is this property certified organic, or does it qualify for organic certification under federal organic regulations?',
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                const Color(0xFF272727),
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Row(
+                                                                        children: List.generate(
+                                                                            450 ~/ 4,
+                                                                            (index) => Expanded(
+                                                                                  child: Container(
+                                                                                    margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                    color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                    height: 1,
+                                                                                  ),
+                                                                                )),
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Obx(
+                                                                            () =>
+                                                                                SizedBox(
+                                                                              width: AppDimension.w * 0.4,
+                                                                              child: RadioListTile<bool>(
+                                                                                activeColor: AppColor.DARK_GREEN,
+                                                                                title: Text(
+                                                                                  'Yes',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    color: const Color(0xFF333333),
+                                                                                    fontSize: 12,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                                value: true,
+                                                                                groupValue: updateLand.isCertified.value,
+                                                                                onChanged: (value) {
+                                                                                  updateLand.isCertified.value = value!;
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Obx(
+                                                                            () =>
+                                                                                Expanded(
+                                                                              child: RadioListTile<bool>(
+                                                                                title: Text(
+                                                                                  'No',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    color: const Color(0xFF333333),
+                                                                                    fontSize: 12,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                                value: false,
+                                                                                activeColor: AppColor.DARK_GREEN,
+                                                                                groupValue: updateLand.isCertified.value,
+                                                                                onChanged: (value) {
+                                                                                  updateLand.isCertified.value = value!;
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      updateLand
+                                                                              .isCertified
+                                                                              .value
+                                                                          ? updateLand.selectedPdf.value != null
+                                                                              ? Stack(
+                                                                                  children: [
+                                                                                    GestureDetector(
+                                                                                      onTap: () {
+                                                                                        updateLand.pickPdf();
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                        decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius.circular(18),
+                                                                                          border: Border.all(color: AppColor.GREY_BORDER),
+                                                                                        ),
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Container(
+                                                                                                margin: const EdgeInsets.only(top: 20),
+                                                                                                child: SvgPicture.asset(
+                                                                                                  "assets/logos/doc.svg",
+                                                                                                  width: 30,
+                                                                                                )),
+                                                                                            Container(
+                                                                                              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                                                                                              child: Text(
+                                                                                                updateLand.selectedPdf.value?.path != null ? updateLand.selectedPdf.value!.path.split('/').last : '',
+                                                                                                style: GoogleFonts.poppins(
+                                                                                                  color: const Color(0xFF283037),
+                                                                                                  fontSize: 10,
+                                                                                                  fontWeight: FontWeight.w400,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      top: 0,
+                                                                                      right: 0,
+                                                                                      child: InkWell(
+                                                                                        onTap: () {
+                                                                                          updateLand.removeCertificate();
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          height: 28,
+                                                                                          padding: const EdgeInsets.all(4),
+                                                                                          decoration: const BoxDecoration(
+                                                                                            shape: BoxShape.circle,
+                                                                                            color: Color.fromARGB(255, 244, 67, 54),
+                                                                                          ),
+                                                                                          child: const Icon(
+                                                                                            Icons.close,
+                                                                                            color: Colors.white,
+                                                                                            size: 18,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                              : InkWell(
+                                                                                  onTap: () {
+                                                                                    updateLand.pickPdf();
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.circular(18),
+                                                                                      border: Border.all(color: AppColor.GREY_BORDER),
+                                                                                    ),
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                      children: [
+                                                                                        Container(
+                                                                                            margin: const EdgeInsets.symmetric(vertical: 10),
+                                                                                            child: SvgPicture.asset(
+                                                                                              "assets/logos/doc.svg",
+                                                                                              width: 30,
+                                                                                            )),
+                                                                                        Container(
+                                                                                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                                                                                          child: Text(
+                                                                                            "Browse document\n",
+                                                                                            style: GoogleFonts.poppins(
+                                                                                              color: const Color(0xFF283037),
+                                                                                              fontSize: 10,
+                                                                                              fontWeight: FontWeight.w400,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Container(
+                                                                                          margin: const EdgeInsets.only(bottom: 15),
+                                                                                          child: Text(
+                                                                                            "to Upload",
+                                                                                            style: GoogleFonts.poppins(
+                                                                                              color: const Color(0xFF6E7B89),
+                                                                                              fontSize: 10,
+                                                                                              height: -0.07,
+                                                                                              fontWeight: FontWeight.w400,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                          : Container(),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () async {
+                                                                          updateLand.isCertified.value
+                                                                              ? await updateLand.selectedPDF()
+                                                                              : await updateLand.certificationValue();
+                                                                          Future.delayed(
+                                                                              const Duration(milliseconds: 500),
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                            Navigator.pop(context);
+                                                                            Navigator.push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                  builder: (context) => LandDetails(
+                                                                                    id: widget.landId,
+                                                                                  ),
+                                                                                ));
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          margin:
+                                                                              EdgeInsets.only(left: Get.width * 0.5),
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 13,
+                                                                              horizontal: 40),
+                                                                          decoration:
+                                                                              ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                                          ),
+                                                                          child: updateLand.pdfloading.value
+                                                                              ? Container(
+                                                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  height: 15,
+                                                                                  width: 15,
+                                                                                  child: const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                    strokeWidth: 3,
+                                                                                  ),
+                                                                                )
+                                                                              : const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    color: Color(0xFFFBFBFB),
+                                                                                    fontSize: 12,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/compost.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Organic Farm Certified',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Text(
+                                                            controller
+                                                                        .landDetailsData
+                                                                        .value
+                                                                        .result
+                                                                        ?.organicCertification ==
+                                                                    true
+                                                                ? 'yes '
+                                                                : 'N/A ',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: const Color(
+                                                                  0xA3044D3A),
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                            context,
+                                                            0.6,
+                                                            Obx(() {
+                                                              return Container(
+                                                                margin: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        20),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        15),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: AppColor
+                                                                          .GREY_BORDER),
+                                                                  boxShadow: [
+                                                                    AppColor
+                                                                        .BOX_SHADOW
+                                                                  ],
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .topLeft,
+                                                                      child:
+                                                                          Text(
+                                                                        'Are there water sources available?',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: List.generate(
+                                                                          450 ~/ 4,
+                                                                          (index) => Expanded(
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                  color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                  height: 1,
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                RadioListTile(
+                                                                              contentPadding: const EdgeInsets.all(0),
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              title: Text(
+                                                                                'Available',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: true,
+                                                                              groupValue: updateLand.isWaterAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isWaterAvailable.value = value!;
+                                                                                print(updateLand.isWaterAvailable.value);
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                RadioListTile(
+                                                                              contentPadding: const EdgeInsets.all(0),
+                                                                              title: Text(
+                                                                                'Unavailable',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: false,
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              groupValue: updateLand.isWaterAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isWaterAvailable.value = value!;
+                                                                                print(updateLand.isWaterAvailable.value);
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Obx(() =>
+                                                                        Visibility(
+                                                                          visible: updateLand
+                                                                              .isWaterAvailable
+                                                                              .value,
+                                                                          child:
+                                                                              Wrap(
+                                                                            spacing:
+                                                                                10,
+                                                                            runSpacing:
+                                                                                10,
+                                                                            children:
+                                                                                List.generate(
+                                                                              waterController.waterResource.value.result?.length ?? 0,
+                                                                              (index) {
+                                                                                final waterResource = waterController.waterResource.value.result![index];
+                                                                                return InkWell(
+                                                                                  onTap: () {
+                                                                                    updateLand.waterId.value = waterResource.id!.toInt(); // Assign actual id
+                                                                                    updateLand.waterResource.value = waterResource.id.toString();
+                                                                                    print("======================================================================${updateLand.waterResource.value}");
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                                                                    decoration: BoxDecoration(
+                                                                                      gradient: updateLand.waterId.value == waterResource.id ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
+                                                                                      borderRadius: BorderRadius.circular(30),
+                                                                                      border: Border.all(
+                                                                                        color: updateLand.waterId.value == waterResource.id ? AppColor.DARK_GREEN : AppColor.GREY_BORDER,
+                                                                                      ),
+                                                                                    ),
+                                                                                    child: Text(
+                                                                                      waterResource.name ?? "",
+                                                                                      style: GoogleFonts.poppins(
+                                                                                        color: AppColor.DARK_GREEN,
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        )),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        updateLand.isWaterAvailable.value
+                                                                            ? await updateLand.updateWaterResource()
+                                                                            : await updateLand.updateWaterisAvailable();
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) => LandDetails(
+                                                                                  id: widget.landId,
+                                                                                ),
+                                                                              ));
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: Get.width * 0.5, top: 10),
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                13,
+                                                                            horizontal:
+                                                                                40,
+                                                                          ),
+                                                                          decoration: ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                          child: updateLand.waterloading.value
+                                                                              ? Container(
+                                                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  height: 15,
+                                                                                  width: 15,
+                                                                                  child: const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                    strokeWidth: 3,
+                                                                                  ),
+                                                                                )
+                                                                              : const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    color: Color(0xFFFBFBFB),
+                                                                                    fontSize: 12,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                )),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/sea.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Water Sources Available?',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Text(
+                                                            controller
+                                                                        .landDetailsData
+                                                                        .value
+                                                                        .result!
+                                                                        .waterSourceAvailable ==
+                                                                    true
+                                                                ? '${controller.landDetailsData.value.result?.waterSource!.name} '
+                                                                : 'N/A ',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: const Color(
+                                                                  0xA3044D3A),
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showEditLandDialog(
+                                                            context,
+                                                            0.5,
+                                                            Obx(() {
+                                                              return Container(
+                                                                margin: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        20),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10,
+                                                                    horizontal:
+                                                                        15),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: AppColor
+                                                                          .GREY_BORDER),
+                                                                  boxShadow: [
+                                                                    AppColor
+                                                                        .BOX_SHADOW
+                                                                  ],
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .topLeft,
+                                                                      child:
+                                                                          Text(
+                                                                        'Do you have any equipment/machines available at your land for farming?',
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              const Color(0xFF272727),
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: List.generate(
+                                                                          450 ~/ 4,
+                                                                          (index) => Expanded(
+                                                                                child: Container(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 12),
+                                                                                  color: index % 2 == 0 ? Colors.transparent : AppColor.GREY_BORDER,
+                                                                                  height: 1,
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                RadioListTile<bool>(
+                                                                              contentPadding: const EdgeInsets.all(0),
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              title: Text(
+                                                                                'Available',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: true,
+                                                                              groupValue: updateLand.isEquipmentAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isEquipmentAvailable.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                RadioListTile<bool>(
+                                                                              contentPadding: const EdgeInsets.all(0),
+                                                                              title: Text(
+                                                                                'Unavailable',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  color: const Color(0xFF333333),
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                              value: false,
+                                                                              activeColor: AppColor.DARK_GREEN,
+                                                                              groupValue: updateLand.isEquipmentAvailable.value,
+                                                                              onChanged: (value) {
+                                                                                updateLand.isEquipmentAvailable.value = value!;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Visibility(
+                                                                      visible: updateLand
+                                                                          .isEquipmentAvailable
+                                                                          .value,
+                                                                      child:
+                                                                          Container(
+                                                                        margin: const EdgeInsets
+                                                                            .symmetric(
+                                                                            vertical:
+                                                                                15),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          border:
+                                                                              Border.all(color: AppColor.GREY_BORDER),
+                                                                          boxShadow: [
+                                                                            AppColor.BOX_SHADOW
+                                                                          ],
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(18),
+                                                                        ),
+                                                                        child:
+                                                                            Form(
+                                                                          key:
+                                                                              _equipmentKey,
+                                                                          child:
+                                                                              TextFormField(
+                                                                            controller:
+                                                                                updateLand.equipmentController.value,
+                                                                            validator:
+                                                                                (value) {
+                                                                              if (value!.isEmpty) {
+                                                                                return 'Please enter the value';
+                                                                              }
+                                                                              return "";
+                                                                            },
+                                                                            decoration: InputDecoration(
+                                                                                contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                                                                hintText: "What’s available?",
+                                                                                hintStyle: GoogleFonts.poppins(
+                                                                                  color: const Color(0x994F4F4F),
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  height: 0.10,
+                                                                                ),
+                                                                                border: InputBorder.none),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        updateLand.isEquipmentAvailable.value
+                                                                            ? _equipmentKey.currentState!.validate()
+                                                                            : "";
+                                                                        updateLand.isEquipmentAvailable.value
+                                                                            ? await updateLand.updateEquipmentAvailable()
+                                                                            : await updateLand.isequipmentAvailable();
+                                                                        Future.delayed(
+                                                                            const Duration(milliseconds: 500),
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) => LandDetails(
+                                                                                  id: widget.landId,
+                                                                                ),
+                                                                              ));
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: Get.width * 0.5),
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                13,
+                                                                            horizontal:
+                                                                                40,
+                                                                          ),
+                                                                          decoration: ShapeDecoration(
+                                                                            color:
+                                                                                AppColor.DARK_GREEN,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                          ),
+                                                                          child: updateLand.equipmentloading.value
+                                                                              ? Container(
+                                                                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                                                  height: 15,
+                                                                                  width: 15,
+                                                                                  child: const CircularProgressIndicator(
+                                                                                    color: Colors.white,
+                                                                                    strokeWidth: 3,
+                                                                                  ),
+                                                                                )
+                                                                              : const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    color: Color(0xFFFBFBFB),
+                                                                                    fontSize: 12,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    height: 0,
+                                                                                  ),
+                                                                                )),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/engineering.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Equipment & Machinery Available',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: Text(
+                                                            ' ${controller.landDetailsData.value.result!.equipmentAvailable == true ? "${controller.landDetailsData.value.result!.equipment}" : "N/A"}',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: const Color(
+                                                                  0xA3044D3A),
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Divider(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                      ),
+                                                      // ListTile(
+                                                      //   leading: SvgPicture.asset(
+                                                      //     "assets/farm/time.svg",
+                                                      //     width: 30,
+                                                      //   ),
+                                                      //   title: Text(
+                                                      //     'Property Availability Tenure',
+                                                      //     style: GoogleFonts.poppins(
+                                                      //       color: AppColor.DARK_GREEN,
+                                                      //       fontSize: 11,
+                                                      //       fontWeight: FontWeight.w600,
+                                                      //     ),
+                                                      //   ),
+                                                      //   subtitle: Text(
+                                                      //     '3 Years',
+                                                      //     style: GoogleFonts.poppins(
+                                                      //       color: Color(0xA3044D3A),
+                                                      //       fontSize: 10,
+                                                      //       fontWeight: FontWeight.w500,
+                                                      //       height: 0,
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      // Divider(
+                                                      //   color: Color(0xFFE6E6E6),
+                                                      // ),
+                                                      // ListTile(
+                                                      //   leading: SvgPicture.asset(
+                                                      //     "assets/farm/location.svg",
+                                                      //     width: 30,
+                                                      //   ),
+                                                      //   title: Text(
+                                                      //     'Property Available for cultivation from',
+                                                      //     style: GoogleFonts.poppins(
+                                                      //       color: AppColor.DARK_GREEN,
+                                                      //       fontSize: 11,
+                                                      //       fontWeight: FontWeight.w600,
+                                                      //     ),
+                                                      //   ),
+                                                      //   subtitle: Text(
+                                                      //     '31 Oct 2024',
+                                                      //     style: GoogleFonts.poppins(
+                                                      //       color: Color(0xA3044D3A),
+                                                      //       fontSize: 10,
+                                                      //       fontWeight: FontWeight.w500,
+                                                      //       height: 0,
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      // Divider(
+                                                      //   color: Color(0xFFE6E6E6),
+                                                      // ),
+                                                      ListTile(
+                                                          leading:
+                                                              SvgPicture.asset(
+                                                            "assets/farm/file.svg",
+                                                            width: 30,
+                                                          ),
+                                                          title: Text(
+                                                            'Supporting Documents',
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color: AppColor
+                                                                  .DARK_GREEN,
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          subtitle: landController
+                                                                      .landData
+                                                                      .value
+                                                                      .result
+                                                                      ?.isOrganicCertificationAdded ==
+                                                                  false
+                                                              ? Text(
+                                                                  "Not Uploaded",
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    color: const Color(
+                                                                        0xA3044D3A),
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    height: 0,
+                                                                  ),
+                                                                )
+                                                              : InkWell(
+                                                                  onTap: () {
+                                                                    Get.to(() =>
+                                                                        PdfViewer(
+                                                                          pdfUrl:
+                                                                              controller.landDetailsData.value.result!.certificationDocumnet ?? "",
+                                                                        ));
+                                                                  },
+                                                                  child: Text(
+                                                                    "view",
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                      color: const Color(
+                                                                          0xA3044D3A),
+                                                                      fontSize:
+                                                                          10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .underline,
+                                                                      height: 0,
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                    ],
+                                                  ))
                                                 : Container();
                                           }),
                                           Row(
@@ -897,7 +4009,26 @@ class _InfoViewState extends State<InfoView> {
                                                         ),
                                                         InkWell(
                                                           onTap: () {
-                                                            Get.back();
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        1000),
+                                                                () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            LandDetails(
+                                                                      id: widget
+                                                                          .landId,
+                                                                    ),
+                                                                  ));
+                                                            });
                                                           },
                                                           child:
                                                               const CircleAvatar(
@@ -980,8 +4111,22 @@ class _InfoViewState extends State<InfoView> {
                                                               .currentDistance
                                                               .value);
 
-                                                      setState(() {
-                                                        Get.back();
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  1000), () {
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      LandDetails(
+                                                                id: widget
+                                                                    .landId,
+                                                              ),
+                                                            ));
                                                       });
                                                     },
                                                     child: Container(
@@ -4074,343 +7219,5 @@ class _InfoViewState extends State<InfoView> {
                       );
               })),
         ));
-  }
-}
-
-class ViewMore extends StatefulWidget {
-  const ViewMore({super.key});
-
-  @override
-  State<ViewMore> createState() => _ViewMoreState();
-}
-
-class _ViewMoreState extends State<ViewMore> {
-  final controller = Get.put(LandInfoController());
-  final landController = Get.put(ChecklandDetailsController());
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/family.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Shelter Available',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            controller.landDetailsData.value.result?.accomodationAvailable ==
-                    false
-                ? "Unavailable"
-                : "N/A",
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/forest.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Land Type',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            controller.landDetailsData.value.result?.landType!.name ?? "N/A",
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/farm.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Is this land previously cultivated?',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Row(
-            children: [
-              Text(
-                " ${controller.landDetailsData.value.result?.landFarmedBefore == true ? 'yes, ' : 'N/A '}",
-                style: GoogleFonts.poppins(
-                  color: const Color(0xA3044D3A),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-                width: Get.size.width * 0.5,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller
-                      .landDetailsData.value.result!.cropsGrown!.length,
-                  itemBuilder: (context, index) {
-                    final crop = controller
-                        .landDetailsData.value.result!.cropsGrown![index];
-                    return Text(
-                      " ${crop.name ?? ""},",
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xA3044D3A),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/road.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Road access',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            controller.landDetailsData.value.result?.roadAccess == false
-                ? 'N/A'
-                : controller.landDetailsData.value.result?.roadAccess == true
-                    ? "yes"
-                    : "No",
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/compost.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Organic Farm Certified',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            controller.landDetailsData.value.result?.organicCertification ==
-                    true
-                ? 'yes '
-                : 'N/A ',
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/sea.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Water Sources Available?',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            controller.landDetailsData.value.result!.waterSourceAvailable ==
-                    true
-                ? '${controller.landDetailsData.value.result?.waterSource!.name} '
-                : 'N/A ',
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        ListTile(
-          leading: SvgPicture.asset(
-            "assets/farm/engineering.svg",
-            width: 30,
-          ),
-          title: Text(
-            'Equipment & Machinery Available',
-            style: GoogleFonts.poppins(
-              color: AppColor.DARK_GREEN,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Text(
-            ' ${controller.landDetailsData.value.result!.equipmentAvailable == true ? "${controller.landDetailsData.value.result!.equipment}" : "N/A"}',
-            style: GoogleFonts.poppins(
-              color: const Color(0xA3044D3A),
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
-        ),
-        const Divider(
-          color: Color(0xFFE6E6E6),
-        ),
-        // ListTile(
-        //   leading: SvgPicture.asset(
-        //     "assets/farm/time.svg",
-        //     width: 30,
-        //   ),
-        //   title: Text(
-        //     'Property Availability Tenure',
-        //     style: GoogleFonts.poppins(
-        //       color: AppColor.DARK_GREEN,
-        //       fontSize: 11,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        //   subtitle: Text(
-        //     '3 Years',
-        //     style: GoogleFonts.poppins(
-        //       color: Color(0xA3044D3A),
-        //       fontSize: 10,
-        //       fontWeight: FontWeight.w500,
-        //       height: 0,
-        //     ),
-        //   ),
-        // ),
-        // Divider(
-        //   color: Color(0xFFE6E6E6),
-        // ),
-        // ListTile(
-        //   leading: SvgPicture.asset(
-        //     "assets/farm/location.svg",
-        //     width: 30,
-        //   ),
-        //   title: Text(
-        //     'Property Available for cultivation from',
-        //     style: GoogleFonts.poppins(
-        //       color: AppColor.DARK_GREEN,
-        //       fontSize: 11,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        //   subtitle: Text(
-        //     '31 Oct 2024',
-        //     style: GoogleFonts.poppins(
-        //       color: Color(0xA3044D3A),
-        //       fontSize: 10,
-        //       fontWeight: FontWeight.w500,
-        //       height: 0,
-        //     ),
-        //   ),
-        // ),
-        // Divider(
-        //   color: Color(0xFFE6E6E6),
-        // ),
-        ListTile(
-            leading: SvgPicture.asset(
-              "assets/farm/file.svg",
-              width: 30,
-            ),
-            title: Text(
-              'Supporting Documents',
-              style: GoogleFonts.poppins(
-                color: AppColor.DARK_GREEN,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: landController
-                        .landData.value.result?.isOrganicCertificationAdded ==
-                    false
-                ? Text(
-                    "Not Uploaded",
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xA3044D3A),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
-                  )
-                : InkWell(
-                    onTap: () {
-                      Get.to(() => PdfViewer(
-                            pdfUrl: controller.landDetailsData.value.result!
-                                    .certificationDocumnet ??
-                                "",
-                          ));
-                    },
-                    child: Text(
-                      "view",
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xA3044D3A),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline,
-                        height: 0,
-                      ),
-                    ),
-                  )),
-      ],
-    ));
   }
 }

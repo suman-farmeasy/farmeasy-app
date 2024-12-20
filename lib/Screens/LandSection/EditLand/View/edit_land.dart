@@ -105,8 +105,10 @@ class _EditLandState extends State<EditLand> {
     controller.landlease.value.text = widget.leaseDuration;
     controller.selectedleaseUinit.value = widget.leaseDurationType;
     controller.lease_type.value = widget.leaseType;
-    controller.landArea.value =
-        "${widget.landSizeData}  ${widget.landSizeDataType}";
+    setState(() {
+      controller.landArea.value =
+          "${widget.landSizeData}  ${widget.landSizeDataType}";
+    });
     controller.leaseDUration.value =
         "${widget.leaseDuration}  ${widget.leaseDurationType}";
     controller.landSize.value.text = widget.landSizeData;
@@ -2759,7 +2761,7 @@ class _EditLandState extends State<EditLand> {
 //                                                     if (isSelected) {
 //                                                       controller.cropAdded
 //                                                           .remove(-1);
-// //controller.cropAddedName.remove("Others");
+// //                                                   controller.cropAddedName.remove("Others");
 //                                                     } else {
 //                                                       controller.cropAdded
 //                                                           .add(-1);
