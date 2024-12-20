@@ -679,7 +679,7 @@ class MyLandsWidget extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: Get.width * 0.05,
+                                    horizontal: Get.width * 0.01,
                                     vertical: Get.height * 0.005,
                                   ),
                                   decoration: BoxDecoration(
@@ -689,6 +689,7 @@ class MyLandsWidget extends StatelessWidget {
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -702,7 +703,7 @@ class MyLandsWidget extends StatelessWidget {
                                         'Contact Farmer'.tr,
                                         style: const TextStyle(
                                           color: Color(0xFF044D3A),
-                                          fontSize: 9,
+                                          fontSize: 10,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
                                           height: 0.16,

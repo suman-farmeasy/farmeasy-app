@@ -64,14 +64,19 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Enter your phone number',
-                    style: TextStyle(
-                      color: Color(0xFF483C32),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      height: 0.10,
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Enter your phone number',
+                      style: TextStyle(
+                        color: Color(0xFF483C32),
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        height: 0.10,
+                      ),
                     ),
                   ),
                   Text(
