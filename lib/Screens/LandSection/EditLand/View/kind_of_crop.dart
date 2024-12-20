@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -695,30 +696,46 @@ class _KindOfCropState extends State<KindOfCrop> {
                                           child: Center(
                                             child: TextButton(
                                                 onPressed: () {
-                                                  controller
-                                                      .addselectCropfromContainer();
-                                                  updateLand.updateLandsCrop(
-                                                      controller.cropAdded
-                                                          .toList(),
+                                                  if (controller
+                                                          .cropAdded.isEmpty ||
                                                       controller
                                                           .otherCropAddedName
-                                                          .toList());
-                                                  print("DATA");
-                                                  Future.delayed(
-                                                      const Duration(
-                                                          milliseconds: 500),
-                                                      () {
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              LandDetails(
-                                                            id: widget.landId,
-                                                          ),
-                                                        ));
-                                                  });
+                                                          .isEmpty) {
+                                                    Get.snackbar(
+                                                      "Error",
+                                                      "Please select atleast one crop",
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      colorText: Colors.white,
+                                                    );
+                                                  } else {
+                                                    controller
+                                                        .addselectCropfromContainer();
+                                                    updateLand.updateLandsCrop(
+                                                        controller.cropAdded
+                                                            .toList(),
+                                                        controller
+                                                            .otherCropAddedName
+                                                            .toList());
+                                                    print("DATA");
+                                                    log('message data == ${controller.cropAdded}');
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 500),
+                                                        () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    LandDetails(
+                                                              id: widget.landId,
+                                                            ),
+                                                          ));
+                                                    });
+                                                  }
                                                 },
                                                 child: Text(
                                                   'Add ',

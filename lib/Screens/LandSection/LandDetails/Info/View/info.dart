@@ -690,22 +690,8 @@ class _InfoViewState extends State<InfoView> {
                                                                       updateLand.updateLandSize(editController
                                                                           .landArea
                                                                           .value);
-                                                                      Future.delayed(
-                                                                          const Duration(
-                                                                              milliseconds: 500),
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                        Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(
-                                                                              builder: (context) => LandDetails(
-                                                                                id: widget.landId,
-                                                                              ),
-                                                                            ));
-                                                                      });
+                                                                      Navigator.pop(
+                                                                          context);
                                                                     }
                                                                     {
                                                                       return;
@@ -1044,16 +1030,22 @@ class _InfoViewState extends State<InfoView> {
                                                   ));
                                             },
                                             child: ListTile(
+                                              contentPadding:
+                                                  const EdgeInsets.all(15),
                                               leading: SvgPicture.asset(
                                                 "assets/farm/cultivation.svg",
                                                 width: 30,
                                               ),
-                                              title: Text(
-                                                'What kind of crop do you want to grow',
-                                                style: GoogleFonts.poppins(
-                                                  color: AppColor.DARK_GREEN,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w600,
+                                              title: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
+                                                child: Text(
+                                                  'What kind of crop do you want to grow',
+                                                  style: GoogleFonts.poppins(
+                                                    color: AppColor.DARK_GREEN,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                               subtitle: SizedBox(
@@ -3711,19 +3703,51 @@ class _InfoViewState extends State<InfoView> {
                                                                       .w600,
                                                             ),
                                                           ),
-                                                          subtitle: Text(
-                                                            ' ${controller.landDetailsData.value.result!.equipmentAvailable == true ? "${controller.landDetailsData.value.result!.equipment}" : "N/A"}',
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              color: const Color(
-                                                                  0xA3044D3A),
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              height: 0,
-                                                            ),
-                                                          ),
+                                                          subtitle: controller
+                                                                      .landDetailsData
+                                                                      .value
+                                                                      .result!
+                                                                      .equipmentAvailable ==
+                                                                  true
+                                                              ? Text(
+                                                                  controller
+                                                                          .landDetailsData
+                                                                          .value
+                                                                          .result!
+                                                                          .equipment!
+                                                                          .isEmpty
+                                                                      ? 'Available'
+                                                                      : controller
+                                                                          .landDetailsData
+                                                                          .value
+                                                                          .result!
+                                                                          .equipment!,
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    color: const Color(
+                                                                        0xA3044D3A),
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    height: 0,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  'N/A',
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    color: const Color(
+                                                                        0xA3044D3A),
+                                                                    fontSize:
+                                                                        10,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    height: 0,
+                                                                  ),
+                                                                ),
                                                         ),
                                                       ),
                                                       const Divider(
