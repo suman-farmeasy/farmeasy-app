@@ -52,7 +52,7 @@ void showFullPageDialog(BuildContext context, AgricultureNews news, int index) {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.network(
-                              news.image,
+                              news.image_url,
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: 200,
@@ -68,7 +68,7 @@ void showFullPageDialog(BuildContext context, AgricultureNews news, int index) {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
-                            news.fullDescription,
+                            news.description,
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),

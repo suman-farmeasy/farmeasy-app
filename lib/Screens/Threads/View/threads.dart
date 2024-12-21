@@ -20,6 +20,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:swipeable_card_stack/swipeable_card_stack.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../CreateThreads/Controller/fetch_news.dart';
 import '../Model/demoNewsdata.dart';
 import '../Widgets/show_complete_news.dart';
 
@@ -31,11 +32,10 @@ class Threads extends StatefulWidget {
 }
 
 class _ThreadsState extends State<Threads> {
-  final List<AgricultureNews> news = getAgricultureNews();
-
   final controller = Get.put(ThreadsController());
   final tagsController = Get.put(ListNewTagsController());
   final isLikedController = Get.put(LikeUnlikeController());
+  final NewsController newsController = Get.put(NewsController());
 
   final ScrollController _threadScroller = ScrollController();
   var db = Hive.box('appData');
@@ -128,25 +128,45 @@ class _ThreadsState extends State<Threads> {
     );
   }
 
-  Column agriNews() {
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      SwipeableCardsSection(
-        cardHeightBottomMul: 0.7,
-        cardHeightMiddleMul: 0.7,
-        cardController: _cardController,
-        context: context,
-        items: news.asMap().entries.map((entry) {
-          AgricultureNews newsData = entry.value;
-          return AgriNewsCard(newsData: newsData, index: entry.key);
-        }).toList(),
-        onCardSwiped: (dir, index, widget) {
-          _cardController.addItem(
-              AgriNewsCard(newsData: news[index % news.length], index: index));
-        },
-        enableSwipeUp: true,
-        enableSwipeDown: false,
-      ),
-    ]);
+  Obx agriNews() {
+    return Obx(() {
+      if (newsController.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (newsController.newsList.isEmpty) {
+        return const Center(child: Text("No news available"));
+      }
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SwipeableCardsSection(
+              cardHeightBottomMul: 0.7,
+              cardHeightMiddleMul: 0.7,
+              cardController: _cardController,
+              context: context,
+              items: newsController.newsList.asMap().entries.map((entry) {
+                AgricultureNews newsData = entry.value;
+                return AgriNewsCard(newsData: newsData, index: entry.key);
+              }).toList(),
+              onCardSwiped: (dir, index, widget) {
+                _cardController.addItem(AgriNewsCard(
+                    newsData: newsController
+                        .newsList[index % newsController.newsList.length],
+                    index: index));
+              },
+              // items: news.asMap().entries.map((entry) {
+              //   AgricultureNews newsData = entry.value;
+              //   return AgriNewsCard(newsData: newsData, index: entry.key);
+              // }).toList(),
+              // onCardSwiped: (dir, index, widget) {
+              //   _cardController.addItem(
+              //       AgriNewsCard(newsData: news[index % news.length], index: index));
+              // },
+              enableSwipeUp: true,
+              enableSwipeDown: false,
+            ),
+          ]);
+    });
   }
 
   LayoutBuilder threads() {
@@ -529,10 +549,8 @@ class _ThreadsState extends State<Threads> {
                                                         .description!
                                                         .contains(
                                                             'Https://youtu')
-                                                    ? SizedBox(
-                                                        height:
-                                                            Get.height * 0.25,
-                                                        width: Get.width,
+                                                    ? AspectRatio(
+                                                        aspectRatio: 16 / 9,
                                                         child: WebView(
                                                           initialUrl: controller
                                                               .threadDataList[
@@ -547,59 +565,37 @@ class _ThreadsState extends State<Threads> {
                                                         ),
                                                       )
                                                     : controller
-                                                            .threadDataList[
-                                                                threads]
-                                                            .description!
-                                                            .contains(
-                                                                'https://youtube')
-                                                        ? SizedBox(
-                                                            height: Get.height *
-                                                                0.25,
-                                                            width: Get.width,
-                                                            child: WebView(
-                                                              initialUrl: controller
-                                                                  .threadDataList[
-                                                                      threads]
-                                                                  .description!,
-                                                              javascriptMode:
-                                                                  JavascriptMode
-                                                                      .unrestricted,
+                                                                .threadDataList[
+                                                                    threads]
+                                                                .description !=
+                                                            ""
+                                                        ? Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: 10,
+                                                                    bottom: 15,
+                                                                    left: 0,
+                                                                    right: 0),
+                                                            child: Text(
+                                                              controller
+                                                                      .threadDataList[
+                                                                          threads]
+                                                                      .description ??
+                                                                  "",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: const Color(
+                                                                    0xFF61646B),
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                height: 0,
+                                                              ),
                                                             ),
                                                           )
-                                                        : controller
-                                                                    .threadDataList[
-                                                                        threads]
-                                                                    .description !=
-                                                                ""
-                                                            ? Container(
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            15,
-                                                                        left: 0,
-                                                                        right:
-                                                                            0),
-                                                                child: Text(
-                                                                  controller
-                                                                          .threadDataList[
-                                                                              threads]
-                                                                          .description ??
-                                                                      "",
-                                                                  style: GoogleFonts
-                                                                      .poppins(
-                                                                    color: const Color(
-                                                                        0xFF61646B),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    height: 0,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : Container(),
+                                                        : Container(),
                                                 Wrap(
                                                   spacing: 8,
                                                   runSpacing: 5,
@@ -1003,7 +999,7 @@ class AgriNewsCard extends StatelessWidget {
                     child: Image(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        newsData.image,
+                        newsData.image_url,
                       ),
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
@@ -1026,7 +1022,7 @@ class AgriNewsCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding: const EdgeInsets.all(6.0),
-                    child: Text('By : ${newsData.author}',
+                    child: Text('By : ${newsData.source_id}',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 8,

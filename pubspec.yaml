@@ -83,6 +83,7 @@ dependencies:
   intl:
   swipeable_card_stack: ^0.0.5
   webview_flutter: ^3.0.0
+  linkwell:
 
 dev_dependencies:
   flutter_test:
