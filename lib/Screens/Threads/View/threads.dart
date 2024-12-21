@@ -18,6 +18,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:swipeable_card_stack/swipeable_card_stack.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../Model/demoNewsdata.dart';
 import '../Widgets/show_complete_news.dart';
@@ -91,6 +92,7 @@ class _ThreadsState extends State<Threads> {
         child: CommonAppBar(
           isbackButton: false,
           title: _selectedIndex == 0 ? 'Community'.tr : 'News'.tr,
+          postButton: _selectedIndex == 0 ? true : false,
         ),
       ),
       body: PageView(
@@ -129,6 +131,8 @@ class _ThreadsState extends State<Threads> {
   Column agriNews() {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       SwipeableCardsSection(
+        cardHeightBottomMul: 0.7,
+        cardHeightMiddleMul: 0.7,
         cardController: _cardController,
         context: context,
         items: news.asMap().entries.map((entry) {
@@ -459,6 +463,7 @@ class _ThreadsState extends State<Threads> {
                                                   //   ),
                                                   // ),
                                                 ),
+                                                // ignore: prefer_is_empty
                                                 controller
                                                             .threadDataList[
                                                                 threads]
@@ -520,34 +525,81 @@ class _ThreadsState extends State<Threads> {
                                                       )
                                                     : Container(),
                                                 controller
-                                                            .threadDataList[
-                                                                threads]
-                                                            .description !=
-                                                        ""
-                                                    ? Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            bottom: 15,
-                                                            left: 0,
-                                                            right: 0),
-                                                        child: Text(
-                                                          controller
-                                                                  .threadDataList[
-                                                                      threads]
-                                                                  .description ??
-                                                              "",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: const Color(
-                                                                0xFF61646B),
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            height: 0,
-                                                          ),
+                                                        .threadDataList[threads]
+                                                        .description!
+                                                        .contains(
+                                                            'Https://youtu')
+                                                    ? SizedBox(
+                                                        height:
+                                                            Get.height * 0.25,
+                                                        width: Get.width,
+                                                        child: WebView(
+                                                          initialUrl: controller
+                                                              .threadDataList[
+                                                                  threads]
+                                                              .description!
+                                                              .replaceFirst(
+                                                                  "Https://",
+                                                                  "https://"),
+                                                          javascriptMode:
+                                                              JavascriptMode
+                                                                  .unrestricted,
                                                         ),
                                                       )
-                                                    : Container(),
+                                                    : controller
+                                                            .threadDataList[
+                                                                threads]
+                                                            .description!
+                                                            .contains(
+                                                                'https://youtube')
+                                                        ? SizedBox(
+                                                            height: Get.height *
+                                                                0.25,
+                                                            width: Get.width,
+                                                            child: WebView(
+                                                              initialUrl: controller
+                                                                  .threadDataList[
+                                                                      threads]
+                                                                  .description!,
+                                                              javascriptMode:
+                                                                  JavascriptMode
+                                                                      .unrestricted,
+                                                            ),
+                                                          )
+                                                        : controller
+                                                                    .threadDataList[
+                                                                        threads]
+                                                                    .description !=
+                                                                ""
+                                                            ? Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            15,
+                                                                        left: 0,
+                                                                        right:
+                                                                            0),
+                                                                child: Text(
+                                                                  controller
+                                                                          .threadDataList[
+                                                                              threads]
+                                                                          .description ??
+                                                                      "",
+                                                                  style: GoogleFonts
+                                                                      .poppins(
+                                                                    color: const Color(
+                                                                        0xFF61646B),
+                                                                    fontSize:
+                                                                        13,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    height: 0,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Container(),
                                                 Wrap(
                                                   spacing: 8,
                                                   runSpacing: 5,

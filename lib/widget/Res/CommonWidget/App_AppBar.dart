@@ -1,16 +1,21 @@
 import 'package:farm_easy/utils/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../Screens/Threads/CreateThreads/View/create_threads.dart';
 
 class CommonAppBar extends StatefulWidget {
   CommonAppBar(
       {super.key,
       required this.title,
       this.isbackButton = true,
+      this.postButton = false,
       this.onBackPressed});
   final bool? isbackButton;
+  final bool? postButton;
   String title = "";
   final VoidCallback? onBackPressed;
   @override
@@ -28,8 +33,8 @@ class _CommonAppBarState extends State<CommonAppBar> {
       flexibleSpace: Padding(
         padding: EdgeInsets.only(
           top: isIOS ? 55.h : 40.h,
-          left: 10.w,
-          right: 30.w,
+          left: widget.title == 'Community' ? 50.w : 10.w,
+          right: widget.title == 'New Post' ? 50.w : 0.w,
           bottom: 0,
         ),
         child: Row(
@@ -55,6 +60,27 @@ class _CommonAppBarState extends State<CommonAppBar> {
               ),
             ),
             const Spacer(),
+            widget.postButton == false
+                ? Container()
+                : GestureDetector(
+                    onTap: () {
+                      Get.to(() => const CreateThreads());
+                    },
+                    child: Container(
+                      width: Get.width * 0.15,
+                      height: Get.width * 0.15,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFF9F9DF),
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: Get.width * 0.4,
+                          child: SvgPicture.asset("assets/logos/thread.svg"),
+                        ),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
