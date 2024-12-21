@@ -730,6 +730,8 @@ class _InfoViewState extends State<InfoView> {
                                                   margin: const EdgeInsets.only(
                                                       top: 15),
                                                   child: ListTile(
+                                                    trailing: const Icon(
+                                                        Icons.arrow_drop_down),
                                                     leading: SvgPicture.asset(
                                                       "assets/farm/area.svg",
                                                       width: 30,
@@ -1030,6 +1032,8 @@ class _InfoViewState extends State<InfoView> {
                                                   ));
                                             },
                                             child: ListTile(
+                                              trailing: const Icon(
+                                                  Icons.arrow_drop_down),
                                               contentPadding:
                                                   const EdgeInsets.all(15),
                                               leading: SvgPicture.asset(
@@ -1404,6 +1408,8 @@ class _InfoViewState extends State<InfoView> {
                                                             ));
                                                       },
                                                       child: ListTile(
+                                                        trailing: const Icon(Icons
+                                                            .arrow_drop_down),
                                                         leading:
                                                             SvgPicture.asset(
                                                           "assets/img/wide 1.svg",
@@ -1727,6 +1733,8 @@ class _InfoViewState extends State<InfoView> {
                                                         );
                                                       },
                                                       child: ListTile(
+                                                        trailing: const Icon(Icons
+                                                            .arrow_drop_down),
                                                         leading:
                                                             SvgPicture.asset(
                                                           "assets/img/wide 1.svg",
@@ -2025,6 +2033,9 @@ class _InfoViewState extends State<InfoView> {
                                                           );
                                                         },
                                                         child: ListTile(
+                                                            trailing:
+                                                                const Icon(Icons
+                                                                    .arrow_drop_down),
                                                             leading: SvgPicture
                                                                 .asset(
                                                               "assets/farm/family.svg",
@@ -2237,6 +2248,8 @@ class _InfoViewState extends State<InfoView> {
                                                           );
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/forest.svg",
@@ -2517,6 +2530,8 @@ class _InfoViewState extends State<InfoView> {
                                                               ));
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/farm.svg",
@@ -2785,6 +2800,8 @@ class _InfoViewState extends State<InfoView> {
                                                               ));
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/road.svg",
@@ -3130,6 +3147,8 @@ class _InfoViewState extends State<InfoView> {
                                                           );
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/compost.svg",
@@ -3406,6 +3425,8 @@ class _InfoViewState extends State<InfoView> {
                                                           );
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/sea.svg",
@@ -3686,6 +3707,8 @@ class _InfoViewState extends State<InfoView> {
                                                           );
                                                         },
                                                         child: ListTile(
+                                                          trailing: const Icon(Icons
+                                                              .arrow_drop_down),
                                                           leading:
                                                               SvgPicture.asset(
                                                             "assets/farm/engineering.svg",

@@ -81,6 +81,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl:
+  swipeable_card_stack: ^0.0.5
 
 dev_dependencies:
   flutter_test:

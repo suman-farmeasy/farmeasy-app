@@ -219,538 +219,557 @@ class _KindOfCropState extends State<KindOfCrop> {
                                   ],
                                 ),
                               )
-                            : Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.9,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: AppColor.GREY_BORDER),
-                                  boxShadow: [AppColor.BOX_SHADOW],
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: controller.selectedPurposeName
-                                                        .value ==
-                                                    "Give on lease for farming"
-                                                ? 'What crop can be grown?'
-                                                : 'What kind of crop do you want to grow?',
-                                            style: GoogleFonts.poppins(
-                                              color: const Color(0xFF272727),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              height: 0,
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 28.0),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.9,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: AppColor.GREY_BORDER),
+                                    boxShadow: [AppColor.BOX_SHADOW],
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: controller
+                                                          .selectedPurposeName
+                                                          .value ==
+                                                      "Give on lease for farming"
+                                                  ? 'What crop can be grown?'
+                                                  : 'What kind of crop do you want to grow?',
+                                              style: GoogleFonts.poppins(
+                                                color: const Color(0xFF272727),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                height: 0,
+                                              ),
                                             ),
-                                          ),
-                                          const TextSpan(
-                                            text: '*',
-                                            style: TextStyle(
-                                              color: Color(0xFFEB5757),
-                                              fontSize: 14,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                              height: 0,
+                                            const TextSpan(
+                                              text: '*',
+                                              style: TextStyle(
+                                                color: Color(0xFFEB5757),
+                                                fontSize: 14,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
+                                                height: 0,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5),
-                                      child: Text(
-                                        'You can select multiple options',
-                                        style: GoogleFonts.poppins(
-                                          color: const Color(0xFF757575),
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          height: 0.16,
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Obx(() {
-                                      if (controller.rxCroprequestStatus ==
-                                          Status.LOADING) {
-                                        return Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 20),
-                                          child: const Center(
-                                            child: CircularProgressIndicator(
-                                              color: AppColor.DARK_GREEN,
-                                            ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: Text(
+                                          'You can select multiple options',
+                                          style: GoogleFonts.poppins(
+                                            color: const Color(0xFF757575),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.16,
                                           ),
-                                        );
-                                      } else if (controller
-                                              .rxCroprequestStatus ==
-                                          Status.SUCCESS) {
-                                        return Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 15),
-                                          child: Wrap(
-                                            spacing: 10,
-                                            children: List.generate(
-                                                controller.cropResponseData
-                                                        .value.result!.length +
-                                                    1, (index) {
-                                              if (index ==
-                                                  controller.cropResponseData
-                                                      .value.result!.length) {
-                                                bool isSelected = controller
-                                                    .cropAdded
-                                                    .contains(-1);
-                                                return InkWell(
-                                                  onTap: () {
-                                                    otherCropController
-                                                        .listOtherCrop("");
-                                                    showModalBottomSheet(
-                                                      context: context,
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      builder: (context) {
-                                                        return Container(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.7,
-                                                          color: Colors.white,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      15,
-                                                                  vertical: 10),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      border: Border.all(
-                                                                          color:
-                                                                              AppColor.GREY_BORDER),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                    ),
-                                                                    width: MediaQuery.of(context)
-                                                                            .size
-                                                                            .width *
-                                                                        0.72,
-                                                                    child:
-                                                                        TextFormField(
-                                                                      controller: otherCropController
-                                                                          .cropController
-                                                                          .value,
-                                                                      onChanged:
-                                                                          (value) {
-                                                                        otherCropController
-                                                                            .listOtherCrop(value); // Call API on every change
-                                                                      },
+                                        ),
+                                      ),
+                                      Obx(() {
+                                        if (controller.rxCroprequestStatus ==
+                                            Status.LOADING) {
+                                          return Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            child: const Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppColor.DARK_GREEN,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (controller
+                                                .rxCroprequestStatus ==
+                                            Status.SUCCESS) {
+                                          return Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 15),
+                                            child: Wrap(
+                                              spacing: 10,
+                                              children: List.generate(
+                                                  controller
+                                                          .cropResponseData
+                                                          .value
+                                                          .result!
+                                                          .length +
+                                                      1, (index) {
+                                                if (index ==
+                                                    controller.cropResponseData
+                                                        .value.result!.length) {
+                                                  bool isSelected = controller
+                                                      .cropAdded
+                                                      .contains(-1);
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      otherCropController
+                                                          .listOtherCrop("");
+                                                      showModalBottomSheet(
+                                                        context: context,
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        builder: (context) {
+                                                          return Container(
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.7,
+                                                            color: Colors.white,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15,
+                                                                    vertical:
+                                                                        10),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Container(
                                                                       decoration:
-                                                                          const InputDecoration(
-                                                                        hintText:
-                                                                            "Enter Crop",
-                                                                        contentPadding:
-                                                                            EdgeInsets.symmetric(horizontal: 15),
-                                                                        border:
-                                                                            InputBorder.none,
+                                                                          BoxDecoration(
+                                                                        border: Border.all(
+                                                                            color:
+                                                                                AppColor.GREY_BORDER),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
                                                                       ),
-                                                                    ),
-                                                                  ),
-                                                                  IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Get.back();
-                                                                    },
-                                                                    icon:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      color: AppColor
-                                                                          .DARK_GREEN,
-                                                                      size: 20,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 10),
-                                                              Container(
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    0.5,
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        top:
-                                                                            10),
-                                                                child: Obx(() {
-                                                                  if (otherCropController
-                                                                          .rxRequestStatus ==
-                                                                      Status
-                                                                          .LOADING) {
-                                                                    return const Center(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.72,
                                                                       child:
-                                                                          CircularProgressIndicator(
-                                                                        color: AppColor
-                                                                            .DARK_GREEN,
-                                                                      ),
-                                                                    );
-                                                                  } else if (otherCropController
-                                                                          .rxRequestStatus ==
-                                                                      Status
-                                                                          .SUCCESS) {
-                                                                    return SingleChildScrollView(
-                                                                      child:
-                                                                          Wrap(
-                                                                        spacing:
-                                                                            10,
-                                                                        children:
-                                                                            List.generate(
+                                                                          TextFormField(
+                                                                        controller: otherCropController
+                                                                            .cropController
+                                                                            .value,
+                                                                        onChanged:
+                                                                            (value) {
                                                                           otherCropController
-                                                                              .cropData
-                                                                              .value
-                                                                              .result!
-                                                                              .length,
-                                                                          (index) {
-                                                                            final cropId =
-                                                                                otherCropController.cropData.value.result![index].id;
-                                                                            final cropName =
-                                                                                otherCropController.cropData.value.result![index].name.toString();
-                                                                            bool
-                                                                                isSelected =
-                                                                                cropId != null && controller.otherCropAdded.contains(cropId.toInt());
-                                                                            bool
-                                                                                isSelectedName =
-                                                                                controller.otherCropAddedName.contains(cropName.toString());
-
-                                                                            return InkWell(
-                                                                              onTap: () {
-                                                                                if (cropId != null) {
-                                                                                  if (isSelected) {
-                                                                                    controller.otherCropAdded.remove(cropId);
-                                                                                  } else {
-                                                                                    controller.otherCropAdded.add(cropId);
-                                                                                  }
-                                                                                }
-                                                                                if (isSelectedName) {
-                                                                                  controller.otherCropAddedName.remove(cropName);
-                                                                                } else {
-                                                                                  controller.otherCropAddedName.add(cropName);
-                                                                                }
-                                                                              },
-                                                                              child: AnimatedContainer(
-                                                                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                                                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.circular(40),
-                                                                                  border: isSelected ? Border.all(color: AppColor.DARK_GREEN) : Border.all(color: AppColor.GREY_BORDER),
-                                                                                  gradient: isSelected ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
-                                                                                ),
-                                                                                duration: const Duration(milliseconds: 200),
-                                                                                child: Text(cropName),
-                                                                              ),
-                                                                            );
-                                                                          },
+                                                                              .listOtherCrop(value); // Call API on every change
+                                                                        },
+                                                                        decoration:
+                                                                            const InputDecoration(
+                                                                          hintText:
+                                                                              "Enter Crop",
+                                                                          contentPadding:
+                                                                              EdgeInsets.symmetric(horizontal: 15),
+                                                                          border:
+                                                                              InputBorder.none,
                                                                         ),
                                                                       ),
-                                                                    );
-                                                                  } else {
-                                                                    return Container();
-                                                                  }
-                                                                }),
-                                                              ),
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  controller
-                                                                      .addselectCrop();
-                                                                  updateLand.updateLandsCrop(
-                                                                      controller
-                                                                          .cropAdded
-                                                                          .toList(),
-                                                                      controller
-                                                                          .otherCropAddedName
-                                                                          .toList());
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  padding:
+                                                                    ),
+                                                                    IconButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Get.back();
+                                                                      },
+                                                                      icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        color: AppColor
+                                                                            .DARK_GREEN,
+                                                                        size:
+                                                                            20,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.5,
+                                                                  margin:
                                                                       const EdgeInsets
-                                                                          .symmetric(
-                                                                    vertical: 3,
-                                                                  ),
-                                                                  margin: const EdgeInsets
-                                                                      .symmetric(
-                                                                    horizontal:
-                                                                        10,
-                                                                  ),
-                                                                  decoration:
-                                                                      ShapeDecoration(
-                                                                    color: AppColor
-                                                                        .DARK_GREEN,
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
+                                                                          .only(
+                                                                          top:
                                                                               10),
+                                                                  child:
+                                                                      Obx(() {
+                                                                    if (otherCropController
+                                                                            .rxRequestStatus ==
+                                                                        Status
+                                                                            .LOADING) {
+                                                                      return const Center(
+                                                                        child:
+                                                                            CircularProgressIndicator(
+                                                                          color:
+                                                                              AppColor.DARK_GREEN,
+                                                                        ),
+                                                                      );
+                                                                    } else if (otherCropController
+                                                                            .rxRequestStatus ==
+                                                                        Status
+                                                                            .SUCCESS) {
+                                                                      return SingleChildScrollView(
+                                                                        child:
+                                                                            Wrap(
+                                                                          spacing:
+                                                                              10,
+                                                                          children:
+                                                                              List.generate(
+                                                                            otherCropController.cropData.value.result!.length,
+                                                                            (index) {
+                                                                              final cropId = otherCropController.cropData.value.result![index].id;
+                                                                              final cropName = otherCropController.cropData.value.result![index].name.toString();
+                                                                              bool isSelected = cropId != null && controller.otherCropAdded.contains(cropId.toInt());
+                                                                              bool isSelectedName = controller.otherCropAddedName.contains(cropName.toString());
+
+                                                                              return InkWell(
+                                                                                onTap: () {
+                                                                                  setState(() {
+                                                                                    if (cropId != null) {
+                                                                                      if (isSelected) {
+                                                                                        controller.otherCropAdded.remove(cropId);
+                                                                                      } else {
+                                                                                        controller.otherCropAdded.add(cropId);
+                                                                                      }
+                                                                                    }
+                                                                                    if (isSelectedName) {
+                                                                                      controller.otherCropAddedName.remove(cropName);
+                                                                                    } else {
+                                                                                      controller.otherCropAddedName.add(cropName);
+                                                                                    }
+                                                                                  });
+                                                                                },
+                                                                                child: AnimatedContainer(
+                                                                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(40),
+                                                                                    border: isSelected ? Border.all(color: AppColor.DARK_GREEN) : Border.all(color: AppColor.GREY_BORDER),
+                                                                                    gradient: isSelected ? AppColor.PRIMARY_GRADIENT : AppColor.WHITE_GRADIENT,
+                                                                                  ),
+                                                                                  duration: const Duration(milliseconds: 200),
+                                                                                  child: Text(cropName),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else {
+                                                                      return Container();
+                                                                    }
+                                                                  }),
+                                                                ),
+                                                                InkWell(
+                                                                  onTap: () {
+                                                                    setState(
+                                                                        () {
+                                                                      controller
+                                                                          .addselectCrop();
+                                                                      updateLand.updateLandsCrop(
+                                                                          controller
+                                                                              .cropAdded
+                                                                              .toList(),
+                                                                          controller
+                                                                              .otherCropAddedName
+                                                                              .toList());
+                                                                    });
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .symmetric(
+                                                                      vertical:
+                                                                          3,
+                                                                    ),
+                                                                    margin: const EdgeInsets
+                                                                        .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                    ),
+                                                                    decoration:
+                                                                        ShapeDecoration(
+                                                                      color: AppColor
+                                                                          .DARK_GREEN,
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
+                                                                      ),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child: TextButton(
+                                                                          onPressed: () {
+                                                                            setState(() {
+                                                                              controller.addselectCrop();
+                                                                              updateLand.updateLandsCrop(controller.cropAdded.toList(), controller.otherCropAddedName.toList());
+                                                                            });
+                                                                          },
+                                                                          child: Text(
+                                                                            'Add ',
+                                                                            style:
+                                                                                GoogleFonts.poppins(
+                                                                              color: Colors.white,
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w600,
+                                                                            ),
+                                                                          )),
                                                                     ),
                                                                   ),
-                                                                  child: Center(
-                                                                    child: TextButton(
-                                                                        onPressed: () {
-                                                                          controller
-                                                                              .addselectCrop();
-                                                                          updateLand.updateLandsCrop(
-                                                                              controller.cropAdded.toList(),
-                                                                              controller.otherCropAddedName.toList());
-                                                                        },
-                                                                        child: Text(
-                                                                          'Add ',
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                          ),
-                                                                        )),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
 
-//                                                     if (isSelected) {
-//                                                       controller.cropAdded
-//                                                           .remove(-1);
-// //                                                   controller.cropAddedName.remove("Others");
-//                                                     } else {
-//                                                       controller.cropAdded
-//                                                           .add(-1);
-//                                                       //  controller.cropAddedName.add("Others");
-//                                                     }
-                                                  },
-                                                  child: AnimatedContainer(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(vertical: 5),
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              40),
-                                                      border: isSelected
-                                                          ? Border.all(
-                                                              color: AppColor
-                                                                  .DARK_GREEN)
-                                                          : Border.all(
-                                                              color: AppColor
-                                                                  .GREY_BORDER),
-                                                      gradient: isSelected
-                                                          ? AppColor
-                                                              .PRIMARY_GRADIENT
-                                                          : AppColor
-                                                              .WHITE_GRADIENT,
+                                                      //                                                     if (isSelected) {
+                                                      //                                                       controller.cropAdded
+                                                      //                                                           .remove(-1);
+                                                      // //                                                   controller.cropAddedName.remove("Others");
+                                                      //                                                     } else {
+                                                      //                                                       controller.cropAdded
+                                                      //                                                           .add(-1);
+                                                      //                                                       //  controller.cropAddedName.add("Others");
+                                                      //                                                     }
+                                                    },
+                                                    child: AnimatedContainer(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 5),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 10,
+                                                          horizontal: 10),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
+                                                        border: isSelected
+                                                            ? Border.all(
+                                                                color: AppColor
+                                                                    .DARK_GREEN)
+                                                            : Border.all(
+                                                                color: AppColor
+                                                                    .GREY_BORDER),
+                                                        gradient: isSelected
+                                                            ? AppColor
+                                                                .PRIMARY_GRADIENT
+                                                            : AppColor
+                                                                .WHITE_GRADIENT,
+                                                      ),
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      child:
+                                                          const Text("Others"),
                                                     ),
-                                                    duration: const Duration(
-                                                        milliseconds: 200),
-                                                    child: const Text("Others"),
-                                                  ),
-                                                );
-                                              } else {
-                                                final cropId = controller
-                                                    .cropResponseData
-                                                    .value
-                                                    .result![index]
-                                                    .id;
-                                                final cropName = controller
-                                                    .cropResponseData
-                                                    .value
-                                                    .result![index]
-                                                    .name
-                                                    .toString();
-                                                bool isSelected =
-                                                    cropId != null &&
-                                                        controller.cropAdded
-                                                            .contains(
-                                                                cropId.toInt());
-                                                bool isSelectedName = controller
-                                                    .cropAddedName
-                                                    .contains(
-                                                        cropName.toString());
-
-                                                return InkWell(
-                                                  onTap: () {
-                                                    if (cropId != null) {
-                                                      if (isSelected) {
-                                                        controller.cropAdded
-                                                            .remove(cropId);
-                                                      } else {
-                                                        controller.cropAdded
-                                                            .add(
-                                                                cropId.toInt());
-                                                      }
-                                                    }
-                                                    if (isSelectedName) {
+                                                  );
+                                                } else {
+                                                  final cropId = controller
+                                                      .cropResponseData
+                                                      .value
+                                                      .result![index]
+                                                      .id;
+                                                  final cropName = controller
+                                                      .cropResponseData
+                                                      .value
+                                                      .result![index]
+                                                      .name
+                                                      .toString();
+                                                  bool isSelected = cropId !=
+                                                          null &&
+                                                      controller.cropAdded
+                                                          .contains(
+                                                              cropId.toInt());
+                                                  bool isSelectedName =
                                                       controller.cropAddedName
-                                                          .remove(cropName);
+                                                          .contains(cropName
+                                                              .toString());
+
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (cropId != null) {
+                                                          if (isSelected) {
+                                                            controller.cropAdded
+                                                                .remove(cropId);
+                                                          } else {
+                                                            controller.cropAdded
+                                                                .add(cropId
+                                                                    .toInt());
+                                                          }
+                                                        }
+                                                        if (isSelectedName) {
+                                                          controller
+                                                              .cropAddedName
+                                                              .remove(cropName);
+                                                        } else {
+                                                          controller
+                                                              .cropAddedName
+                                                              .add(cropName);
+                                                        }
+                                                      });
+                                                    },
+                                                    child: AnimatedContainer(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 5),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 10,
+                                                          horizontal: 10),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
+                                                        border: isSelected
+                                                            ? Border.all(
+                                                                color: AppColor
+                                                                    .DARK_GREEN)
+                                                            : Border.all(
+                                                                color: AppColor
+                                                                    .GREY_BORDER),
+                                                        gradient: isSelected
+                                                            ? AppColor
+                                                                .PRIMARY_GRADIENT
+                                                            : AppColor
+                                                                .WHITE_GRADIENT,
+                                                      ),
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      child: Text(cropName),
+                                                    ),
+                                                  );
+                                                }
+                                              }),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      }),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 120),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              controller
+                                                  .addselectCropfromContainer();
+                                              updateLand.updateLandsCrop(
+                                                  controller.cropAdded.toList(),
+                                                  controller.otherCropAddedName
+                                                      .toList());
+                                            });
+
+                                            print("DATA");
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 3,
+                                            ),
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
+                                            decoration: ShapeDecoration(
+                                              color: AppColor.DARK_GREEN,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    log("DATA");
+                                                    log('message data == ${controller.cropAdded}');
+                                                    if (controller
+                                                        .cropAdded.isEmpty) {
+                                                      Get.snackbar(
+                                                        "Error",
+                                                        "Please select atleast one crop",
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        colorText: Colors.white,
+                                                      );
                                                     } else {
-                                                      controller.cropAddedName
-                                                          .add(cropName);
+                                                      setState(() {
+                                                        controller
+                                                            .addselectCropfromContainer();
+                                                        updateLand.updateLandsCrop(
+                                                            controller.cropAdded
+                                                                .toList(),
+                                                            controller
+                                                                .otherCropAddedName
+                                                                .toList());
+                                                      });
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  500), () {
+                                                        if (mounted) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        LandDetails(
+                                                                  id: widget
+                                                                      .landId,
+                                                                ),
+                                                              ));
+                                                        }
+                                                      });
                                                     }
                                                   },
-                                                  child: AnimatedContainer(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(vertical: 5),
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              40),
-                                                      border: isSelected
-                                                          ? Border.all(
-                                                              color: AppColor
-                                                                  .DARK_GREEN)
-                                                          : Border.all(
-                                                              color: AppColor
-                                                                  .GREY_BORDER),
-                                                      gradient: isSelected
-                                                          ? AppColor
-                                                              .PRIMARY_GRADIENT
-                                                          : AppColor
-                                                              .WHITE_GRADIENT,
+                                                  child: Text(
+                                                    'Add ',
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      height: 0,
                                                     ),
-                                                    duration: const Duration(
-                                                        milliseconds: 200),
-                                                    child: Text(cropName),
-                                                  ),
-                                                );
-                                              }
-                                            }),
-                                          ),
-                                        );
-                                      } else {
-                                        return Container();
-                                      }
-                                    }),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 120),
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller
-                                              .addselectCropfromContainer();
-                                          updateLand.updateLandsCrop(
-                                              controller.cropAdded.toList(),
-                                              controller.otherCropAddedName
-                                                  .toList());
-                                          print("DATA");
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 3,
-                                          ),
-                                          margin: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                          ),
-                                          decoration: ShapeDecoration(
-                                            color: AppColor.DARK_GREEN,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  )),
                                             ),
                                           ),
-                                          child: Center(
-                                            child: TextButton(
-                                                onPressed: () {
-                                                  if (controller
-                                                          .cropAdded.isEmpty ||
-                                                      controller
-                                                          .otherCropAddedName
-                                                          .isEmpty) {
-                                                    Get.snackbar(
-                                                      "Error",
-                                                      "Please select atleast one crop",
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      colorText: Colors.white,
-                                                    );
-                                                  } else {
-                                                    controller
-                                                        .addselectCropfromContainer();
-                                                    updateLand.updateLandsCrop(
-                                                        controller.cropAdded
-                                                            .toList(),
-                                                        controller
-                                                            .otherCropAddedName
-                                                            .toList());
-                                                    print("DATA");
-                                                    log('message data == ${controller.cropAdded}');
-                                                    Future.delayed(
-                                                        const Duration(
-                                                            milliseconds: 500),
-                                                        () {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    LandDetails(
-                                                              id: widget.landId,
-                                                            ),
-                                                          ));
-                                                    });
-                                                  }
-                                                },
-                                                child: Text(
-                                                  'Add ',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    height: 0,
-                                                  ),
-                                                )),
-                                          ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                         : InkWell(
